@@ -5,7 +5,6 @@
   (:use date-time)
   (:use reminder)
   (:use [clojure.contrib.str-utils :only (re-split)])
-  (:import [reminder Reminder])
   (:import [org.joda.time DateMidnight]))
   
 (defn kind-of-schedule [s] 
@@ -14,7 +13,7 @@
         (re-find date-regex s)          :date-based    
         (re-find day-of-week-regex s)   :day-of-week-based		
         (re-find everyday-regex s)      :everyday-based    
-		:else                           :unrecognized-format))
+	:else                           :unrecognized-format))
 		
 (defmulti parse-schedule kind-of-schedule)
 
@@ -48,10 +47,10 @@
    [])	   
 	   
 (defn parse-reminder-from-line [s]
-  (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))
-        schedule (parse-schedule schedule-part)
-        days-in-advance (parse-days-in-advance days-in-advance-part)]
-    (Reminder. message-part schedule days-in-advance)))
+  (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))]
+     {:message message-part 
+      :schedule (parse-schedule schedule-part)
+      :days-in-advance (parse-days-in-advance days-in-advance-part) }))
 
 (defn parse-reminder [s]
   (when (reminder-line? s)

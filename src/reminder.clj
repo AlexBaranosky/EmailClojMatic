@@ -1,8 +1,7 @@
 (ns reminder
   (:use date-time))
 
-; each seq in schedule must be sorted in scending order, or bad things happen!  
-(defrecord Reminder [message schedule days-in-advance])
+; each seq in schedule must be sorted in ascending order, or bad things happen!  
 
 (defn to-string [reminder]
   (if-let [date (first-not-in-past (:schedule reminder))]

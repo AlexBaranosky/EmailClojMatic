@@ -1,11 +1,10 @@
 (ns fact.email-facts
   (:use email)
   (:import [org.joda.time DateMidnight])
-  (:import [reminder Reminder])
   (:use midje.sweet))
   
 (fact "formats email - one section for each reminder"
-   (let [reminders [(Reminder. "message" [[(DateMidnight. 2022 1 1)]] 3)]
+   (let [reminders [{ :message "message" :schedule [(DateMidnight. 2022 1 1)] :days-in-advance 3}]
          recipient {:name "Jim" :email-address "jim@hotmail.com"}]
       (format-reminder-email reminders recipient)) => "From: \"EmailOMatic Reminder Service\"\nTo: Jim <jim@hotmail.com>\nSubject: The following reminders are coming up for tomorrow and the day after tomorrow: \n\n1. Saturday 2022/1/1\nmessage")
   

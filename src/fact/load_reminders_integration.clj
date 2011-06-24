@@ -10,4 +10,4 @@
 (fact "can load due reminders from a given file"
   (timecop/freeze (DateMidnight. 2011 6 1)
     #(= (core/load-due-reminders (resource "test_reminder_file.txt"))
-	    [(Reminder. "message 1" [(DateMidnight. 2011 6 4)] 8)])) => true)
+	    [{ :message "message 1" :schedule [(DateMidnight. 2011 6 4)] :days-in-advance 8 }])) => true)

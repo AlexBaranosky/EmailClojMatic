@@ -5,7 +5,6 @@
   (:use [clojure.contrib.seq-utils :only (find-first)])
   (:import (org.joda.time DateMidnight))
   (:require [joda-time-cop :as timecop])
-  (:import [reminder Reminder])
   (:use midje.sweet)) 
   
 (fact "parses day-of-week-based strings"
@@ -58,11 +57,15 @@
 
 (fact "parses reminders from line"
   (parse-reminder-from-line "       2000 12 25       \"message\"      nOtIfY   5 dAYS in advance     ") 
-  => (Reminder. "message" [(DateMidnight. 2000 12 25)] 5))
+  => { :message "message" 
+       :schedule [(DateMidnight. 2000 12 25)] 
+       :days-in-advance 5} )
 
 (fact "defaults to notifying 3 days in advance if not specified"
   (parse-reminder-from-line "2000 12 25 \"message\"") 
-  => (Reminder. "message" [(DateMidnight. 2000 12 25)] 3))
+  => { :message "message" 
+       :schedule [(DateMidnight. 2000 12 25)] 
+       :days-in-advance 3})
 
 (fact "parses a reminder from line only when the line is a reminder line"
   (expect (parse-reminder ...line...) => nil
