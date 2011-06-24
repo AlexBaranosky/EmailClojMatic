@@ -14,8 +14,9 @@ Your reminders.txt file might look something like this:
 To get it working on your machine you will need to follow a few steps:
 
 1. edit email.clj to use your gmail account and password i.e. (.setAuthentication "you@gmail.com" "your password")
-2. execute: lein uberjar
-3. edit reminders.bat to look like this: java -jar C:\path\to\emailclojmatic-1.0.0-SNAPSHOT-standalone.jar "Your name" "you@gmail.com" ["Other person" "them@gmail.com"]
-4. setup a cron job or a windows scheduled task to run the reminders.bat say every hour (or similar script for Unix).  On windows you can have it run hidden, which will keep annoying popups from appearing every hour.
+2. edit utility.clj to make the resource function return the proper path to the resource folder of the project on your machine
+3. execute: lein uberjar
+4. edit reminders.bat to look like this: java -jar C:\path\to\emailclojmatic-1.0.0-SNAPSHOT-standalone.jar "Your name" "you@gmail.com" ["Other person" "them@gmail.com"]
+5. setup a cron job or a windows scheduled task to run the reminders.bat say every hour (or similar script for Unix).  On windows you can have it run hidden, which will keep annoying popups from appearing every hour.
 
 Enjoy.
