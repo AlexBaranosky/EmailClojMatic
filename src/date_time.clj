@@ -13,8 +13,7 @@
 (defn in-past? [date-time] 
   (.isBeforeNow date-time))
   
-(defmulti first-not-in-past (fn [dts] 
-                                (if (seq-of-seqs? dts) :seq-of-seqs :unnested-seq)))  
+(defmulti first-not-in-past #(if (seq-of-seqs? %) :seq-of-seqs :unnested-seq)) 
   
 (defmethod first-not-in-past :seq-of-seqs [seq-of-date-time-seqs] 
   (->> seq-of-date-time-seqs 
