@@ -165,15 +165,6 @@
   (seq-of-seqs? []) => falsey
   (seq-of-seqs? "") => falsey
   (seq-of-seqs? 1) => falsey)
-  
-(fact "tells if applying any of the functions to the given args evaluate to truthy"
-  (any-true? [even? odd?] 1) => true
-  (any-true? [#(= 2 (max %1 %2 %3)) #(= 3 (max %1 %2 %3))] 1 2 3) => true)
-  
-(fact "tells if applying all evaluate to truthy"
-  (all-true? [even? odd?] 1) => falsey
-  (all-true? [even? #(= 2 %)] 2) => true
-  (all-true? [#(= 1 (min %1 %2 %3)) #(= 3 (max %1 %2 %3))] 1 2 3) => true)
    
 (fact "do the body of the statement only if the binding evaluates to a seq"
    (seq-let [a [1 2 3]]
