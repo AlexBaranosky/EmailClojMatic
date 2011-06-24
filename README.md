@@ -6,9 +6,13 @@ Program to email you reminders from your gmail account.
 Your reminders.txt file might look something like this:
 
     Sundays "go to church." notify 1 day in advance  
+	
     Every 15th of the month "pay bill X"
+	
     Every 2nd Thursday, starting 2/10/2011 "Go to the Boston Coding Dojo Meetup"
+	
     2010 10 14 "something ona  specific date" notify 2 days in advance    
+	
 	Every day "walk the dog"
 	
 To get it working on your machine you will need to follow a few steps:
