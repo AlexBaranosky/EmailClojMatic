@@ -11,7 +11,7 @@ Your reminders.txt file might look something like this:
 	
     Every 2nd Thursday, starting 2/10/2011 "Go to the Boston Coding Dojo Meetup"
 	
-    2010 10 14 "something ona  specific date" notify 2 days in advance    
+    2010 10 14 "something on a specific date" notify 2 days in advance    
 	
 	Every day "walk the dog"
 	
