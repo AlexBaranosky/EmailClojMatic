@@ -23,6 +23,6 @@
 (defonce ^{:private true} default-days-in-advance 3) 
   
 (defn parse-days-in-advance [s]
-  (if (blank-or-nil? s)
+  (if (or (= "" s) (nil? s))
      default-days-in-advance
      (->> s (re-captures #"(?i)^\s*notify\s+(\d+)\s+days?\s+in\s+advance\s*$") only parse-int)))

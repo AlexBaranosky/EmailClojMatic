@@ -40,16 +40,6 @@
 
 (fact "throws when more than one item"
   (only [1 2]) => (throws RuntimeException "should have precisely one item, but had: 2"))
-  
-(tabular
-  (fact "knows if string is blank or nil"
-    (blank-or-nil? ?string) => ?bool)
-	
-     ?string      ?bool
-     ""           truthy
-     nil          truthy
-     "   "        falsey
-     "a sentence" falsey)
    
 (fact "can generate lower-case keywords from a string"
   (lowercase-keyword "BobCratchet") => :bobcratchet

@@ -30,9 +30,6 @@
          ;one-folder-up (join "\\" (drop-last (re-split #"\\" working-directory))
 		 ;]
       (str "C:\\dev\\EmailClojMatic_Dev\\resources\\" f))
-	  
-(defn blank-or-nil? [s]
-   (or (= s "") (nil? s)))  
    
 (defn lowercase-keyword [s]
   (keyword (.toLowerCase (str/replace-str " " "-" s))))   
