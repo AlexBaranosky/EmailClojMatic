@@ -14,6 +14,8 @@ Your reminders.txt file might look something like this:
     2010 10 14 "something on a specific date" notify 2 days in advance    
 	
 	Every day "walk the dog"
+
+It will only remind you, generally, once per day, so you don't have to worry about it spamming you with emails.
 	
 To get it working on your machine you will need to follow a few steps:
 
