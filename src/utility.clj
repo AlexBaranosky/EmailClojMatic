@@ -56,6 +56,21 @@
 	    2 (num+ "nd")
 	    3 (num+ "rd")
 	    (num+ "th")))))  
+			
+(defn any-true? [fns & args]
+  (let [successes (filter #(apply % args) fns)]
+        (< 0 (count successes))))
+			
+(defn all-true? [fns & args]
+  (let [successes (filter #(apply % args) fns)]
+        (= (count fns) (count successes))))
+	
+(defn sequable? [candidate]
+  (any-true? [seq? map? vector? set?] candidate))
+	  
+(defn seq-of-seqs? [candidate]
+  (and (sequable? candidate) 
+       (sequable? (first candidate))))
 	  
 ;; stole from core.clj
 (defmacro ^{:private true} assert-args [fnname & pairs]

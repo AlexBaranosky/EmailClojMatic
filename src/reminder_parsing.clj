@@ -23,18 +23,18 @@
          ordinals (map ordinal-to-int (re-match-seq ordinal-regex ordinals-part))]
      (map day-of-month-stream ordinals)))   
 	
-;; TODO: how shall we handle the fact that etechnically the day-of-week is unneeded, yet the reminder line phrasing is funny without it!?!?...	
+;; TODO: how shall we handle the fact that technically the day-of-week is unneeded, yet the reminder line phrasing is funny without it!?!?...	
 (defmethod parse-schedule :every-x-weeks-based [s]
   (let [[ordinal day-of-week month day year] (re-captures every-x-weeks-regex s)
         start-date (DateMidnight. (Integer/parseInt year) (Integer/parseInt month) (Integer/parseInt day))
 		x-weeks (ordinal-to-int ordinal)]
-    [(every-x-weeks-stream start-date x-weeks)]))
+    (every-x-weeks-stream start-date x-weeks)))
 
 (defmethod parse-schedule :date-based [s]
   (letfn [(parse-date [string]
             (let [[year month day] (->> string (re-captures date-regex) (map parse-int))]
                (DateMidnight. year month day)))]
-          [(->> (.split s "&") (map parse-date) sort)]))
+          (->> (.split s "&") (map parse-date) sort)))
  
 (defmethod parse-schedule :day-of-week-based [s]
   (->> s 
@@ -42,10 +42,10 @@
        (map (comp day-of-week-stream day-nums lowercase-keyword))))
 		
 (defmethod parse-schedule :everyday-based [s]
-  [(today+all-future-dates)])
+  (today+all-future-dates))
 	
 (defmethod parse-schedule :unrecognized-format [s] 
-   [[]])	   
+   [])	   
 	   
 (defn parse-reminder-from-line [s]
   (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))

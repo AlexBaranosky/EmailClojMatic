@@ -12,7 +12,7 @@
   (timecop/freeze (DateMidnight. 2011 6 11)
     #(first (first (parse-schedule "Wednesdays ")))) => (DateMidnight. 2011 6 15))
   
-(fact "can have more than on day-of-week to remind on"
+(fact "can have more than one day-of-week to remind on"
   (timecop/freeze (DateMidnight. 2011 6 11)
     #(first (first (parse-schedule "Wednesdays & Fridays ")))) => (DateMidnight. 2011 6 15)
 	
@@ -27,18 +27,18 @@
     #(first (second (parse-schedule "Every 21st and 25th of the month")))) => (DateMidnight. 2011 6 25))
 
 (fact "parses date-based string with one date into a vector with one schedule with one date time"
-  (parse-schedule "2000 12 25") => [[(DateMidnight. 2000 12 25)]])
+  (parse-schedule "2000 12 25") => [(DateMidnight. 2000 12 25)])
 
 (fact "parses date-based string that have spaces"
-  (parse-schedule "   2000 12 25   ") => [[(DateMidnight. 2000 12 25)]])
+  (parse-schedule "   2000 12 25   ") => [(DateMidnight. 2000 12 25)])
 
 (fact "parses '&' separated strings into a schedule with two date times, sorted in ascending order"
-  (parse-schedule "2000 12 25 & 1999 7 4") => [[(DateMidnight. 1999 7 4) (DateMidnight. 2000 12 25)]])
+  (parse-schedule "2000 12 25 & 1999 7 4") => [(DateMidnight. 1999 7 4) (DateMidnight. 2000 12 25)])
 
 (tabular 
   (fact "parses everyday-based reminder lines"
     (timecop/freeze (DateMidnight. 2011 6 11)
-      (fn [] (?nth (first (parse-schedule "  every day   " ))))) => (DateMidnight. 2011 6 ?day)) 
+      (fn [] (?nth (parse-schedule "  every day   " )))) => (DateMidnight. 2011 6 ?day)) 
 	
 	?nth   ?day
 	first  11
@@ -48,21 +48,21 @@
   
 (fact "parses every X weeks-based reminder lines"
   (timecop/freeze (DateMidnight. 2011 6 11)
-    #(first (first (parse-schedule "Every 2nd Sunday, starting 6/12/2011" )))) => (DateMidnight. 2011 6 12) 
+    #(first (parse-schedule "Every 2nd Sunday, starting 6/12/2011" ))) => (DateMidnight. 2011 6 12) 
 	
   (timecop/freeze (DateMidnight. 2011 6 12)
-    #(second (first (parse-schedule "every   2nd   sunday, Starting   6/12/2011" )))) => (DateMidnight. 2011 6 26))  
+    #(second (parse-schedule "every   2nd   sunday, Starting   6/12/2011" ))) => (DateMidnight. 2011 6 26))  
   
 (fact "parses un-parsable strings into an empty schedule"
-  (parse-schedule "uncomprehensible gibberish @#$$%") => [[]])
+  (parse-schedule "uncomprehensible gibberish @#$$%") => [])
 
 (fact "parses reminders from line"
   (parse-reminder-from-line "       2000 12 25       \"message\"      nOtIfY   5 dAYS in advance     ") 
-  => (Reminder. "message" [[(DateMidnight. 2000 12 25)]] 5))
+  => (Reminder. "message" [(DateMidnight. 2000 12 25)] 5))
 
 (fact "defaults to notifying 3 days in advance if not specified"
   (parse-reminder-from-line "2000 12 25 \"message\"") 
-  => (Reminder. "message" [[(DateMidnight. 2000 12 25)]] 3))
+  => (Reminder. "message" [(DateMidnight. 2000 12 25)] 3))
 
 (fact "parses a reminder from line only when the line is a reminder line"
   (expect (parse-reminder ...line...) => nil
