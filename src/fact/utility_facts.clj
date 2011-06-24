@@ -32,7 +32,7 @@
    (re-captures #"(\d)" "a b c") => [])
    
 (fact "gives the path to a given file, as a resource" 
-   (resource "text.txt") => "C:\\dev\\EmailClojMatic_Dev\\EmailClojMatic\\resources\\text.txt")
+   (resource "text.txt") => "C:\\dev\\EmailClojMatic_Dev\\resources\\text.txt")
 
 (fact "throws when no items"
   (only []) => (throws RuntimeException "should have precisely one item, but had: 0"))

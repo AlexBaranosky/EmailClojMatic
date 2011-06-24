@@ -1,6 +1,10 @@
 (ns email-cloj-matic
   (:gen-class)
-  (:use core))
+  (:use core)) 
   
-(defn -main [& _] 
-  (email-reminders-to [{ :name "Alex" :email-address "dfasdfasfdsfaf" }]))
+(defn -main [& names+email-addresses]
+  {:pre [(even? (count names+email-addresses))]}
+  
+  (let [to-recipient (fn [[name email-address]] {:name name :email-address email-address})  
+        recipients (map to-recipient (partition 2 names+email-addresses))] 
+    (email-reminders-to recipients)))

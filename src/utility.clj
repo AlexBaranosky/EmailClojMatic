@@ -31,7 +31,7 @@
   ; (let [;working-directory (but-last (fs/cwd) 1)
          ;one-folder-up (join "\\" (drop-last (re-split #"\\" working-directory))
 		 ;]
-      (str "C:\\dev\\EmailClojMatic_Dev\\EmailClojMatic\\resources\\" f))
+      (str "C:\\dev\\EmailClojMatic_Dev\\resources\\" f))
 	  
 (defn blank-or-nil? [s]
    (or (= s "") (nil? s)))  
