@@ -1,9 +1,8 @@
-EmailClojMatic
-===========================
+EmailClojMatic is a program to email you reminders from your gmail account. Fully unit tested using the [Midje](https://github.com/marick/Midje/wiki) testing framework, so there are hopefully few bugs.
 
-Program to email you reminders from your gmail account. Fully unit tested using the [Midje](https://github.com/marick/Midje/wiki) testing framework, so there are hopefully few bugs.
 
 Your reminders.txt file might look something like this:
+-------------------------------------------------------
 
     Sundays "go to church." notify 1 day in advance  
 	
