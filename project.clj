@@ -5,6 +5,5 @@
                  [org.clojure/clojure-contrib "1.2.0"]			 
                  [joda-time "1.6"]      
 				 [org.apache.commons/commons-email "1.2"]
-                 [fs "0.4.0"]
 				 [org.danlarkin/clojure-json "1.2-SNAPSHOT"]]
   :main email-cloj-matic)

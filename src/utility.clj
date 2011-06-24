@@ -1,5 +1,4 @@
 (ns utility
-  (:require fs)
   (:require [clojure.contrib.string :as str]))
 
 (defn parse-int [s] (Integer/parseInt s))
@@ -24,8 +23,7 @@
       (.substring s 0 (- (.length s) n))))  
   
 (defn resource [f]
-   (let [working-directory (but-last (fs/cwd) 1)]
-      (str working-directory "resources\\" f)))
+  (str "C:\\dev\\EmailClojMatic_Dev\\resources\\" f))
   
 (defn fact-resource [f]
   ; (let [;working-directory (but-last (fs/cwd) 1)
