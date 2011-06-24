@@ -19,24 +19,24 @@
 
 (fact "gives the earliest date time that is today or after now in a sequence of date-time sequences (assuming each subsequence is in order)" 
   (timecop/freeze (DateMidnight. 2011 11 10)
-    #(first-today-or-beyond-of-group [[(DateMidnight. 1999 1 1) (DateMidnight. 2011 1 19) (DateMidnight. 2011 11 10) (DateMidnight. 2011 11 11)]
-                                      [(DateMidnight. 2011 1 18) (DateMidnight. 2011 1 20) (DateMidnight. 2011 1 21)]
-                                      [(DateMidnight. 2011 1 17) (DateMidnight. 2011 1 18) (DateMidnight. 2011 1 20)]])) 
+    #(first-not-in-past [[(DateMidnight. 1999 1 1) (DateMidnight. 2011 1 19) (DateMidnight. 2011 11 10) (DateMidnight. 2011 11 11)]
+                         [(DateMidnight. 2011 1 18) (DateMidnight. 2011 1 20) (DateMidnight. 2011 1 21)]
+                         [(DateMidnight. 2011 1 17) (DateMidnight. 2011 1 18) (DateMidnight. 2011 1 20)]])) 
   => (DateMidnight. 2011 11 10))
   
 (fact "if no dates are today or in the future gives nil" 
-  (first-today-or-beyond-of-group [[(DateMidnight. 1999 1 1) (DateMidnight. 1999 1 19) (DateMidnight. 1999 11 11)]
+  (first-not-in-past [[(DateMidnight. 1999 1 1) (DateMidnight. 1999 1 19) (DateMidnight. 1999 11 11)]
                                    [(DateMidnight. 1999 1 18) (DateMidnight. 1999 1 20) (DateMidnight. 1999 1 21)]
                                    [(DateMidnight. 1999 1 17) (DateMidnight. 1999 1 18) (DateMidnight. 1999 1 20)]]) 
   => nil)
 
 (fact "works for un-nested seqs as well" 
   (timecop/freeze (DateMidnight. 2011 11 10)
-    #(first-today-or-beyond-of-group [(DateMidnight. 1999 1 1) (DateMidnight. 2011 1 19) (DateMidnight. 2011 11 10) (DateMidnight. 2011 11 11)])) 
+    #(first-not-in-past [(DateMidnight. 1999 1 1) (DateMidnight. 2011 1 19) (DateMidnight. 2011 11 10) (DateMidnight. 2011 11 11)])) 
   => (DateMidnight. 2011 11 10))
   
 (fact "if no dates are today or in the future gives nil" 
-  (first-today-or-beyond-of-group [(DateMidnight. 1999 1 1) (DateMidnight. 1999 1 19) (DateMidnight. 1999 11 11)]) 
+  (first-not-in-past [(DateMidnight. 1999 1 1) (DateMidnight. 1999 1 19) (DateMidnight. 1999 11 11)]) 
   => nil)
  
 (tabular 

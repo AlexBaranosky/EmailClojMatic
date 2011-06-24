@@ -13,14 +13,14 @@
 (defn in-past? [date-time] 
   (.isBeforeNow date-time))
   
-(defmulti first-today-or-beyond-of-group (fn [xs] 
-                                             (if (seq-of-seqs? xs) :seq-of-seqs :unnested-seq)))  
+(defmulti first-not-in-past (fn [dts] 
+                                (if (seq-of-seqs? dts) :seq-of-seqs :unnested-seq)))  
   
-(defmethod first-today-or-beyond-of-group :seq-of-seqs [seq-of-date-time-seqs] 
+(defmethod first-not-in-past :seq-of-seqs [seq-of-date-time-seqs] 
   (->> seq-of-date-time-seqs 
       (keep (partial find-first (comp not in-past?))) 
 	   sort 
 	   first))   
   
-(defmethod first-today-or-beyond-of-group :unnested-seq [date-times] 
+(defmethod first-not-in-past :unnested-seq [date-times] 
   (find-first (comp not in-past?) date-times))
