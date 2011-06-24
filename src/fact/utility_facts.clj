@@ -134,26 +134,12 @@
     313 "313th"
     33331 "33331st")
 
-(defrecord SomeRecord [name]) 
-	
-(fact "can tell if something is seq-able"    
-  (sequable? []) => truthy
-  (sequable? [[]]) => truthy
-  (sequable? [1 2 3]) => truthy
-  (sequable? '()) => truthy
-  (sequable? '(1 2 3)) => truthy
-  (sequable? #{}) => truthy
-  (sequable? #{1 2 3}) => truthy
-  (sequable? { :num 1 :count 3}) => truthy
-  (sequable? (SomeRecord. "my record")) => truthy
-  (sequable? (DateMidnight. 2000 1 1)) => falsey
-  (sequable? 1) => falsey
-  (sequable? "string") => falsey)
+(defrecord SampleRecord [name])
   
 (fact "tells if something is a seq of seqs"
   (seq-of-seqs? [[]]) => truthy
   (seq-of-seqs? [[1 2 3] [1 2 3]]) => truthy
-  (seq-of-seqs? (SomeRecord. "my receord")) => truthy
+  (seq-of-seqs? (SampleRecord. "my receord")) => falsey
   (seq-of-seqs? (DateMidnight. 2000 1 1)) => falsey
   (seq-of-seqs? [1 2 3]) => falsey
   (seq-of-seqs? []) => falsey
