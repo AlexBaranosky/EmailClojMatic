@@ -16,6 +16,9 @@ Your reminders.txt file might look something like this:
 
 It will only remind you, generally, once per day, so you don't have to worry about it spamming you with emails.
 	
+Setup
+-----
+
 To get it working on your machine you will need to follow a few steps:
 
 1. edit email.clj to use your gmail account and password i.e. (.setAuthentication "you@gmail.com" "your password")
