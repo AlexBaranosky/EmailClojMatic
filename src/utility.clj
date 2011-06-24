@@ -65,8 +65,8 @@
   (let [successes (filter #(apply % args) fns)]
         (= (count fns) (count successes))))
 	
-(defn sequable? [candidate]
-  (any-true? [seq? map? vector? set?] candidate))
+(def sequable? 
+  (partial any-true? [seq? map? vector? set?]))
 	  
 (defn seq-of-seqs? [candidate]
   (and (sequable? candidate) 
