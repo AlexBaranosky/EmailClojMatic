@@ -1,7 +1,7 @@
 EmailClojMatic
 ===========================
 
-Program to email you reminders from your gmail account.  
+Program to email you reminders from your gmail account. Fully unit tested using the [Midje](https://github.com/marick/Midje/wiki) testing framework, so there are hopefully few bugs.
 
 Your reminders.txt file might look something like this:
 
