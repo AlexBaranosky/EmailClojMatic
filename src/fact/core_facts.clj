@@ -16,3 +16,8 @@
             (send-reminder-email anything anything) => nil :times 1
 	    (history/num-reminders-sent-today) => 0 :times 1) 
 	    (history/record-num-reminders-sent-today 1) => nil :times 1)
+
+(fact "if there are not due reminders, never sends any emails out"
+  (expect (email-reminders-to [...recipients...]) => nil
+    (not-called send-reminder-email))
+    (provided (load-due-reminders anything)  => [] :times 1))

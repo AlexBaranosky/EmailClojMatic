@@ -145,23 +145,3 @@
   (seq-of-seqs? []) => falsey
   (seq-of-seqs? "") => falsey
   (seq-of-seqs? 1) => falsey)
-   
-(fact "do the body of the statement only if the binding evaluates to a seq"
-   (seq-let [a [1 2 3]]
-      "do something"
-	  "something else") => "do something"
-	  
-   (seq-let [a []]
-      "do something"
-	  "something else") => "something else"
-	  
-   (seq-let [a nil]
-      "do something"
-	  "something else") => "something else"
-	  
-   (seq-let [num-seq [1 2 3]]
-      num-seq
-	  "something else") => [1 2 3]
-	  
-   (seq-let [num-seq [1 2 3]]
-      num-seq) => [1 2 3])	  

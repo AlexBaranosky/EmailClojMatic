@@ -55,27 +55,3 @@
 (defn seq-of-seqs? [candidate]
   (and (sequential? candidate) 
        (sequential? (first candidate))))
-	  
-;; stole from core.clj
-(defmacro ^{:private true} assert-args [fnname & pairs]
-  `(do (when-not ~(first pairs)
-         (throw (IllegalArgumentException. ~(str fnname " requires " (second pairs)))))
-     ~(let [more (nnext pairs)]
-        (when more
-          (list* 'assert-args fnname more)))))  
-  
-(defmacro seq-let
-  "If test is a seq, evaluates then with binding-form bound to the value of 
-  test, if not, yields else"
-  ([bindings then]
-   `(seq-let ~bindings ~then nil))
-  ([bindings then else & oldform]
-   (assert-args seq-let
-     (and (vector? bindings) (nil? oldform)) "a vector for its binding"
-     (= 2 (count bindings)) "exactly 2 forms in binding vector")
-   (let [[form test] bindings]
-     `(let [temp# ~test]
-        (if (seq temp#)
-          (let [~form temp#]
-            ~then)
-          ~else)))))
