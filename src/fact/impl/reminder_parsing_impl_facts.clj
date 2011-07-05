@@ -16,17 +16,17 @@
    (blank-line? "  \t\n\r  ") => true 
    (blank-line? "abcdef") => false)
    
-(fact "is a reminder line when not a comment line and not a blank line"
-   (reminder-line? ...line...) => true
-   (provided (comment-line? ...line...) => false)
-   (provided (blank-line? ...line...) => false)
+(fact "is a reminder line when not a comment line or a blank line"
+  (against-background (comment-line? ...line...) => false, 
+  	              (blank-line? ...line...) => false)	
+	
+  (reminder-line? ...line...) => true
    
-   (reminder-line? ...line...) => false
-   (provided (comment-line? ...line...) => true)
+  (reminder-line? ...line...) => false
+  (provided (comment-line? ...line...) => true)
    
-   (reminder-line? ...line...) => false
-   (provided (comment-line? ...line...) => false)
-   (provided (blank-line? ...line...) => true))
+  (reminder-line? ...line...) => false
+  (provided (blank-line? ...line...) => true))
    
 (fact "parses the number of days in advance"
   (parse-days-in-advance "   notify 14 days in advance   ") => 14
@@ -47,10 +47,4 @@
    
 (fact "ordinal regex works"
   (re-match-seq ordinal-regex "  abc 1st xyz 7th 8th 9th  ") => ["1st" "7th" "8th" "9th"])
-  
-  
-  
-  
-  
-  
   
