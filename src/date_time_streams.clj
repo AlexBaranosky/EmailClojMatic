@@ -20,4 +20,7 @@
 (defn every-x-weeks-stream [start-date x-weeks]
   (iterate #(.plusDays % (* 7 x-weeks)) start-date))
 
+(defn every-x-days-stream [start-date x-days]
+  (iterate #(.plusDays % x-days) start-date))
+
 (defonce day-nums { :mondays 1 :tuesdays 2 :wednesdays 3 :thursdays 4 :fridays 5 :saturdays 6 :sundays 7 })

@@ -52,6 +52,22 @@
   (timecop/freeze (DateMidnight. 2011 6 12)
     #(second (parse-schedule "every   2nd   sunday, Starting   6/12/2011" ))) => (DateMidnight. 2011 6 26))  
   
+;(tabular
+;  (fact "parses every X days-based reminder lines"
+;    (timecop/freeze (DateMidnight. 2011 6 11)
+;      #(?nth (parse-schedule "Every 4th day, starting 6/12/2011" ))) => ?date)
+  
+;        ?nth    ?date
+;        first   (DateMidnight. 2011 6 12)
+;        second  (DateMidnight. 2011 6 16)
+;        third   (DateMidnight. 2011 6 20)
+;        fourth  (DateMidnight. 2011 6 24))
+  
+(fact "parses every X days-based reminder lines"
+  (first (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 8)
+  (second (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 12)
+  (third (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 16))
+    
 (fact "parses un-parsable strings into an empty schedule"
   (parse-schedule "uncomprehensible gibberish @#$$%") => [])
 

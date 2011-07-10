@@ -42,6 +42,9 @@
 (fact "every x weeks-based regex works"
   (re-captures every-x-weeks-regex " Every 2nd Sunday starting 2/3/2009  ") => ["2nd" "Sunday" "2" "3" "2009"])
    
+(fact "every x days-based regex works"
+  (re-captures every-x-days-regex "  EvEry    4Th    dAy,    stArting    2/3/2009  ") => ["4Th" "2" "3" "2009"])
+   
 (fact "day-of-month-identifier regex works"
   (re-match? day-of-month-identifier-regex "Every blah blah blah of the month") => truthy)
    

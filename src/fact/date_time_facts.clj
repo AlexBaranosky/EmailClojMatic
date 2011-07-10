@@ -13,7 +13,7 @@
       (fn [] (in-past? (DateMidnight. 2001 1 ?day)))) => ?past)
 	  
 	?day ?past
-    1    truthy
+	1    truthy
 	2    falsey
 	3    falsey)
 
