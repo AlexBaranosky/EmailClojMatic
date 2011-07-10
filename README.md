@@ -12,7 +12,9 @@ Your reminders.txt file might look something like this:
 	
     2010 10 14 "something on a specific date" notify 2 days in advance    
 	
-	Every day "walk the dog"
+    Every day "walk the dog"
+   
+    Every 4th day "do something else!" notify 1 day in advance
 
 It will only remind you, generally, once per day, so you don't have to worry about it spamming you with emails.
 	
