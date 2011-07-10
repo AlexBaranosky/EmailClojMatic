@@ -16,7 +16,6 @@
 (defonce everyday-regex #"(?i)^\s*Every ?day\s*$")
 (defonce every-x-weeks-regex (re-pattern (str "(?i)^\\s*Every\\s+(" (str/join "|" ordinals) ")\\s+(" (str/join "|" day-names) "),?\\s+starting\\s+(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})\\s*$")))
 (defonce every-x-days-regex   (re-pattern (str "(?i)^\\s*Every\\s+(" (str/join "|" ordinals) ")\\s+day,?\\s+starting\\s+(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})\\s*$")))
-;(defonce every-x-days-regex  (re-pattern (str "(?i)^\\s*Every\\s+(" (str/join "|" ordinals) ")\\s+day,?\\s+starting\\s+(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})\\s*$")))
 (defonce date-regex #"^\s*(\d{4})\s+(\d{1,2})\s+(\d{1,2})\s*") 
 (defonce day-of-week-regex #"(?i)(mondays|tuesdays|wednesdays|thursdays|fridays|saturdays|sundays)")  
 (defonce day-of-month-identifier-regex #"(?i)^\s*Every (.+) of the month\s*$")  
