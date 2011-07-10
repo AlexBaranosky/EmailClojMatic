@@ -28,10 +28,14 @@
   (reminder-line? ...line...) => false
   (provided (blank-line? ...line...) => true))
    
-(fact "parses the number of days in advance"
-  (parse-days-in-advance "   notify 14 days in advance   ") => 14
-  (parse-days-in-advance "") => 3
-  (parse-days-in-advance nil) => 3)   
+(tabular 
+  (fact "parses the number of days in advance"
+    (parse-days-in-advance ?string) => ?days-in-advance)
+  
+     ?string                            ?days-in-advance
+     "   notify 14 days in advance   "  14
+     ""                                 3
+     nil                                3 )   
    
 (fact "day-of-week regex works"
   (re-match-seq day-of-week-regex " Wednesdays ") => ["Wednesdays"])
