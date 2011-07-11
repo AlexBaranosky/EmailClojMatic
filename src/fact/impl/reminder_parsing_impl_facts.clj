@@ -41,7 +41,7 @@
   (re-match-seq day-of-week-regex " Wednesdays ") => ["Wednesdays"])
    
 (fact "date-based regex works"
-  (re-captures date-regex "  2009  2  3  ") => ["2009" "2" "3"])
+  (re-captures date-regex " oN 2/3/2009  ") => ["2" "3" "2009"])
    
 (fact "every x weeks-based regex works"
   (re-captures every-x-weeks-regex " Every 2nd Sunday starting 2/3/2009  ") => ["2nd" "Sunday" "2" "3" "2009"])

@@ -26,13 +26,13 @@
     #(first (second (parse-schedule "Every 21st and 25th of the month")))) => (DateMidnight. 2011 6 25))
 
 (fact "parses date-based string with one date into a vector with one schedule with one date time"
-  (parse-schedule "2000 12 25") => [(DateMidnight. 2000 12 25)])
+  (parse-schedule " ON 12/25/2000") => [(DateMidnight. 2000 12 25)])
 
 (fact "parses date-based string that have spaces"
-  (parse-schedule "   2000 12 25   ") => [(DateMidnight. 2000 12 25)])
+  (parse-schedule " on  12/25/2000  ") => [(DateMidnight. 2000 12 25)])
 
 (fact "parses '&' separated strings into a schedule with two date times, sorted in ascending order"
-  (parse-schedule "2000 12 25 & 1999 7 4") => [(DateMidnight. 1999 7 4) (DateMidnight. 2000 12 25)])
+  (parse-schedule "On 12/25/2000 & on 7/4/1999") => [(DateMidnight. 1999 7 4) (DateMidnight. 2000 12 25)])
 
 (tabular 
   (fact "parses everyday-based reminder lines"
@@ -47,8 +47,8 @@
   
 (fact "parses every X weeks-based reminder lines"
   (first (parse-schedule "Every 2nd Sunday, starting 6/12/2011" )) => (DateMidnight. 2011 6 12)
-  (second (parse-schedule "every   2nd   sunday, Starting   6/12/2011" )) => (DateMidnight. 2011 6 26))  
-  
+  (second (parse-schedule "every   2nd   sunday, Starting   6/12/2011" )) => (DateMidnight. 2011 6 26))
+
 ;(tabular
 ;  (fact "parses every X days-based reminder lines"
 ;    (?nth (parse-schedule "Every 4th day, starting 6/12/2011" )) => ?date)
@@ -68,13 +68,13 @@
   (parse-schedule "uncomprehensible gibberish @#$$%") => [])
 
 (fact "parses reminders from line"
-  (parse-reminder-from-line "       2000 12 25       \"message\"      nOtIfY   5 dAYS in advance     ") 
+  (parse-reminder-from-line "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ") 
   => { :message "message" 
        :schedule [(DateMidnight. 2000 12 25)] 
        :days-in-advance 5} )
 
 (fact "defaults to notifying 3 days in advance if not specified"
-  (parse-reminder-from-line "2000 12 25 \"message\"") 
+  (parse-reminder-from-line "on 12/25/2000 \"message\"") 
   => { :message "message" 
        :schedule [(DateMidnight. 2000 12 25)] 
        :days-in-advance 3})

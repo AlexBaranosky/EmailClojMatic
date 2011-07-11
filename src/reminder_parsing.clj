@@ -38,7 +38,7 @@
 
 (defmethod parse-schedule :date [s]
   (letfn [(parse-date [string]
-            (let [[year month day] (->> string (re-captures date-regex) (map parse-int))]
+            (let [[month day year] (->> string (re-captures date-regex) (map parse-int))]
                (DateMidnight. year month day)))]
           (->> (.split s "&") (map parse-date) sort)))
  

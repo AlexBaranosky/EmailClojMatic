@@ -1,1 +1,2 @@
-2011 6 4 "message 1" notify 8 days in advance
+ on 6/4/2011 "message 1" notify 8 days in advance
+
