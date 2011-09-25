@@ -11,8 +11,8 @@
 (defonce yesterday (.minusDays today 1))
 
 (defn- given-three-reminders-sent-on [date-time]
-  (let [json (str "{\"num-reminders-already-sent-today\":3, \"weekday-last-saved-on\":" (.. date-time dayOfWeek get) "}")]
-    (spit fake-history-file json)))
+  (let [history-data (str "{ :num-reminders-already-sent-today 3, :weekday-last-saved-on " (.. date-time dayOfWeek get) " }")]
+    (spit fake-history-file history-data)))
 
 (fact "knows the number of reminders already sent today"
   (do-at today
