@@ -7,6 +7,6 @@
 	(DateTimeUtils/setCurrentMillisSystem)
 	result) )
 
-(defmacro do-at [date-time body]
+(defmacro do-at [date-time & body]
   `(freeze ~date-time
-           (fn [] ~body)))
+    (fn [] ~@body)))

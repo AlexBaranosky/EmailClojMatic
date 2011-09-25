@@ -12,5 +12,6 @@
 (fact "there's a macro for running some code at a certain time"
   (DateMidnight.) =not=> (DateMidnight. 2000 1 1)
   (timecop/do-at (DateMidnight. 2000 1 1)
+    (DateMidnight.)
     (DateMidnight.)) => (DateMidnight. 2000 1 1)
   (DateMidnight.) =not=> (DateMidnight. 2000 1 1))
