@@ -6,13 +6,9 @@
   (:use midje.sweet))
 
 
-;; TODO-  Alex Oct 1, 2011 - factor out extra do-ats
 (fact "makes a stream of xth day of the month"
   (do-at (DateMidnight. 2011 6 15)
-    (first (day-of-month-stream 1))) => (DateMidnight. 2011 7 1)
-
-  (do-at (DateMidnight. 2011 6 15)
-    (second (day-of-month-stream 1))) => (DateMidnight. 2011 8 1))
+    (take 2 (day-of-month-stream 1))) => [(DateMidnight. 2011 7 1) (DateMidnight. 2011 8 1)])
 
 (fact "makes stream of month+day, for every year into infinite - using every 4th year as leap year"
   (do-at (DateMidnight. 2011 6 15)
@@ -45,7 +41,4 @@
 
 (facts "day-stream gives lazy infinite seqs of datetimes on the given day of the week"
   (do-at (DateMidnight. 2011 6 1)
-    (first (day-of-week-stream (:fridays day-nums)))) => (DateMidnight. 2011 6 3)
-
-  (do-at (DateMidnight. 2011 6 1)
-    (second (day-of-week-stream (:fridays day-nums)))) => (DateMidnight. 2011 6 10))
+    (take 2 (day-of-week-stream (:fridays day-nums)))) => [(DateMidnight. 2011 6 3) (DateMidnight. 2011 6 10)])
