@@ -5,12 +5,22 @@
   (:use [utility :only (third fourth)])
   (:use midje.sweet))
 
+
+;; TODO-  Alex Oct 1, 2011 - factor out extra do-ats
 (fact "makes a stream of xth day of the month"
   (do-at (DateMidnight. 2011 6 15)
     (first (day-of-month-stream 1))) => (DateMidnight. 2011 7 1)
 
   (do-at (DateMidnight. 2011 6 15)
     (second (day-of-month-stream 1))) => (DateMidnight. 2011 8 1))
+
+(fact "makes stream of month+day, for every year into infinite - using every 4th year as leap year"
+  (do-at (DateMidnight. 2011 6 15)
+      (take 5 (month+day-stream 9 1))) => [(DateMidnight. 2011 9 1)
+                                           (DateMidnight. 2012 9 1)
+                                           (DateMidnight. 2013 9 1)
+                                           (DateMidnight. 2014 9 1)
+                                           (DateMidnight. 2015 9 1)])
 
 ;(tabular
 ;  (fact "makes a stream of given day of the month"

@@ -41,6 +41,9 @@
 (fact "date-based regex works"
   (re-captures date-regex " oN 2/3/2009  ") => ["2" "3" "2009"])
 
+(fact "day+month-based regex works"
+  (re-captures month+day-regex " oN 2/3  ") => ["2" "3"])
+
 (fact "every x weeks-based regex works"
   (re-captures every-x-weeks-regex " Every 2nd Sunday starting 2/3/2009  ") => ["2nd" "Sunday" "2" "3" "2009"])
 

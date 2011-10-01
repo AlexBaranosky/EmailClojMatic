@@ -64,6 +64,13 @@
   (second (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 12)
   (third (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 16))
 
+(fact "parses every month/day of the year"
+  (do-at (DateMidnight. 2011 6 1)
+    (take 2 (first (parse-schedule "On 3/1 & on 9/1")))) => [(DateMidnight. 2012 3 1) (DateMidnight. 2013 3 1)]
+
+  (do-at (DateMidnight. 2011 6 1)
+    (take 2 (second (parse-schedule "On 3/1 & on 9/1")))) => [(DateMidnight. 2011 9 1) (DateMidnight. 2012 9 1)])
+
 (fact "parses un-parsable strings into an empty schedule"
   (parse-schedule "uncomprehensible gibberish @#$$%") => [])
 

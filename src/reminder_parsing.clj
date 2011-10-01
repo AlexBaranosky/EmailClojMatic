@@ -11,10 +11,11 @@
   (cond (re-find day-of-month-identifier-regex s) :day-of-month
         (re-find every-x-weeks-regex s) :every-x-weeks
         (re-find every-x-days-regex s) :every-x-days
-        (re-find date-regex s)          :date
-        (re-find day-of-week-regex s)   :day-of-week
-        (re-find everyday-regex s)      :everyday
-	:else                           :unrecognized-format))
+        (re-find date-regex s) :date
+        (re-find month+day-regex s) :month+day
+        (re-find day-of-week-regex s) :day-of-week
+        (re-find everyday-regex s) :everyday
+	      :else :unrecognized-format))
 
 (defmulti parse-schedule kind-of-schedule)
 
@@ -33,7 +34,7 @@
 (defmethod parse-schedule :every-x-days [s]
   (let [[ordinal month day year] (re-captures every-x-days-regex s)
         start-date (DateMidnight. (Integer/parseInt year) (Integer/parseInt month) (Integer/parseInt day))
-	x-days (ordinal-to-int ordinal)]
+	      x-days (ordinal-to-int ordinal)]
     (every-x-days-stream start-date x-days)))
 
 (defmethod parse-schedule :date [s]
@@ -46,7 +47,13 @@
   (->> s 
        (re-match-seq day-of-week-regex) 
        (map (comp day-of-week-stream day-nums lowercase-keyword))))
-		
+
+(defmethod parse-schedule :month+day [s]
+  (letfn [(parse-month+day-date [string]
+            (let [[month day] (->> string (re-captures month+day-regex) (map parse-int))]
+              (month+day-stream month day)))]
+    (map parse-month+day-date (.split s "&"))))
+
 (defmethod parse-schedule :everyday [s]
   (today+all-future-dates))
 	

@@ -20,4 +20,11 @@
 (defn every-x-days-stream [start-date x-days]
   (iterate #(.plusDays % x-days) start-date))
 
+(defn next-date-in-future [month day-of-month]
+  (find-first #(and (= month (.. % monthOfYear get)) (= day-of-month (.. % dayOfMonth get))) (today+all-future-dates)))
+
+(defn month+day-stream [month day-of-month]
+  (let [days-in-year (fn [date-time] (if (= 3 (mod (.. date-time year get) 4)) 366 365)) ] ;; Not actually a true calc for leap year, see wikipedia
+    (iterate #(.plusDays % (days-in-year %)) (next-date-in-future month day-of-month))))
+
 (defonce day-nums { :mondays 1 :tuesdays 2 :wednesdays 3 :thursdays 4 :fridays 5 :saturdays 6 :sundays 7 })
