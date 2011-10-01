@@ -16,6 +16,8 @@ Your reminders.txt file might look something like this:
    
     Every 4th day "do something else!" notify 1 day in advance
 
+    On 12/25 "don't forget Christmas every year" notify 14 days in advance
+
 It will only remind you, generally, once per day, so you don't have to worry about it spamming you with emails.
 	
 Setup
