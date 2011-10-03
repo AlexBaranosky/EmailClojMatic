@@ -6,8 +6,8 @@
   (:use reminder)
   (:use [clojure.contrib.str-utils :only (re-split)])
   (:import [org.joda.time DateMidnight]))
-  
-(defn kind-of-schedule [s] 
+
+(defn kind-of-schedule [s]
   (cond (re-find day-of-month-identifier-regex s) :day-of-month
         (re-find every-x-weeks-regex s) :every-x-weeks
         (re-find every-x-days-regex s) :every-x-days
@@ -42,10 +42,10 @@
             (let [[month day year] (->> string (re-captures date-regex) (map parse-int))]
                (DateMidnight. year month day)))]
           (->> (.split s "&") (map parse-date) sort)))
- 
+
 (defmethod parse-schedule :day-of-week [s]
-  (->> s 
-       (re-match-seq day-of-week-regex) 
+  (->> s
+       (re-match-seq day-of-week-regex)
        (map (comp day-of-week-stream day-nums lowercase-keyword))))
 
 (defmethod parse-schedule :month+day [s]
@@ -56,13 +56,13 @@
 
 (defmethod parse-schedule :everyday [s]
   (today+all-future-dates))
-	
-(defmethod parse-schedule :unrecognized-format [s] 
-   [])	   
-	   
+
+(defmethod parse-schedule :unrecognized-format [s]
+  (throw (RuntimeException. (str "cannot parse: " s))))
+
 (defn parse-reminder-from-line [s]
   (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))]
-     {:message message-part 
+     {:message message-part
       :schedule (parse-schedule schedule-part)
       :days-in-advance (parse-days-in-advance days-in-advance-part) }))
 

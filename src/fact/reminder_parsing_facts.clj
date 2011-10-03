@@ -72,7 +72,7 @@
     (take 2 (second (parse-schedule "On 3/1 & on 9/1")))) => [(DateMidnight. 2011 9 1) (DateMidnight. 2012 9 1)])
 
 (fact "parses un-parsable strings into an empty schedule"
-  (parse-schedule "uncomprehensible gibberish @#$$%") => [])
+  (parse-schedule "@#$$%") => (throws RuntimeException "cannot parse: @#$$%"))
 
 (fact "parses reminders from line"
   (parse-reminder-from-line "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
