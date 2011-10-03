@@ -19,7 +19,8 @@
 
 (defn- disperse-error-email [recipients ex]
   (doseq [r recipients]
-    (send-email (:email-address r) (.getMessage ex))))
+    (send-email (:email-address r)
+      (str "Could not send you your usual reminder update. There was a problem reading your reminders.txt: " (.getMessage ex)))))
 
 (defn email-reminders-to [recipients]
   (try

@@ -24,7 +24,7 @@
          ordinals (map ordinal-to-int (re-match-seq ordinal-regex ordinals-part))]
      (map day-of-month-stream ordinals)))
 
-;; TODO: how shall we handle the fact that technically the day-of-week is unneeded, yet the reminder line phrasing is funny without it!?!?...
+(comment TODO: Alex 7/11/2011 how shall we handle the fact that technically the day-of-week is unneeded, yet the reminder line phrasing is funny without it!?!?...)
 (defmethod parse-schedule :every-x-weeks [s]
   (let [[ordinal day-of-week month day year] (re-captures every-x-weeks-regex s)
         start-date (DateMidnight. (Integer/parseInt year) (Integer/parseInt month) (Integer/parseInt day))
