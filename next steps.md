@@ -7,11 +7,7 @@ Next Steps
 
 * add email warning when EmailClojMatic finds an unparsable entry in the reminders.txt
 
-*
-
 * add link to the uberjar on wiki
-
-* fix it so that the directory to resources isn't hardcoded
 
 * clean up 'setup' section of README
 

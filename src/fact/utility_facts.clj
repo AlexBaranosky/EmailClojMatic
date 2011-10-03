@@ -32,9 +32,6 @@
    (re-captures #"(\d) (\d) (\d)" "1 2 4") => ["1" "2" "4"]
    (re-captures #"(\d)" "a b c") => [])
 
-(fact "gives the path to a given file, as a resource"
-   (resource "text.txt") => "/home/alex/workspace/EmailClojMaticInDevlopment/resources/text.txt")
-
 (fact "throws when no items"
   (only []) => (throws RuntimeException "should have precisely one item, but had: 0"))
 

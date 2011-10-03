@@ -1,5 +1,6 @@
 (ns utility
-  (:require [clojure.contrib.string :as str]))
+  (:require [clojure.contrib.string :as str])
+  (:import java.io.File))
 
 (defn parse-int [s] (Integer/parseInt s))
 
@@ -22,14 +23,15 @@
        ""
       (.substring s 0 (- (.length s) n))))
 
-(defn resource [f]
-  (str "/home/alex/workspace/EmailClojMaticInDevlopment/resources/" f))
+;(defn join-paths [fst scd & rest-paths]
+;  (if rest-paths
+;    (recur (str (File. fst scd)) (first rest-paths) [])
+;    (str (File. fst scd))))
 
-(defn fact-resource [f]
-  ; (let [;working-directory (but-last (fs/cwd) 1)
-         ;one-folder-up (join "\\" (drop-last (re-split #"\\" working-directory))
-		 ;]
-      (resource f))
+(defn resource [file]
+  (str (File. (File. (System/getProperty "user.dir") "resources") file)))
+
+(def fact-resource resource)
 
 (defn lowercase-keyword [s]
   (keyword (.toLowerCase (str/replace-str " " "-" s))))
