@@ -6,8 +6,8 @@
   (:use reminder)
   (:use [clojure.contrib.str-utils :only (re-split)])
   (:import [org.joda.time DateMidnight]))
-  
-(defn kind-of-schedule [s] 
+
+(defn kind-of-schedule [s]
   (cond (re-find day-of-month-identifier-regex s) :day-of-month
         (re-find every-x-weeks-regex s) :every-x-weeks
         (re-find every-x-days-regex s) :every-x-days
@@ -24,7 +24,7 @@
          ordinals (map ordinal-to-int (re-match-seq ordinal-regex ordinals-part))]
      (map day-of-month-stream ordinals)))
 
-;; TODO: how shall we handle the fact that technically the day-of-week is unneeded, yet the reminder line phrasing is funny without it!?!?...
+;; TODO: Alex 7/11/2011 how shall we handle the fact that technically the day-of-week is unneeded, yet the reminder line phrasing is funny without it!?!?...
 (defmethod parse-schedule :every-x-weeks [s]
   (let [[ordinal day-of-week month day year] (re-captures every-x-weeks-regex s)
         start-date (DateMidnight. (Integer/parseInt year) (Integer/parseInt month) (Integer/parseInt day))
@@ -42,10 +42,10 @@
             (let [[month day year] (->> string (re-captures date-regex) (map parse-int))]
                (DateMidnight. year month day)))]
           (->> (.split s "&") (map parse-date) sort)))
- 
+
 (defmethod parse-schedule :day-of-week [s]
-  (->> s 
-       (re-match-seq day-of-week-regex) 
+  (->> s
+       (re-match-seq day-of-week-regex)
        (map (comp day-of-week-stream day-nums lowercase-keyword))))
 
 (defmethod parse-schedule :month+day [s]
@@ -56,13 +56,13 @@
 
 (defmethod parse-schedule :everyday [s]
   (today+all-future-dates))
-	
-(defmethod parse-schedule :unrecognized-format [s] 
-   [])	   
-	   
+
+(defmethod parse-schedule :unrecognized-format [s]
+  (throw (RuntimeException. (str "cannot parse: " s))))
+
 (defn parse-reminder-from-line [s]
   (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))]
-     {:message message-part 
+     {:message message-part
       :schedule (parse-schedule schedule-part)
       :days-in-advance (parse-days-in-advance days-in-advance-part) }))
 

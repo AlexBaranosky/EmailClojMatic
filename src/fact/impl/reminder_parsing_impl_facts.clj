@@ -33,7 +33,8 @@
      ?string                            ?days-in-advance
      "   notify 14 days in advance   "  14
      ""                                 3
-     nil                                3 )
+     nil                                3
+     "abcdefg"                         (throws RuntimeException "could not parse 'days in advance': abcdefg"))
 
 (fact "day-of-week regex works"
   (re-match-seq day-of-week-regex " Wednesdays ") => ["Wednesdays"])
