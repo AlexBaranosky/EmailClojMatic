@@ -43,7 +43,7 @@
   (if (contains? #{11 12 13} (mod int 100))
     (str int "th")
 	  (case (mod int 10)
-  	  1 (str int "st")
+  	    1 (str int "st")
 	    2 (str int "nd")
 	    3 (str int "rd")
 	    (str int "th"))))
@@ -51,3 +51,6 @@
 (defn seq-of-seqs? [candidate]
   (and (sequential? candidate)
        (sequential? (first candidate))))
+
+(defn config []
+  (with-in-str (slurp (resource "config.txt")) (read)))

@@ -1,5 +1,6 @@
 (ns fact.email-facts
   (:use email)
+  (:use [utility :only (config)])
   (:import [org.joda.time DateMidnight])
   (:use midje.sweet))
 
@@ -17,3 +18,9 @@
    (let [reminders nil
          recipient {:name "Jim" :email-address "jim@hotmail.com"}]
       (format-reminder-email reminders recipient)) => "From: \"EmailOMatic Reminder Service\"\nTo: Jim <jim@hotmail.com>\nSubject: The following reminders are coming up: \n\n")
+
+(fact "send-email uses the configuration"
+  (send-email "to@yahoo.com" "the message") => nil
+  (provided
+    (send-email* "to@yahoo.com" "the message" "from@gmail.com" "abc123") => nil :times 1
+    (config) => { :gmail-address "from@gmail.com" :password "abc123" } :times 1))
