@@ -56,6 +56,11 @@
 (defn config []
   (with-in-str (slurp (resource "config.txt")) (read)))
 
+(defn valid-config? [config]
+  (and (= 2  (count config))
+       (contains? config :gmail-address)
+       (contains? config :password)))
+
 (defn do-at* [date-time f]
   (DateTimeUtils/setCurrentMillisFixed (.getMillis date-time))
   (try

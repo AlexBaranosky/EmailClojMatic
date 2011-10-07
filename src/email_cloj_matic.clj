@@ -7,4 +7,4 @@
   
   (let [to-recipient (fn [[name email-address]] {:name name :email-address email-address})  
         recipients (map to-recipient (partition 2 names+email-addresses))] 
-    (email-reminders-to recipients)))
+    (run-reminders recipients)))
