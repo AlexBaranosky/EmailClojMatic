@@ -3,8 +3,6 @@ Next Steps
 
 * use specific type of Exception such as CannotParseRemindersException, or perhaps error-kit
 
-* make 'do-at' elegantly handle thrown exceptions from f
-
 * add sensible and clear error message, in some form, perhaps email, if you use the EmailClojMatic with
     a) no config file, or with
     b) an illformed one.
