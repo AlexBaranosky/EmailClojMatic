@@ -1,8 +1,7 @@
 (ns fact.load-reminders-integration
   (:require core)
   (:import [org.joda.time DateMidnight])
-  (:use [utility :only (resource only)])
-  (:use [joda-time-cop :only [do-at]])
+  (:use [utility :only (resource only do-at)])
   (:use clojure.test)
   (:use midje.sweet))
 

@@ -1,6 +1,6 @@
 (ns fact.date-time-facts
   (:use date-time)
-  (:use [joda-time-cop :only [do-at]])
+  (:use [utility :only [do-at]])
   (:import [org.joda.time DateMidnight])
   (:use midje.sweet))
 

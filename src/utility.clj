@@ -1,5 +1,6 @@
 (ns utility
   (:require [clojure.contrib.string :as str])
+  (:import (org.joda.time DateTimeUtils))
   (:import java.io.File))
 
 (defn parse-int [s] (Integer/parseInt s))
@@ -54,3 +55,14 @@
 
 (defn config []
   (with-in-str (slurp (resource "config.txt")) (read)))
+
+(defn do-at* [date-time f]
+  (DateTimeUtils/setCurrentMillisFixed (.getMillis date-time))
+  (try
+    (f)
+    (finally (DateTimeUtils/setCurrentMillisSystem))))
+
+(defmacro do-at [date-time & body]
+  "like clojure.core.do except evalautes the expression at the given time"
+  `(do-at* ~date-time
+    (fn [] ~@body)))

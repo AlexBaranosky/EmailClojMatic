@@ -1,6 +1,6 @@
 (ns fact.reminder-facts
   (:use reminder)
-  (:use [joda-time-cop :only [do-at]])
+  (:use [utility :only [do-at]])
   (:use midje.sweet)
   (:import [org.joda.time DateMidnight]))
 

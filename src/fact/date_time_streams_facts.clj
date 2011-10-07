@@ -1,8 +1,7 @@
 (ns fact.date-time-streams-facts
   (:use date-time-streams)
   (:import [org.joda.time DateMidnight])
-  (:use [joda-time-cop :only (do-at)])
-  (:use [utility :only (third fourth)])
+  (:use [utility :only (do-at)])
   (:use midje.sweet))
 
 (fact "makes a stream of xth day of the month"

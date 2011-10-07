@@ -4,7 +4,6 @@
   (:use utility)
   (:use [clojure.contrib.seq-utils :only (find-first)])
   (:import (org.joda.time DateMidnight))
-  (:use [joda-time-cop :only [do-at]])
   (:use midje.sweet))
 
 (fact "parses day-of-week-based strings"
