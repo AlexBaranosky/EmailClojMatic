@@ -1,7 +1,7 @@
 Next Steps
 =============================================
 
-* use specific type of Exception such as CannotParseRemindersException, or perhaps error-kit
+* use specific type of Exception such as CannotParseRemindersException, https://github.com/scgilardi/slingshot, or perhaps error-kit
 
 * don't process reminders if:
     a) no config file, or with
