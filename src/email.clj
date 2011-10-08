@@ -30,3 +30,11 @@
 (defn send-reminder-email [reminders recipient]
   (send-email (:email-address recipient)
               (format-reminder-email reminders recipient)))
+
+(defn- disperse-email [prefixing-message recipients ex]
+  (doseq [r recipients]
+    (send-email (:email-address r)
+      (format "Could not send you your usual reminders. %s: \n%s" prefixing-message (.getMessage ex)))))
+
+(def disperse-parse-error-email   (partial disperse-email "There was a problem parsing your reminders.txt"))
+(def disperse-unknown-error-email (partial disperse-email "There was an unknown error"))

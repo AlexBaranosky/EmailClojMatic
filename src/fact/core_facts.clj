@@ -1,8 +1,8 @@
 (ns fact.core-facts
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)])
-  (:use [core :only (run-reminders load-due-reminders email-reminders-to*)])
+  (:use [core :only (run-reminders load-due-reminders email-reminders-to)])
   (:use [utility :only (config valid-config?)])
-  (:use [email :only (send-reminder-email send-email)])
+  (:use [email :only (send-reminder-email disperse-parse-error-email)])
   (:use midje.sweet))
 
 (fact "won't email out any reminders if the history says N reminders were sent out, and we have <= N due"
@@ -27,14 +27,21 @@
 (comment TODO Alex Oct 3, 2011 - verify on send-email is really weak - see
   if Midje can manage something more specific)
 (fact "if there's a problem parsing the reminders.txt, send an email out"
-  (expect (run-reminders [...recipient...]) => nil
+  (expect (run-reminders [...recipientA... ...recipientB...]) => nil
     (not-called send-reminder-email))
   (provided
     (load-due-reminders anything) => (throws RuntimeException "boom")
-    (send-email anything anything) => nil :times 1))
+    (disperse-parse-error-email [...recipientA... ...recipientB...] anything) => nil :times 1))
 
 (fact "if config is not in valid state don't process reminders"
   (expect (run-reminders [...recipient...]) => nil
-    (not-called email-reminders-to*))
+    (not-called email-reminders-to))
   (provided
     (valid-config? (config)) => false))
+
+;(fact "if there is an unknown throwable, send an email out"
+;  (expect (run-reminders [...recipientA... ...recipientB...]) => nil
+;     (not-called send-reminder-email))
+;   (provided
+;     (load-due-reminders anything) => (throw RuntimeException "boom")
+;     (disperse-unknown-error-email [...recipientA... ...recipientB...] anything) => nil :times 1))
