@@ -2,7 +2,7 @@
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)])
   (:use [core :only (run-reminders load-due-reminders email-reminders-to)])
   (:use [utility :only (config valid-config?)])
-  (:use [email :only (send-reminder-email disperse-parse-error-email)])
+  (:use [email :only (send-reminder-email disperse-parse-error-emails)])
   (:use midje.sweet))
 
 (fact "won't email out any reminders if the history says N reminders were sent out, and we have <= N due"
@@ -31,7 +31,7 @@
     (not-called send-reminder-email))
   (provided
     (load-due-reminders anything) => (throws RuntimeException "boom")
-    (disperse-parse-error-email [...recipientA... ...recipientB...] anything) => nil :times 1))
+    (disperse-parse-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1))
 
 (fact "if config is not in valid state don't process reminders"
   (expect (run-reminders [...recipient...]) => nil
@@ -44,4 +44,4 @@
 ;     (not-called send-reminder-email))
 ;   (provided
 ;     (load-due-reminders anything) => (throw RuntimeException "boom")
-;     (disperse-unknown-error-email [...recipientA... ...recipientB...] anything) => nil :times 1))
+;     (disperse-unknown-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1))

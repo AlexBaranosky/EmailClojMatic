@@ -1,7 +1,7 @@
 (ns core
   (:use [reminder-parsing :only (parse-reminder)])
   (:use [reminder :only (due?)])
-  (:use [email :only (send-reminder-email disperse-parse-error-email)])
+  (:use [email :only (send-reminder-email disperse-parse-error-emails)])
   (:use [utility :only (resource config valid-config?)])
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)])
   (:use	[clojure.contrib.duck-streams :only (read-lines)]))
@@ -22,4 +22,4 @@
     (try
       (email-reminders-to recipients)
       (catch Throwable e
-        (disperse-parse-error-email recipients e)))))
+        (disperse-parse-error-emails recipients e)))))

@@ -1,5 +1,5 @@
 (ns fact.email-facts
-  (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-email disperse-unknown-error-email)])
+  (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails disperse-unknown-error-emails)])
   (:use [utility :only (config)])
   (:use midje.sweet)
   (:import [org.joda.time DateMidnight]))
@@ -26,13 +26,13 @@
     (config) => { :gmail-address "from@gmail.com" :password "abc123" } :times 1))
 
 (fact "dispersing parse errors sends message to each recipient"
-  (disperse-parse-error-email [{:email-address "bob@yahoo.com" :name "bob"} {:email-address "john@yahoo.com" :name "john"}] (Exception. "boom")) => nil
+  (disperse-parse-error-emails [{:email-address "bob@yahoo.com" :name "bob"} {:email-address "john@yahoo.com" :name "john"}] (Exception. "boom")) => nil
   (provided
     (send-email "bob@yahoo.com" anything) => nil :times 1
     (send-email "john@yahoo.com" anything) => nil :times 1))
 
 (fact "dispersing parse errors sends message to each recipient"
-  (disperse-unknown-error-email [{:email-address "bob@yahoo.com" :name "bob"} {:email-address "john@yahoo.com" :name "john"}] (Exception. "boom")) => nil
+  (disperse-unknown-error-emails [{:email-address "bob@yahoo.com" :name "bob"} {:email-address "john@yahoo.com" :name "john"}] (Exception. "boom")) => nil
   (provided
     (send-email "bob@yahoo.com" anything) => nil :times 1
     (send-email "john@yahoo.com" anything) => nil :times 1))
