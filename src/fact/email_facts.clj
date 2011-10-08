@@ -1,8 +1,8 @@
 (ns fact.email-facts
-  (:use email)
+  (:use [email :only (format-reminder-email send-email send-email*)])
   (:use [utility :only (config)])
-  (:import [org.joda.time DateMidnight])
-  (:use midje.sweet))
+  (:use midje.sweet)
+  (:import [org.joda.time DateMidnight]))
 
 (fact "formats email - one section for each reminder"
    (let [reminders [{ :message "message" :schedule [(DateMidnight. 2022 1 1)] :days-in-advance 3}]

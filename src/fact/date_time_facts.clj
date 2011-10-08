@@ -1,8 +1,8 @@
 (ns fact.date-time-facts
-  (:use date-time)
+  (:use [date-time :only (for-display in-past? first-not-in-past today-num)])
   (:use [utility :only [do-at]])
-  (:import [org.joda.time DateMidnight])
-  (:use midje.sweet))
+  (:use midje.sweet)
+  (:import [org.joda.time DateMidnight]))
 
 (fact "displays a date-time in a display format"
    (for-display (DateMidnight. 2000 5 25)) => "2000/5/25")

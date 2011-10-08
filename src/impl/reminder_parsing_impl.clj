@@ -1,6 +1,6 @@
 (ns impl.reminder-parsing-impl
   (:use [clojure.contrib.string :only (join)])
-  (:use [utility :only (re-match? re-captures)]))
+  (:use [utility :only (re-match? re-captures ordinalize parse-int only)]))
 
 (def comment-line? (partial re-match? #"^\s*#.*$"))
 (def blank-line? (partial re-match? #"^\s*$"))
@@ -21,16 +21,17 @@
 (def day-of-month-identifier-regex #"(?i)^\s*Every (.+) of the month\s*$")
 (def ordinal-regex #"(?i)\d+(st|nd|rd|th)")
 
-(def ^{:private true} default-days-in-advance 3)
-
 (def days-in-advance-regex #"(?i)^\s*notify\s+(\d+)\s+days?\s+in\s+advance\s*$")
 
+(def ^{:private true} default-days-in-advance 3)
+
 (defn parse-days-in-advance [s]
-  (cond (or (= "" s) (nil? s))
-        default-days-in-advance
+  (cond
+    (or (= "" s) (nil? s))
+    default-days-in-advance
 
-        (not (re-match? days-in-advance-regex s))
-        (throw (RuntimeException. (str "could not parse 'days in advance': " s)))
+    (not (re-match? days-in-advance-regex s))
+    (throw (RuntimeException. (str "could not parse 'days in advance': " s)))
 
-        :else
-        (->> s (re-captures days-in-advance-regex) only parse-int)))
+    :else
+    (->> s (re-captures days-in-advance-regex) only parse-int)))

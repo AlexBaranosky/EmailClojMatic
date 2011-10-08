@@ -1,10 +1,10 @@
 (ns fact.impl.reminder-parsing-impl-facts
-  (:use impl.reminder-parsing-impl)
-  (:use utility)
-  (:use date-time)
-  (:use date-time-streams)
-  (:import (org.joda.time DateMidnight))
-  (:use midje.sweet))
+  (:use [impl.reminder-parsing-impl :only (comment-line? blank-line? reminder-line? parse-days-in-advance
+                                           day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
+                                           ordinal-regex month+day-regex day-of-week-regex date-regex)])
+  (:use [utility :only (re-match-seq re-captures re-match?)])
+  (:use midje.sweet)
+  (:import (org.joda.time DateMidnight)))
 
 (fact "lines with '#' as the first non-whitespace char are comment lines"
   (comment-line? "    # asdf") => true

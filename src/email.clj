@@ -1,14 +1,14 @@
 (ns email
   (:use [reminder :only (to-string)])
   (:use [utility :only (config)])
-  (:use [clojure.contrib.str-utils :only (str-join)])
+  (:use [clojure.contrib.string :only (join)])
   (:import [org.apache.commons.mail SimpleEmail]))
 
 (defn format-reminder-email [reminders {:keys [name email-address]}]
   (let [from "\"EmailOMatic Reminder Service\""
         header (format "From: %s\nTo: %s <%s>\nSubject: " from name email-address)
         msg (str "The following reminders are coming up: \n\n")
-		formatted-reminders (->> reminders (map to-string) (map-indexed #(format "%s. %s" (inc %1) %2)) (str-join "\n\n"))]
+		formatted-reminders (->> reminders (map to-string) (map-indexed #(format "%s. %s" (inc %1) %2)) (join "\n\n"))]
     (str header msg formatted-reminders)))
 
 (defn send-email* [to-email-address message from-address authentication-password]

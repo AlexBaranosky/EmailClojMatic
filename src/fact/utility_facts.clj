@@ -1,7 +1,8 @@
 (ns fact.utility_facts
-  (:use utility)
-  (:import [org.joda.time DateMidnight])
-  (:use midje.sweet))
+  (:use [utility :only (parse-int trim but-last re-match? re-match-seq re-captures only lowercase-keyword
+                        third fourth fifth ordinal-to-int ordinalize seq-of-seqs? do-at* do-at config valid-config?)])
+  (:use midje.sweet)
+  (:import [org.joda.time DateMidnight]))
 
 (fact "parses an int"
    (parse-int "17") => 17)

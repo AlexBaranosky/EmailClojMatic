@@ -1,5 +1,5 @@
 (ns fact.reminder-facts
-  (:use reminder)
+  (:use [reminder :only (to-string due?)])
   (:use [utility :only [do-at]])
   (:use midje.sweet)
   (:import [org.joda.time DateMidnight]))

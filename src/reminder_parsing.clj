@@ -1,10 +1,11 @@
 (ns reminder-parsing
   (:use [impl.reminder-parsing-impl :only (date-regex day-of-week-regex ordinal-regex month+day-regex
                                            day-of-month-identifier-regex every-x-weeks-regex
-                                           everyday-regex every-x-days-regex)])
+                                           everyday-regex every-x-days-regex parse-days-in-advance
+                                           reminder-line?)])
   (:use [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
-                                  day-of-week-stream today+all-future-dates)])
-  (:use [utility :only (re-captures re-match-seq parse-int)])
+                                  day-of-week-stream today+all-future-dates day-nums)])
+  (:use [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword trim)])
   (:use [clojure.contrib.str-utils :only (re-split)])
   (:import [org.joda.time DateMidnight]))
 

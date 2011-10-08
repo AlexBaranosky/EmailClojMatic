@@ -1,10 +1,9 @@
 (ns fact.reminder-parsing-facts
-  (:use reminder-parsing)
-  (:use impl.reminder-parsing-impl)
-  (:use utility)
+  (:use [reminder-parsing :only (parse-schedule parse-reminder-from-line )])
+  (:use [impl.reminder-parsing-impl :only (reminder-line?)])
   (:use [clojure.contrib.seq-utils :only (find-first)])
-  (:import (org.joda.time DateMidnight))
-  (:use midje.sweet))
+  (:use midje.sweet)
+  (:import (org.joda.time DateMidnight)))
 
 (fact "parses day-of-week-based strings"
   (do-at (DateMidnight. 2011 6 11)
@@ -48,20 +47,9 @@
   (first (parse-schedule "Every 2nd Sunday, starting 6/12/2011" )) => (DateMidnight. 2011 6 12)
   (second (parse-schedule "every   2nd   sunday, Starting   6/12/2011" )) => (DateMidnight. 2011 6 26))
 
-;(tabular
-;  (fact "parses every X days-based reminder lines"
-;    (?nth (parse-schedule "Every 4th day, starting 6/12/2011" )) => ?date)
-
-;      ?nth     ?date
-;      first    (DateMidnight. 2011 6 12)
-;      second   (DateMidnight. 2011 6 16)
-;      third    (DateMidnight. 2011 6 20)
-;      fourth   (DateMidnight. 2011 6 24))
-
 (fact "parses every X days-based reminder lines"
-  (first (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 8)
-  (second (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 12)
-  (third (parse-schedule "Every 4th day, starting 6/8/2011" )) => (DateMidnight. 2011 6 16))
+  (take 3 (parse-schedule "Every 4th day, starting 6/8/2011" ))
+    => [(DateMidnight. 2011 6 8) (DateMidnight. 2011 6 12) (DateMidnight. 2011 6 16)])
 
 (fact "parses every month/day of the year"
   (do-at (DateMidnight. 2011 6 1)
