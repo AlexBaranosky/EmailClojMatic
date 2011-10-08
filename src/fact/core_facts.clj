@@ -33,7 +33,7 @@
     (load-due-reminders anything) => (throws RuntimeException "boom")
     (send-email anything anything) => nil :times 1))
 
-(fact "if config is missing a required field don't process reminders"
+(fact "if config is not in valid state don't process reminders"
   (expect (run-reminders [...recipient...]) => nil
     (not-called email-reminders-to*))
   (provided

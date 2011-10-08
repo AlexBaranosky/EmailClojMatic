@@ -1,5 +1,5 @@
 (ns fact.date-time-streams-facts
-  (:use [date-time-streams :only (day-of-week-stream month+day-stream day-of-month-stream)])
+  (:use [date-time-streams :only (day-of-week-stream month+day-stream day-of-month-stream day-nums)])
   (:use [utility :only (do-at)])
   (:use midje.sweet)
   (:import [org.joda.time DateMidnight]))
