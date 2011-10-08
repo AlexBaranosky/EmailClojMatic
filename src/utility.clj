@@ -1,7 +1,7 @@
 (ns utility
   (:use [clojure.contrib.string :only (replace-str)])
   (:import (org.joda.time DateTimeUtils))
-  (:import java.io.File))
+  (:import [java.io File IOException]))
 
 (defn parse-int [s] (Integer/parseInt s))
 
@@ -53,8 +53,12 @@
   (and (sequential? candidate)
        (sequential? (first candidate))))
 
+(defn config-file-name [] "config.txt")
+
 (defn config []
-  (with-in-str (slurp (resource "config.txt")) (read)))
+  (try
+    (-> (config-file-name) resource slurp (with-in-str (read)))
+    (catch IOException e nil)))
 
 (defn valid-config? [config]
   (and (= 2  (count config))

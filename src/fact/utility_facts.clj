@@ -1,6 +1,7 @@
 (ns fact.utility_facts
   (:use [utility :only (parse-int trim but-last re-match? re-match-seq re-captures only lowercase-keyword
-                        third fourth fifth ordinal-to-int ordinalize seq-of-seqs? do-at* do-at config valid-config?)])
+                        third fourth fifth ordinal-to-int ordinalize seq-of-seqs? do-at* do-at
+                        config-file-name config valid-config?)])
   (:use midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
@@ -163,8 +164,14 @@
     (throw (RuntimeException. "boom"))) => (throws RuntimeException "boom")
   (DateMidnight.) =not=> (DateMidnight. 2000 1 1))
 
+(fact "if config file cannot be opened returns nil"
+  (config) => nil
+  (provided
+    (config-file-name) => "nonexistent-file-aasdf"))
+
 (tabular
-  (fact "is invalid config if doesn't have gmail-address and password fields, or has too many fields"
+  (fact "is invalid config if doesn't have gmail-address and password fields,
+         or has too many fields or cant open the config file"
     (valid-config? (config)) => ?is-valid
     (provided (config) => ?config-contents))
 
@@ -174,4 +181,4 @@
   {:gmail-address "abc123"}                                         falsey
   {:gmail-address "bob@corp.com" :password "abc123" :extra "field"} falsey
   {:gm41l-4ddr3ss "bob@corp.com" :pAssw0rd "abc123" }               falsey
-  )
+   nil                                                              falsey)
