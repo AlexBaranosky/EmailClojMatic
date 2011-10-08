@@ -1,6 +1,5 @@
 (ns email
-  (:use reminder)
-  (:use reminder-parsing)
+  (:use [reminder :only (to-string)])
   (:use [utility :only (config)])
   (:use [clojure.contrib.str-utils :only (str-join)])
   (:import [org.apache.commons.mail SimpleEmail]))

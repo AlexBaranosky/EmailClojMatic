@@ -1,5 +1,5 @@
 (ns reminder
-  (:use date-time))
+  (:use [date-time :only (first-not-in-past for-display in-past?)]))
 
 ; each seq in schedule must be sorted in ascending order, or bad things happen!  
 

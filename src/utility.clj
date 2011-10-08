@@ -1,5 +1,5 @@
 (ns utility
-  (:require [clojure.contrib.string :as str])
+  (:use [clojure.contrib.string :only (replace-str)])
   (:import (org.joda.time DateTimeUtils))
   (:import java.io.File))
 
@@ -30,7 +30,7 @@
 (def fact-resource resource)
 
 (defn lowercase-keyword [s]
-  (keyword (.toLowerCase (str/replace-str " " "-" s))))
+  (keyword (.toLowerCase (replace-str " " "-" s))))
 
 (def third (comp first rest rest))
 (def fourth (comp first rest rest rest))

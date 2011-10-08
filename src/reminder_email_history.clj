@@ -1,7 +1,7 @@
 (ns reminder-email-history
   (:use [date-time :only (today-num)])
-  (:import [org.joda.time DateMidnight])
-  (:use [utility :only (resource)]))
+  (:use [utility :only (resource)])
+  (:import [org.joda.time DateMidnight]))
 
 (defn history-file [] (resource "reminder_email_history.json"))
 

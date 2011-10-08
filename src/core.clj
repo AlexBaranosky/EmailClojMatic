@@ -3,7 +3,7 @@
   (:use [reminder :only (due?)])
   (:use [email :only (send-reminder-email send-email)])
   (:use [utility :only (resource config valid-config?)])
-  (:require [reminder-email-history :as history])
+  (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)])
   (:use	[clojure.contrib.duck-streams :only (read-lines)]))
 
 (defn load-due-reminders [file]
@@ -11,11 +11,11 @@
 
 (defn email-reminders-to* [recipients]
   (let [due-reminders (load-due-reminders (resource "reminders.txt"))]
-    (when (> (count due-reminders) (history/num-reminders-sent-today))
+    (when (> (count due-reminders) (num-reminders-sent-today))
       (do
         (doseq [r recipients]
           (send-reminder-email due-reminders r))
-        (history/record-num-reminders-sent-today (count due-reminders))))))
+        (record-num-reminders-sent-today (count due-reminders))))))
 
 (defn- disperse-error-email [recipients ex]
   (doseq [r recipients]
