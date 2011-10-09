@@ -4,6 +4,7 @@
   (:use [clojure.contrib.seq-utils :only (find-first)])
   (:use [utility :only (do-at)])
   (:use midje.sweet)
+  (:import (slingshot Stone))
   (:import (org.joda.time DateMidnight)))
 
 (fact "parses day-of-week-based strings"
@@ -55,7 +56,7 @@
     (take 2 (second (parse-schedule "On 3/1 & on 9/1")))) => [(DateMidnight. 2011 9 1) (DateMidnight. 2012 9 1)])
 
 (fact "parses un-parsable strings into an empty schedule"
-  (parse-schedule "@#$$%") => (throws RuntimeException "cannot parse: @#$$%"))
+  (parse-schedule "@#$$%") => (throws slingshot.Stone))
 
 (fact "parses reminders from line"
   (parse-reminder-from-line "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")

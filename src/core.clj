@@ -1,10 +1,12 @@
 (ns core
   (:use [reminder-parsing :only (parse-reminder)])
   (:use [reminder :only (due?)])
-  (:use [email :only (send-reminder-email disperse-parse-error-emails)])
+  (:use [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails)])
   (:use [utility :only (resource config valid-config?)])
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)])
-  (:use	[clojure.contrib.duck-streams :only (read-lines)]))
+  (:use	[clojure.contrib.duck-streams :only (read-lines)])
+  (:use [slingshot.core :only (try+)])
+  (:import (reminder-parsing CannotParseRemindersStone)))
 
 (defn load-due-reminders [file]
   (->> file read-lines (keep parse-reminder) (filter due?)))
@@ -19,7 +21,9 @@
 
 (defn run-reminders [recipients]
   (when (valid-config? (config))
-    (try
+    (try+
       (email-reminders-to recipients)
+      (catch CannotParseRemindersStone s
+        (disperse-parse-error-emails recipients s))
       (catch Throwable e
-        (disperse-parse-error-emails recipients e)))))
+        (disperse-unknown-error-emails recipients e)))))

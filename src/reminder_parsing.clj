@@ -7,7 +7,10 @@
                                   day-of-week-stream today+all-future-dates day-nums)])
   (:use [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword trim)])
   (:use [clojure.contrib.str-utils :only (re-split)])
+  (:use slingshot.core)
   (:import [org.joda.time DateMidnight]))
+
+(defrecord CannotParseRemindersStone [message])
 
 (defn kind-of-schedule [s]
   (cond (re-find day-of-month-identifier-regex s) :day-of-month
@@ -60,7 +63,7 @@
   (today+all-future-dates))
 
 (defmethod parse-schedule :unrecognized-format [s]
-  (throw (RuntimeException. (str "cannot parse: " s))))
+  (throw+ (CannotParseRemindersStone. (str "cannot parse: " s))))
 
 (defn parse-reminder-from-line [s]
   (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))]
