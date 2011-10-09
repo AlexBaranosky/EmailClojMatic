@@ -5,7 +5,7 @@
   (:import [org.joda.time DateMidnight]))
 
 (fact "formats email - one section for each reminder"
-   (let [reminders [{ :message "message" :schedule [(DateMidnight. 2022 1 1)] :days-in-advance 3}]
+   (let [reminders [{ :message "message" :dates [(DateMidnight. 2022 1 1)] :days-in-advance 3}]
          recipient {:name "Jim" :email-address "jim@hotmail.com"}]
       (format-reminder-email reminders recipient)) => "From: \"EmailOMatic Reminder Service\"\nTo: Jim <jim@hotmail.com>\nSubject: The following reminders are coming up: \n\n1. Saturday 2022/1/1\nmessage")
 

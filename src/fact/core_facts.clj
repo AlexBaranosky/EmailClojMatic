@@ -9,12 +9,12 @@
   (expect (run-reminders [...recipients...]) => nil
     (not-called send-reminder-email))
   (provided
-    (load-due-reminders anything)      => [{ :message nil :schedule nil :days-in-advance nil}] :times 1
+    (load-due-reminders anything)      => [{ :message nil :dates nil :days-in-advance nil}] :times 1
     (num-reminders-sent-today) => 1 :times 1) )
 
 (fact "records the number of reminders sent -  when any were sent"
   (run-reminders [...recipients...]) => nil
-  (provided (load-due-reminders anything) => [{ :message nil :schedule nil :days-in-advance nil}]
+  (provided (load-due-reminders anything) => [{ :message nil :dates nil :days-in-advance nil}]
             (send-reminder-email anything anything) => nil :times 1
 	    (num-reminders-sent-today) => 0 :times 1)
 	    (record-num-reminders-sent-today 1) => nil :times 1)

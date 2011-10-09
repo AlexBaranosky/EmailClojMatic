@@ -7,4 +7,4 @@
 (fact "can load due reminders from a given file"
   (do-at (DateMidnight. 2011 6 1)
     (only (load-due-reminders (resource "test_reminder_file.txt")))) =>
-      { :message "message 1" :schedule [(DateMidnight. 2011 6 4)] :days-in-advance 8 })
+      { :message "message 1" :dates [(DateMidnight. 2011 6 4)] :days-in-advance 8 })

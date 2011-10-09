@@ -54,53 +54,53 @@
         (re-find everyday-regex s) :everyday
 	      :else :unrecognized-format))
 
-(defmulti parse-schedule kind-of-schedule)
+(defmulti parse-reminder-dates kind-of-schedule)
 
-(defmethod parse-schedule :day-of-month [s]
+(defmethod parse-reminder-dates :day-of-month [s]
    (let [[ordinals-part] (re-captures day-of-month-identifier-regex s)
          ordinals (map ordinal-to-int (re-match-seq ordinal-regex ordinals-part))]
      (map day-of-month-stream ordinals)))
 
 ;; TODO: Alex 7/11/2011 how shall we handle the fact that technically the day-of-week is unneeded, yet the reminder line phrasing is funny without it!?!?...
-(defmethod parse-schedule :every-x-weeks [s]
+(defmethod parse-reminder-dates :every-x-weeks [s]
   (let [[ordinal day-of-week month day year] (re-captures every-x-weeks-regex s)
         start-date (DateMidnight. (Integer/parseInt year) (Integer/parseInt month) (Integer/parseInt day))
 	      x-weeks (ordinal-to-int ordinal)]
     (every-x-days-stream start-date (* 7 x-weeks))))
 
-(defmethod parse-schedule :every-x-days [s]
+(defmethod parse-reminder-dates :every-x-days [s]
   (let [[ordinal month day year] (re-captures every-x-days-regex s)
         start-date (DateMidnight. (Integer/parseInt year) (Integer/parseInt month) (Integer/parseInt day))
 	      x-days (ordinal-to-int ordinal)]
     (every-x-days-stream start-date x-days)))
 
-(defmethod parse-schedule :date [s]
+(defmethod parse-reminder-dates :date [s]
   (letfn [(parse-date [string]
             (let [[month day year] (->> string (re-captures date-regex) (map parse-int))]
                (DateMidnight. year month day)))]
           (->> (.split s "&") (map parse-date) sort)))
 
-(defmethod parse-schedule :day-of-week [s]
+(defmethod parse-reminder-dates :day-of-week [s]
   (->> s
        (re-match-seq day-of-week-regex)
        (map (comp day-of-week-stream day-nums lowercase-keyword))))
 
-(defmethod parse-schedule :month+day [s]
+(defmethod parse-reminder-dates :month+day [s]
   (letfn [(parse-month+day-date [string]
             (let [[month day] (->> string (re-captures month+day-regex) (map parse-int))]
               (month+day-stream month day)))]
     (map parse-month+day-date (.split s "&"))))
 
-(defmethod parse-schedule :everyday [s]
+(defmethod parse-reminder-dates :everyday [s]
   (today+all-future-dates))
 
-(defmethod parse-schedule :unrecognized-format [s]
+(defmethod parse-reminder-dates :unrecognized-format [s]
   (throw+ (CannotParseRemindersStone. (str "cannot parse: " s))))
 
 (defn parse-reminder-from-line [s]
   (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))]
      {:message message-part
-      :schedule (parse-schedule schedule-part)
+      :dates (parse-reminder-dates schedule-part)
       :days-in-advance (parse-days-in-advance days-in-advance-part) }))
 
 (defn parse-reminder [s]
