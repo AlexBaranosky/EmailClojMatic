@@ -1,5 +1,5 @@
 (ns fact.reminder-parsing-facts
-  (:use [reminder-parsing :only (parse-reminder-dates parse-reminder-from-line parse-reminder
+  (:use [reminder-parsing :only (parse-reminder-dates parse-reminder
                                  comment-line? blank-line? reminder-line? parse-days-in-advance
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
                                  ordinal-regex month+day-regex day-of-week-regex date-regex)]
@@ -112,22 +112,18 @@
   (parse-reminder-dates "@#$$%") => (throws slingshot.Stone))
 
 (fact "parses reminders from line"
-  (parse-reminder-from-line "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
+  (parse-reminder "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
   => { :message "message"
        :dates [(DateMidnight. 2000 12 25)]
        :days-in-advance 5} )
 
 (fact "defaults to notifying 3 days in advance if not specified"
-  (parse-reminder-from-line "on 12/25/2000 \"message\"")
+  (parse-reminder "on 12/25/2000 \"message\"")
   => { :message "message"
        :dates [(DateMidnight. 2000 12 25)]
        :days-in-advance 3})
 
-(fact "parses a reminder from line only when the line is a reminder line"
-  (expect (parse-reminder ...line...) => nil
-     (not-called parse-reminder-from-line))
-  (provided (reminder-line? ...line...) => false)
-
-  (parse-reminder ...line...) => ...reminder...
-  (provided (reminder-line? ...line...) => true)
-  (provided (parse-reminder-from-line ...line...) => ...reminder...))
+(fact "if line isn't a reminder line, returns nil"
+  (parse-reminder ...line...) => nil
+  (provided
+    (reminder-line? ...line...) => false))

@@ -97,12 +97,9 @@
 (defmethod parse-reminder-dates :unrecognized-format [s]
   (throw+ (CannotParseRemindersStone. (str "cannot parse: " s))))
 
-(defn parse-reminder-from-line [s]
-  (let [[schedule-part message-part days-in-advance-part] (->> s trim (re-split #"\""))]
-     {:message message-part
-      :dates (parse-reminder-dates schedule-part)
-      :days-in-advance (parse-days-in-advance days-in-advance-part) }))
-
-(defn parse-reminder [s]
-  (when (reminder-line? s)
-    (parse-reminder-from-line s)))
+(defn parse-reminder [line]
+  (when (reminder-line? line)
+    (let [[schedule-part message-part days-in-advance-part] (->> line trim (re-split #"\""))]
+      {:message message-part
+       :dates (parse-reminder-dates schedule-part)
+       :days-in-advance (parse-days-in-advance days-in-advance-part)})))
