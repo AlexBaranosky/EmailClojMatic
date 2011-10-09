@@ -1,16 +1,48 @@
 (ns reminder-parsing
-  (:use [impl.reminder-parsing-impl :only (date-regex day-of-week-regex ordinal-regex month+day-regex
-                                           day-of-month-identifier-regex every-x-weeks-regex
-                                           everyday-regex every-x-days-regex parse-days-in-advance
-                                           reminder-line?)])
   (:use [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)])
-  (:use [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword trim)])
+  (:use [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword
+                        trim re-match? re-captures ordinalize only)])
   (:use [clojure.contrib.str-utils :only (re-split)])
+  (:use [clojure.contrib.string :only (join)])
   (:use slingshot.core)
   (:import [org.joda.time DateMidnight]))
 
 (defrecord CannotParseRemindersStone [message])
+
+(def comment-line? (partial re-match? #"^\s*#.*$"))
+(def blank-line? (partial re-match? #"^\s*$"))
+
+(defn reminder-line? [s]
+  (and (not (comment-line? s))
+  (not (blank-line? s))))
+
+(def day-names ["Sunday" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday"])
+(def ordinals (map ordinalize (range 1 32)))
+
+(def everyday-regex #"(?i)^\s*Every ?day\s*$")
+(def every-x-weeks-regex (re-pattern (str "(?i)^\\s*Every\\s+(" (join "|" ordinals) ")\\s+(" (join "|" day-names) "),?\\s+starting\\s+(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})\\s*$")))
+(def every-x-days-regex   (re-pattern (str "(?i)^\\s*Every\\s+(" (join "|" ordinals) ")\\s+day,?\\s+starting\\s+(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})\\s*$")))
+(def date-regex      #"(?i)^\s*on\s+(\d{1,2})/(\d{1,2})/(\d{4})\s*")
+(def month+day-regex #"(?i)^\s*on\s+(\d{1,2})/(\d{1,2})\s*")
+(def day-of-week-regex #"(?i)(mondays|tuesdays|wednesdays|thursdays|fridays|saturdays|sundays)")
+(def day-of-month-identifier-regex #"(?i)^\s*Every (.+) of the month\s*$")
+(def ordinal-regex #"(?i)\d+(st|nd|rd|th)")
+
+(def days-in-advance-regex #"(?i)^\s*notify\s+(\d+)\s+days?\s+in\s+advance\s*$")
+
+(def ^{:private true} default-days-in-advance 3)
+
+(defn parse-days-in-advance [s]
+  (cond
+    (or (= "" s) (nil? s))
+    default-days-in-advance
+
+    (not (re-match? days-in-advance-regex s))
+    (throw+ (CannotParseRemindersStone. (str "could not parse 'days in advance': " s)))
+
+    :else
+    (->> s (re-captures days-in-advance-regex) only parse-int)))
 
 (defn kind-of-schedule [s]
   (cond (re-find day-of-month-identifier-regex s) :day-of-month

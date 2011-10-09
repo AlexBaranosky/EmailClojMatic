@@ -5,7 +5,7 @@
   (:use [utility :only (resource config valid-config?)])
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)])
   (:use	[clojure.contrib.duck-streams :only (read-lines)])
-  (:use [slingshot.core :only (try+)])
+  (:use slingshot.core)
   (:import (reminder-parsing CannotParseRemindersStone)))
 
 (defn load-due-reminders [file]
