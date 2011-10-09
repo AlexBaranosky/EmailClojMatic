@@ -1,7 +1,7 @@
 (ns fact.email-facts
-  (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails disperse-unknown-error-emails)])
-  (:use [utility :only (config)])
-  (:use midje.sweet)
+  (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails disperse-unknown-error-emails)]
+        [utility :only (config)]
+        midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
 (fact "formats email - one section for each reminder"

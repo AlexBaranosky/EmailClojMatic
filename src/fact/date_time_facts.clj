@@ -1,7 +1,7 @@
 (ns fact.date-time-facts
-  (:use [date-time :only (for-display in-past? first-not-in-past today-num)])
-  (:use [utility :only [do-at]])
-  (:use midje.sweet)
+  (:use [date-time :only (for-display in-past? first-not-in-past today-num)]
+        [utility :only [do-at]]
+        midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
 (fact "displays a date-time in a display format"

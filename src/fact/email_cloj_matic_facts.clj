@@ -1,7 +1,7 @@
 (ns fact.email-cloj-matic-facts
-  (:use [email-cloj-matic :only (-main)])
-  (:use [core :only (run-reminders)])
-  (:use midje.sweet))
+  (:use [email-cloj-matic :only (-main)]
+        [core :only (run-reminders)]
+        midje.sweet))
 
 (fact "recipient info is supplied via the command line"
   (-main "Alex" "cool@dude.com" "Mr. Miyagi" "ninja@dude.com") => anything

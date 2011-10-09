@@ -1,7 +1,7 @@
 (ns fact.reminder-email-history-facts
-  (:use [reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today)])
-  (:use [utility :only (fact-resource do-at)])
-  (:use midje.sweet)
+  (:use [reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today)]
+        [utility :only (fact-resource do-at)]
+        midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
 (defonce fake-history-file (fact-resource "fake_email_history.json"))

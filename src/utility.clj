@@ -1,7 +1,7 @@
 (ns utility
   (:use [clojure.contrib.string :only (replace-str)])
-  (:import (org.joda.time DateTimeUtils))
-  (:import [java.io File IOException]))
+  (:import [org.joda.time DateTimeUtils]
+           [java.io File IOException]))
 
 (defn parse-int [s] (Integer/parseInt s))
 

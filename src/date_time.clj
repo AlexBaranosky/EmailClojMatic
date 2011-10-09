@@ -1,8 +1,8 @@
 (ns date-time
-  (:use [utility :only (seq-of-seqs?)])
-  (:use [clojure.contrib.seq-utils :only (find-first)])
-  (:import [org.joda.time.format DateTimeFormat])
-  (:import [org.joda.time DateMidnight]))
+  (:use [utility :only (seq-of-seqs?)]
+        [clojure.contrib.seq-utils :only (find-first)])
+  (:import [org.joda.time.format DateTimeFormat]
+           [org.joda.time DateMidnight]))
   
 (defn today-num [] 
   (.. (DateMidnight.) dayOfWeek get))    

@@ -1,8 +1,8 @@
 (ns fact.load-reminders-integration
-  (:use [core :only (load-due-reminders)])
-  (:use [utility :only (resource only do-at)])
-  (:import [org.joda.time DateMidnight])
-  (:use midje.sweet))
+  (:use [core :only (load-due-reminders)]
+        [utility :only (resource only do-at)]
+        midje.sweet)
+  (:import [org.joda.time DateMidnight]))
 
 (fact "can load due reminders from a given file"
   (do-at (DateMidnight. 2011 6 1)

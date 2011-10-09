@@ -2,10 +2,10 @@
   (:use [reminder-parsing :only (parse-schedule parse-reminder-from-line parse-reminder
                                  comment-line? blank-line? reminder-line? parse-days-in-advance
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
-                                 ordinal-regex month+day-regex day-of-week-regex date-regex)])
-  (:use [clojure.contrib.seq-utils :only (find-first)])
-  (:use [utility :only (do-at re-match-seq re-captures re-match?)])
-  (:use midje.sweet)
+                                 ordinal-regex month+day-regex day-of-week-regex date-regex)]
+        [clojure.contrib.seq-utils :only (find-first)]
+        [utility :only (do-at re-match-seq re-captures re-match?)]
+        midje.sweet)
   (:import (slingshot Stone))
   (:import (org.joda.time DateMidnight)))
 

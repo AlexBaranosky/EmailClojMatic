@@ -1,7 +1,7 @@
 (ns fact.reminder-facts
-  (:use [reminder :only (to-string due?)])
-  (:use [utility :only [do-at]])
-  (:use midje.sweet)
+  (:use [reminder :only (to-string due?)]
+        [utility :only [do-at]]
+        midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
 (defn- reminder [msg schedule days-in-advance]

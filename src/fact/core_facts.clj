@@ -1,9 +1,9 @@
 (ns fact.core-facts
-  (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)])
-  (:use [core :only (run-reminders load-due-reminders email-reminders-to)])
-  (:use [utility :only (config valid-config?)])
-  (:use [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails)])
-  (:use midje.sweet))
+  (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today)]
+        [core :only (run-reminders load-due-reminders email-reminders-to)]
+        [utility :only (config valid-config?)]
+        [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails)]
+        midje.sweet))
 
 (fact "won't email out any reminders if the history says N reminders were sent out, and we have <= N due"
   (expect (run-reminders [...recipients...]) => nil

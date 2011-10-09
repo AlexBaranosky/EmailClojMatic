@@ -1,7 +1,7 @@
 (ns email
-  (:use [reminder :only (to-string)])
-  (:use [utility :only (config)])
-  (:use [clojure.contrib.string :only (join)])
+  (:use [reminder :only (to-string)]
+         [utility :only (config)]
+         [clojure.contrib.string :only (join)])
   (:import [org.apache.commons.mail SimpleEmail]))
 
 (defn format-reminder-email [reminders {:keys [name email-address]}]

@@ -1,11 +1,11 @@
 (ns reminder-parsing
   (:use [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
-                                  day-of-week-stream today+all-future-dates day-nums)])
-  (:use [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword
-                        trim re-match? re-captures ordinalize only)])
-  (:use [clojure.contrib.str-utils :only (re-split)])
-  (:use [clojure.contrib.string :only (join)])
-  (:use slingshot.core)
+                                  day-of-week-stream today+all-future-dates day-nums)]
+        [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword
+                        trim re-match? re-captures ordinalize only)]
+        [clojure.contrib.str-utils :only (re-split)]
+        [clojure.contrib.string :only (join)]
+        slingshot.core)
   (:import [org.joda.time DateMidnight]))
 
 (defrecord CannotParseRemindersStone [message])
