@@ -40,3 +40,8 @@
 
 (def disperse-parse-error-emails   (partial disperse-emails "There was a problem parsing your reminders.txt"))
 (def disperse-unknown-error-emails (partial disperse-emails "There was an unknown error"))
+
+(defn disperse-history-file-missing-emails [recipients]
+  (doseq [r recipients]
+    (send-email (:email-address r)
+      (format "Could not send you your usual reminders. Could not locate your reminder history file. It should be in the resources directory." ))))

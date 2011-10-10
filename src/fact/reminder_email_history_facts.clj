@@ -1,13 +1,14 @@
 (ns fact.reminder-email-history-facts
-  (:use [reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today)]
+  (:use [reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today
+                                       history valid-history?)]
         [utility :only (fact-resource do-at)]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
-(defonce fake-history-file (fact-resource "fake_email_history.json"))
+(def fake-history-file (fact-resource "fake_email_history.json"))
 
-(defonce today (DateMidnight.))
-(defonce yesterday (.minusDays today 1))
+(def today (DateMidnight.))
+(def yesterday (.minusDays today 1))
 
 (defn- given-three-reminders-sent-on [date-time]
   (let [history-data (str "{ :num-reminders-already-sent-today 3, :weekday-last-saved-on " (.. date-time dayOfWeek get) " }")]
@@ -34,3 +35,13 @@
     (num-reminders-sent-today)) => 5
   (provided
     (history-file) => fake-history-file))
+
+(fact "if history file cannot be opened returns nil"
+  (history) => nil
+  (provided
+    (history-file) => "nonexistent-file-aasdf"))
+
+(fact "history is invalid if it comes back nil"
+  (valid-history?) => false
+  (provided
+    (history) => nil))

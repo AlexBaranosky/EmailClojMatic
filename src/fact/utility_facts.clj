@@ -134,6 +134,7 @@
 (fact "tells if something is a seq of seqs"
   (seq-of-seqs? [[]]) => truthy
   (seq-of-seqs? [[1 2 3] [1 2 3]]) => truthy
+  (seq-of-seqs? [1 [1 2 3]]) => falsey ;; don't really care about this case, but here for documentation
   (seq-of-seqs? (SampleRecord. "my receord")) => falsey
   (seq-of-seqs? (DateMidnight. 2000 1 1)) => falsey
   (seq-of-seqs? [1 2 3]) => falsey

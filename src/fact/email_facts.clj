@@ -1,5 +1,6 @@
 (ns fact.email-facts
-  (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails disperse-unknown-error-emails)]
+  (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails
+                      disperse-unknown-error-emails disperse-history-file-missing-emails)]
         [utility :only (config)]
         midje.sweet)
   (:require [reminder :as so-can-use-Reminder-record])
@@ -23,14 +24,20 @@
     (send-email* "to@yahoo.com" "the message" "from@gmail.com" "abc123") => nil :times 1
     (config) => { :gmail-address "from@gmail.com" :password "abc123" } :times 1))
 
-(fact "dispersing parse errors sends message to each recipient"
+(fact "dispersing parse errors email sends message to each recipient"
   (disperse-parse-error-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")] (Exception. "boom")) => nil
   (provided
     (send-email "bob@yahoo.com" anything) => nil :times 1
     (send-email "john@yahoo.com" anything) => nil :times 1))
 
-(fact "dispersing parse errors sends message to each recipient"
+(fact "dispersing unknown errors email sends message to each recipient"
   (disperse-unknown-error-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")] (Exception. "boom")) => nil
+  (provided
+    (send-email "bob@yahoo.com" anything) => nil :times 1
+    (send-email "john@yahoo.com" anything) => nil :times 1))
+
+(fact "dispersing history file missing error email sends message to each recipient"
+  (disperse-history-file-missing-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")]) => nil
   (provided
     (send-email "bob@yahoo.com" anything) => nil :times 1
     (send-email "john@yahoo.com" anything) => nil :times 1))
