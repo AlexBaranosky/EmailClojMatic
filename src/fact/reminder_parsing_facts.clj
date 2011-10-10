@@ -4,29 +4,29 @@
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
                                  ordinal-regex month+day-regex day-of-week-regex date-regex)]
         [clojure.contrib.seq-utils :only (find-first)]
-        [utility :only (do-at re-match-seq re-captures re-match?)]
+        [utility :only (do-at re-match-seq re-captures)]
         midje.sweet)
   (:import (slingshot Stone))
   (:import (org.joda.time DateMidnight)))
 
 (fact "lines with '#' as the first non-whitespace char are comment lines"
-  (comment-line? "    # asdf") => true
-  (comment-line? "something else") => false)
+  (comment-line? "    # asdf") => truthy
+  (comment-line? "something else") => falsey)
 
 (fact "a line is blank when it is only whitespace"
-   (blank-line? "  \t\n\r  ") => true
-   (blank-line? "abcdef") => false)
+   (blank-line? "  \t\n\r  ") => truthy
+   (blank-line? "abcdef") => falsey)
 
 (fact "is a reminder line when not a comment line or a blank line"
   (against-background (comment-line? ...line...) => false,
-  	              (blank-line? ...line...) => false)
+  	                  (blank-line? ...line...) => false)
 
-  (reminder-line? ...line...) => true
+  (reminder-line? ...line...) => truthy
 
-  (reminder-line? ...line...) => false
+  (reminder-line? ...line...) => falsey
   (provided (comment-line? ...line...) => true)
 
-  (reminder-line? ...line...) => false
+  (reminder-line? ...line...) => falsey
   (provided (blank-line? ...line...) => true))
 
 (tabular
@@ -55,7 +55,7 @@
   (re-captures every-x-days-regex "  EvEry    4Th    dAy,    stArting    2/3/2009  ") => ["4Th" "2" "3" "2009"])
 
 (fact "day-of-month-identifier regex works"
-  (re-match? day-of-month-identifier-regex "Every blah blah blah of the month") => truthy)
+  (re-matches day-of-month-identifier-regex "Every blah blah blah of the month") => truthy)
 
 (fact "ordinal regex works"
   (re-match-seq ordinal-regex "  abc 1st xyz 7th 8th 9th  ") => ["1st" "7th" "8th" "9th"])

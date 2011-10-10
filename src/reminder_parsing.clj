@@ -2,7 +2,7 @@
   (:use [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
         [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword
-                        trim re-match? re-captures ordinalize only)]
+                        trim re-captures ordinalize only)]
         [clojure.contrib.str-utils :only (re-split)]
         [clojure.contrib.string :only (join)]
         slingshot.core)
@@ -10,8 +10,8 @@
 
 (defrecord CannotParseRemindersStone [message])
 
-(def comment-line? (partial re-match? #"^\s*#.*$"))
-(def blank-line? (partial re-match? #"^\s*$"))
+(def comment-line? (comp not not (partial re-matches #"^\s*#.*$")))
+(def blank-line? (comp not not (partial re-matches #"^\s*$")))
 
 (defn reminder-line? [s]
   (and (not (comment-line? s))
@@ -38,7 +38,7 @@
     (or (= "" s) (nil? s))
     default-days-in-advance
 
-    (not (re-match? days-in-advance-regex s))
+    (not (re-matches days-in-advance-regex s))
     (throw+ (CannotParseRemindersStone. (str "could not parse 'days in advance': " s)))
 
     :else

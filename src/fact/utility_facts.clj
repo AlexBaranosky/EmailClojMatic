@@ -1,5 +1,5 @@
 (ns fact.utility_facts
-  (:use [utility :only (parse-int trim but-last re-match? re-match-seq re-captures only lowercase-keyword
+  (:use [utility :only (parse-int trim but-last re-match-seq re-captures only lowercase-keyword
                         third fourth fifth ordinal-to-int ordinalize seq-of-seqs? do-at* do-at
                         config-file-name config valid-config?)]
          midje.sweet)
@@ -22,10 +22,6 @@
 	3    "1"
 	4    ""
 	5    "")
-
-(fact "knows if a string matches a given regex"
-   (re-match? #"\d+" "1234") => truthy
-   (re-match? #"\d+" "abcd") => falsey)
 
 (fact "can get a seq of only the matches - not the captures"
   (re-match-seq #"(\d+)" "abc 123 xyz 789 rad") => ["123" "789"])

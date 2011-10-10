@@ -5,9 +5,7 @@
 
 (defn parse-int [s] (Integer/parseInt s))
 
-(defonce re-match? (comp not not re-matches))
-
-(defonce re-captures (comp rest re-matches))
+(def re-captures (comp rest re-matches))
 
 (defn re-match-seq [re s]
   (map first (re-seq re s)))
