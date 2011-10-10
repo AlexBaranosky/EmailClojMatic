@@ -1,21 +1,11 @@
 (ns fact.date-time-facts
-  (:use [date-time :only (for-display in-past? first-not-in-past today-num)]
+  (:use [date-time :only (for-display first-not-in-past today-num)]
         [utility :only [do-at]]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
 (fact "displays a date-time in a display format"
    (for-display (DateMidnight. 2000 5 25)) => "2000/5/25")
-
-(tabular
-  (fact "date-time is in the future when past today"
-    (do-at (DateMidnight. 2001 1 2)
-      (in-past? (DateMidnight. 2001 1 ?day))) => ?past)
-
-	?day ?past
-	1    truthy
-	2    falsey
-	3    falsey)
 
 (fact "gives the earliest date time that is today or after now in a sequence of date-time sequences (assuming each subsequence is in order)"
   (do-at (DateMidnight. 2011 11 10)

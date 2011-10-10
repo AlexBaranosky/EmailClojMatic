@@ -1,5 +1,5 @@
 (ns reminder
-  (:use [date-time :only (first-not-in-past for-display in-past?)]))
+  (:use [date-time :only (first-not-in-past for-display)]))
 
 ; each seq in seq (or seq of seqs) of dates must be sorted in ascending order, or bad things happen!
 
@@ -13,4 +13,4 @@
 (defn due? [reminder]
   (if-let [next (first-not-in-past (:dates reminder))]
     (let [start-reminding-on (.minusDays next (:days-in-advance reminder))]
-      (in-past? start-reminding-on))))
+      (.isBeforeNow start-reminding-on))))
