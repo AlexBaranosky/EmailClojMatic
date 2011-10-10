@@ -10,13 +10,7 @@
 (defn for-display [date]
   (.toString date (DateTimeFormat/forPattern (str "yyyy/M/d"))))
 
-(defmulti first-not-in-past #(if (seq-of-seqs? %) :seq-of-seqs :unnested-seq))
-  
-(defmethod first-not-in-past :seq-of-seqs [seq-of-date-time-seqs] 
-  (->> seq-of-date-time-seqs 
-      (keep (partial find-first (comp not #(.isBeforeNow %))))
-	   sort 
-	   first))   
-  
-(defmethod first-not-in-past :unnested-seq [date-times] 
-  (find-first (comp not #(.isBeforeNow %)) date-times))
+(defn first-not-in-past [date-times]
+  (if (seq-of-seqs? date-times)
+    (first (sort (keep first-not-in-past date-times)))
+    (find-first (comp not #(.isBeforeNow %)) date-times)))
