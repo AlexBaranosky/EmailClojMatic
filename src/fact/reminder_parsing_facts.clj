@@ -6,8 +6,10 @@
         [clojure.contrib.seq-utils :only (find-first)]
         [utility :only (do-at re-match-seq re-captures)]
         midje.sweet)
-  (:import (slingshot Stone))
-  (:import (org.joda.time DateMidnight)))
+  (:require [reminder :as so-can-use-Reminder-record])
+  (:import [slingshot Stone]
+           [org.joda.time DateMidnight]
+           [reminder Reminder]))
 
 (fact "lines with '#' as the first non-whitespace char are comment lines"
   (comment-line? "    # asdf") => truthy
@@ -113,15 +115,11 @@
 
 (fact "parses reminders from line"
   (parse-reminder "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
-  => { :message "message"
-       :dates [(DateMidnight. 2000 12 25)]
-       :days-in-advance 5} )
+     => (Reminder. "message" [(DateMidnight. 2000 12 25)] 5))
 
 (fact "defaults to notifying 3 days in advance if not specified"
   (parse-reminder "on 12/25/2000 \"message\"")
-  => { :message "message"
-       :dates [(DateMidnight. 2000 12 25)]
-       :days-in-advance 3})
+     => (Reminder. "message" [(DateMidnight. 2000 12 25)] 3))
 
 (fact "if line isn't a reminder line, returns nil"
   (parse-reminder ...line...) => nil

@@ -3,6 +3,8 @@
 
 ; each seq in seq (or seq of seqs) of dates must be sorted in ascending order, or bad things happen!
 
+(defrecord Reminder [message dates days-in-advance])
+
 (defn to-string [reminder]
   (if-let [date (first-not-in-past (:dates reminder))]
     (format "%s %s\n%s" (.. date dayOfWeek getAsText) (for-display date) (:message reminder))

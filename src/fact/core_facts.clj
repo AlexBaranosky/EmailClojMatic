@@ -3,18 +3,20 @@
         [core :only (run-reminders load-due-reminders email-reminders-to)]
         [utility :only (config valid-config?)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails)]
-        midje.sweet))
+        midje.sweet)
+  (:require [reminder :as so-can-use-Reminder-record])
+  (:import [reminder Reminder]))
 
 (fact "won't email out any reminders if the history says N reminders were sent out, and we have <= N due"
   (expect (run-reminders [...recipients...]) => nil
     (not-called send-reminder-email))
   (provided
-    (load-due-reminders anything)      => [{ :message nil :dates nil :days-in-advance nil}] :times 1
+    (load-due-reminders anything)      => [(Reminder. nil nil nil)] :times 1
     (num-reminders-sent-today) => 1 :times 1) )
 
 (fact "records the number of reminders sent -  when any were sent"
   (run-reminders [...recipients...]) => nil
-  (provided (load-due-reminders anything) => [{ :message nil :dates nil :days-in-advance nil}]
+  (provided (load-due-reminders anything) => [(Reminder. nil nil nil)]
             (send-reminder-email anything anything) => nil :times 1
 	    (num-reminders-sent-today) => 0 :times 1)
 	    (record-num-reminders-sent-today 1) => nil :times 1)

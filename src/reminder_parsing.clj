@@ -6,7 +6,9 @@
         [clojure.contrib.str-utils :only (re-split)]
         [clojure.contrib.string :only (join)]
         slingshot.core)
-  (:import [org.joda.time DateMidnight]))
+  (:require [reminder :as so-can-use-Reminder-record])
+  (:import [org.joda.time DateMidnight]
+           [reminder Reminder]))
 
 (defrecord CannotParseRemindersStone [message])
 
@@ -100,6 +102,6 @@
 (defn parse-reminder [line]
   (when (reminder-line? line)
     (let [[schedule-part message-part days-in-advance-part] (->> line trim (re-split #"\""))]
-      {:message message-part
-       :dates (parse-reminder-dates schedule-part)
-       :days-in-advance (parse-days-in-advance days-in-advance-part)})))
+      (Reminder. message-part
+                 (parse-reminder-dates schedule-part)
+                 (parse-days-in-advance days-in-advance-part)))))
