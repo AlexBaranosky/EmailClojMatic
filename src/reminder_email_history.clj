@@ -4,7 +4,7 @@
   (:import [org.joda.time DateMidnight]
            [java.io File IOException]))
 
-(defn history-file [] (resource "reminder_email_history.json"))
+(defn history-file [] (resource "reminder_email_history.cljdata"))
 
 (defn history []
   (try

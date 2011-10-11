@@ -51,7 +51,7 @@
   (and (sequential? candidate)
        (sequential? (first candidate))))
 
-(defn config-file-name [] "config.txt")
+(defn config-file-name [] "config.cljdata")
 
 (defn config []
   (try

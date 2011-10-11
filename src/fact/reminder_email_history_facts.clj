@@ -5,7 +5,7 @@
         midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
-(def fake-history-file (fact-resource "fake_email_history.json"))
+(def fake-history-file (fact-resource "fake_email_history.cljdata"))
 
 (def today (DateMidnight.))
 (def yesterday (.minusDays today 1))
