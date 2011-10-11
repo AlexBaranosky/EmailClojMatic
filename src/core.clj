@@ -23,9 +23,9 @@
 
 (defn run-reminders [recipients]
   (cond
+    (not (valid-config?)) nil
     (not (exists? (resource "reminders.txt"))) (disperse-reminders-file-missing-emails recipients)
     (not (valid-history?)) (disperse-history-file-missing-emails recipients)
-    (not (valid-config?)) nil
     :else (try+
             (email-reminders-to recipients)
             (catch CannotParseRemindersStone s
