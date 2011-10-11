@@ -14,7 +14,7 @@ Your reminders.txt file might look something like this:
 
     Every day "walk the dog"
 
-    Every 4th day "do something else!" notify 1 day in advance
+    Every 4th day, starting 2/10/2011 "do something else!" notify 1 day in advance
 
     On 12/25 "don't forget Christmas every year" notify 14 days in advance
 
