@@ -47,9 +47,19 @@
       3 (str int "rd")
       (str int "th"))))
 
-(defn seq-of-seqs? [candidate]
-  (and (sequential? candidate)
-       (sequential? (first candidate))))
+(defn seq-of-all-seqs? [candidate]
+  (cond
+    (not (sequential? candidate))
+    (throw (RuntimeException. "expected seq of either all seqs or all non-seqs"))
+
+    (and (seq candidate) (every? sequential? candidate))
+    true
+
+    (every? (comp not sequential?) candidate)
+    false
+
+    :else
+    (throw (RuntimeException. "expected seq of either all seqs or all non-seqs"))))
 
 (defn config-file-name [] "config.cljdata")
 
