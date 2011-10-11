@@ -169,7 +169,7 @@
 (tabular
   (fact "is invalid config if doesn't have gmail-address and password fields,
          or has too many fields or cant open the config file"
-    (valid-config? (config)) => ?is-valid
+    (valid-config?) => ?is-valid
     (provided (config) => ?config-contents))
 
   ?config-contents                                                  ?is-valid

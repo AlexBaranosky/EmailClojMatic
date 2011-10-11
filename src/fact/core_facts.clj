@@ -1,7 +1,7 @@
 (ns fact.core-facts
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
         [core :only (run-reminders load-due-reminders email-reminders-to)]
-        [utility :only (config valid-config?)]
+        [utility :only (valid-config?)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
                       disperse-history-file-missing-emails)]
         midje.sweet)
@@ -33,7 +33,7 @@
     (expect (run-reminders [...recipient...]) => nil
       (not-called email-reminders-to))
     (provided
-      (valid-config? (config)) => false))
+      (valid-config?) => false))
 
   (fact "if there is an unknown throwable, send an email out"
     (expect (run-reminders [...recipientA... ...recipientB...]) => nil

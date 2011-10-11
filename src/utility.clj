@@ -58,10 +58,11 @@
     (-> (config-file-name) resource slurp (with-in-str (read)))
     (catch IOException e nil)))
 
-(defn valid-config? [config]
-  (and (= 2  (count config))
-       (contains? config :gmail-address)
-       (contains? config :password)))
+(defn valid-config? []
+  (let [cfg (config)]
+    (and (= 2  (count cfg))
+         (contains? cfg :gmail-address)
+         (contains? cfg :password))))
 
 (defn do-at* [date-time f]
   (DateTimeUtils/setCurrentMillisFixed (.getMillis date-time))
