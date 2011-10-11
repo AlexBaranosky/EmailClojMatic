@@ -1,6 +1,7 @@
 (ns fact.email-facts
   (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails
-                      disperse-unknown-error-emails disperse-history-file-missing-emails)]
+                      disperse-unknown-error-emails disperse-history-file-missing-emails
+                      disperse-reminders-file-missing-emails)]
         [utility :only (config)]
         midje.sweet)
   (:require [reminder :as so-can-use-Reminder-record])
@@ -41,6 +42,13 @@
 ;; TODO - Alex oct 10, 2011 - figure how to make these tests more thorough, they're weak
 (fact "dispersing history file missing error email sends message to each recipient"
   (disperse-history-file-missing-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")]) => nil
+  (provided
+    (send-email "bob@yahoo.com" anything) => nil :times 1
+    (send-email "john@yahoo.com" anything) => nil :times 1))
+
+;; TODO - Alex oct 11, 2011 - figure how to make these tests more thorough, they're weak
+(fact "dispersing history file missing error email sends message to each recipient"
+  (disperse-reminders-file-missing-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")]) => nil
   (provided
     (send-email "bob@yahoo.com" anything) => nil :times 1
     (send-email "john@yahoo.com" anything) => nil :times 1))

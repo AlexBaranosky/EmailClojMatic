@@ -33,15 +33,21 @@
   (send-email (:email-address recipient)
               (format-reminder-email reminders recipient)))
 
-(defn- disperse-emails [prefixing-message recipients msg]
+(defn- disperse-emails [msg recipients]
   (doseq [r recipients]
-    (send-email (:email-address r)
-      (format "Could not send you your usual reminders. %s: \n%s" prefixing-message msg))))
+    (send-email (:email-address r) msg)))
 
-(def disperse-parse-error-emails   (partial disperse-emails "There was a problem parsing your reminders.txt"))
-(def disperse-unknown-error-emails (partial disperse-emails "There was an unknown error"))
+(defn- disperse-prefixed-emails [prefixing-message recipients msg]
+  (disperse-emails (format "Could not send you your usual reminders. %s: \n%s" prefixing-message msg) recipients))
 
-(defn disperse-history-file-missing-emails [recipients]
-  (doseq [r recipients]
-    (send-email (:email-address r)
-      (format "Could not send you your usual reminders. Could not load your reminder history file. It should be in the resources directory and have two fields: ':weekday-last-saved-on' and ':num-reminders-already-sent-today'" ))))
+(def disperse-parse-error-emails
+  (partial disperse-prefixed-emails "There was a problem parsing your reminders.txt"))
+
+(def disperse-unknown-error-emails
+  (partial disperse-prefixed-emails "There was an unknown error"))
+
+(def disperse-reminders-file-missing-emails
+  (partial disperse-emails "Could not send you your usual reminders. Could not load your reminders.txt file. It should be in the resources directory."))
+
+(def disperse-history-file-missing-emails
+  (partial disperse-emails "Could not send you your usual reminders. Could not load your reminder_email_history.cljdata file. It should be in the resources directory and have two fields: ':weekday-last-saved-on' and ':num-reminders-already-sent-today'"))

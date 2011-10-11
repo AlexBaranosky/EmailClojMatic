@@ -3,7 +3,8 @@
         [core :only (run-reminders load-due-reminders email-reminders-to)]
         [utility :only (valid-config?)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
-                      disperse-history-file-missing-emails)]
+                      disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
+        [fs :only (exists?)]
         midje.sweet)
   (:require [reminder :as so-can-use-Reminder-record])
   (:import [reminder Reminder]))
@@ -41,6 +42,13 @@
      (provided
        (load-due-reminders anything) => (throws Error "boom")
        (disperse-unknown-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1)))
+
+(fact "if reminders.txt does not exist, send out an email"
+  (expect (run-reminders [...recipientA... ...recipientB...]) => nil
+    (not-called email-reminders-to))
+  (provided
+    (exists? anything) => false
+    (disperse-reminders-file-missing-emails [...recipientA... ...recipientB...]) => nil :times 1))
 
 (fact "if history file missing, don't send reminders, but disperse email notifying of that fact"
   (expect (run-reminders [...recipientA... ...recipientB...]) => nil
