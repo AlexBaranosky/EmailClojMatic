@@ -27,6 +27,6 @@
     :else (try+
             (email-reminders-to recipients)
             (catch CannotParseRemindersStone s
-              (disperse-parse-error-emails recipients s))
+              (disperse-parse-error-emails recipients (:message s)))
             (catch Throwable e
-              (disperse-unknown-error-emails recipients e)))))
+              (disperse-unknown-error-emails recipients (.getMessage e))))))

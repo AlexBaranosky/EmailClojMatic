@@ -24,18 +24,21 @@
     (send-email* "to@yahoo.com" "the message" "from@gmail.com" "abc123") => nil :times 1
     (config) => { :gmail-address "from@gmail.com" :password "abc123" } :times 1))
 
+;; TODO - Alex oct 10, 2011 - figure how to make these tests more thorough, they're weak
 (fact "dispersing parse errors email sends message to each recipient"
-  (disperse-parse-error-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")] (Exception. "boom")) => nil
+  (disperse-parse-error-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")] { :message "boom" }) => nil
   (provided
     (send-email "bob@yahoo.com" anything) => nil :times 1
     (send-email "john@yahoo.com" anything) => nil :times 1))
 
+;; TODO - Alex oct 10, 2011 - figure how to make these tests more thorough, they're weak
 (fact "dispersing unknown errors email sends message to each recipient"
   (disperse-unknown-error-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")] (Exception. "boom")) => nil
   (provided
     (send-email "bob@yahoo.com" anything) => nil :times 1
     (send-email "john@yahoo.com" anything) => nil :times 1))
 
+;; TODO - Alex oct 10, 2011 - figure how to make these tests more thorough, they're weak
 (fact "dispersing history file missing error email sends message to each recipient"
   (disperse-history-file-missing-emails [(EmailRecipient. "bob" "bob@yahoo.com") (EmailRecipient. "john" "john@yahoo.com")]) => nil
   (provided
