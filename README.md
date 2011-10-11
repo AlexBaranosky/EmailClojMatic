@@ -25,7 +25,7 @@ Setup
 
 To get it working on your machine you will need to follow a few steps:
 
-1. edit email.clj to use your gmail account and password i.e. (.setAuthentication "you@gmail.com" "your password")
+1. edit config.cljdata to use your gmail account and password. It should looke like `{ :gmail-address "you@gmail.com" :password "your password" }`
 2. execute: lein uberjar
-3. edit reminders.bat to look like this: java -jar C:\path\to\emailclojmatic-1.0.0-SNAPSHOT-standalone.jar "Your name" "you@gmail.com" ["Other person" "them@gmail.com"]
-4. setup a cron job or a windows scheduled task to run the reminders.bat say every hour (or similar script for Unix).  On windows you can have it run hidden, which will keep annoying popups from appearing every hour.
+3. edit reminders.bat or reminders.sh to look like this: java -jar C:\path\to\emailclojmatic-1.0.0-SNAPSHOT-standalone.jar "Your name" "you@gmail.com" - You may have as many name and email address pairs as you'd like to have the reminders sent to
+4. setup a cron job or a windows scheduled task to run the reminders.bat/sh say every half an hour. It keeps track of how many reminders it has already sent today so that it will only send you reminders once a day.
