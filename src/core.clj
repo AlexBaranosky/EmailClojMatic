@@ -22,16 +22,11 @@
 
 (defn run-reminders [recipients]
   (cond
-    (not (valid-history?))
-    (disperse-history-file-missing-emails recipients)
-
-    (not (valid-config? (config)))
-    nil
-
-    :else
-    (try+
-      (email-reminders-to recipients)
-      (catch CannotParseRemindersStone s
-        (disperse-parse-error-emails recipients s))
-      (catch Throwable e
-        (disperse-unknown-error-emails recipients e)))))
+    (not (valid-history?)) (disperse-history-file-missing-emails recipients)
+    (not (valid-config? (config))) nil
+    :else (try+
+            (email-reminders-to recipients)
+            (catch CannotParseRemindersStone s
+              (disperse-parse-error-emails recipients s))
+            (catch Throwable e
+              (disperse-unknown-error-emails recipients e)))))
