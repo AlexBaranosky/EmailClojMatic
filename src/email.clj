@@ -37,8 +37,8 @@
   (doseq [r recipients]
     (send-email (:email-address r) msg)))
 
-(defn- disperse-prefixed-emails [prefixing-message recipients msg]
-  (disperse-emails (format "Could not send you your usual reminders. %s: \n%s" prefixing-message msg) recipients))
+(defn- disperse-prefixed-emails [prefixing-message recipients error-msg]
+  (disperse-emails (format "Could not send you your usual reminders. %s: \n%s" prefixing-message error-msg) recipients))
 
 (def disperse-parse-error-emails
   (partial disperse-prefixed-emails "There was a problem parsing your reminders.txt"))
