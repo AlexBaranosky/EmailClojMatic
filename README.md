@@ -23,9 +23,12 @@ It will only remind you, generally, once per day, so you don't have to worry abo
 Setup
 -----
 
-To get it working on your machine you will need to follow a few steps:
+To get start using the EmailClojMatic is a resources directory with a `reminders.txt` for the reminders you want to have delivered, and a `config.cljdata` to store your gmail address and password.  You can see samples of these files in the resources directory of the source, or above this section of the README.md
 
-1. edit config.cljdata to use your gmail account and password. It should looke like `{ :gmail-address "you@gmail.com" :password "your password" }`
-2. execute: lein uberjar
+To get it working on your machine follow these steps:
+
+1. edit config.cljdata to use your gmail account and password. It should look like `{ :gmail-address "you@gmail.com" :password "your password" }`
+2. execute: `lein uberjar` to create a standalone jar
 3. edit reminders.bat or reminders.sh to look like this: java -jar C:\path\to\emailclojmatic-1.0.0-SNAPSHOT-standalone.jar "Your name" "you@gmail.com" - You may list as many name and email address pairs as you'd like to have the reminders sent to
 4. setup a cron job or a windows scheduled task to run the reminders.bat/sh say every half an hour. It keeps track of how many reminders it has already sent today so that it will only send you reminders once a day.
+5. create a `reminders.txt` like the one shown above and palce it in the resources directory
