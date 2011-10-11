@@ -45,3 +45,17 @@
   (valid-history?) => false
   (provided
     (history) => nil))
+
+(tabular
+  (fact "is invalid history if doesn't have required fields,
+         or has too many fields or cant open the history file"
+    (valid-history?) => ?is-valid
+    (provided (history) => ?history-contents))
+
+  ?history-contents                                                   ?is-valid
+  {:weekday-last-saved-on "1" :num-reminders-already-sent-today "5"}  truthy
+  {:weekday-last-saved-on "1"}                                        falsey
+  {:num-reminders-already-sent-today "5"}                             falsey
+  {:weekday-last-saved-on "1" :num-reminders-already-sent-today "5" :extra "field"}  falsey
+  {:w33kday-last-saved-on "1" :num-r3m1nders-already-sent-today "5" } falsey
+   nil                                                                falsey)

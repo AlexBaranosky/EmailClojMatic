@@ -12,7 +12,10 @@
     (catch IOException e nil)))
 
 (defn valid-history? []
-  (not (nil? (history))))
+  (let [hist (history)]
+    (and (= 2 (count hist))
+      (contains? hist :weekday-last-saved-on )
+      (contains? hist :num-reminders-already-sent-today ))))
 
 (defn num-reminders-sent-today []
   (let [hist (history)]
