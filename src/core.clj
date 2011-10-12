@@ -22,13 +22,13 @@
         (record-num-reminders-sent-today (count due-reminders))))))
 
 (defn run-reminders [recipients]
-  (cond
-    (not (valid-config?)) nil
-    (not (exists? (resource "reminders.txt"))) (disperse-reminders-file-missing-emails recipients)
-    (not (valid-history?)) (disperse-history-file-missing-emails recipients)
-    :else (try+
-            (email-reminders-to recipients)
-            (catch CannotParseRemindersStone s
-              (disperse-parse-error-emails recipients (:message s)))
-            (catch Throwable e
-              (disperse-unknown-error-emails recipients (.getMessage e))))))
+  (when (valid-config?)
+    (cond
+      (not (exists? (resource "reminders.txt"))) (disperse-reminders-file-missing-emails recipients)
+      (not (valid-history?))                     (disperse-history-file-missing-emails recipients)
+      :else (try+
+              (email-reminders-to recipients)
+              (catch CannotParseRemindersStone s
+                (disperse-parse-error-emails recipients (:message s)))
+              (catch Throwable e
+                (disperse-unknown-error-emails recipients (.getMessage e)))))))

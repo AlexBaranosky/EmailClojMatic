@@ -6,6 +6,4 @@ Next Steps
 
 * investigate but where new version of seq-of-seqs? caused the application to crah with no error message either
 
-* QA style testing of recent (past few weeks) features
-
 * add link to the uberjar on wiki - see: http://developer.github.com/v3/repos/downloads/
