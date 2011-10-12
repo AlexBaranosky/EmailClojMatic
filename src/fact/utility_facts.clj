@@ -131,20 +131,31 @@
 
 (defrecord SampleRecord [name])
 
-(tabular
-  (fact "tells if something is a seq of seqs"
-    (seq-of-all-seqs? ?item) => ?result)
+;(tabular
+;  (fact "tells if something is a seq of seqs"
+;    (seq-of-all-seqs? ?item) => ?result)
+;
+;  ?item                        ?result
+;  [[]]                         truthy
+;  [[1 2 3] [1 2 3]]            truthy
+;  [1 [1 2 3]]                  (throws RuntimeException "expected seq of either all seqs or all non-seqs")
+;  (SampleRecord. "my receord") (throws RuntimeException "expected seq of either all seqs or all non-seqs")
+;  (DateMidnight. 2000 1 1)     (throws RuntimeException "expected seq of either all seqs or all non-seqs")
+;  [1 2 3]                      falsey
+;  []                           falsey
+;  ""                           (throws RuntimeException "expected seq of either all seqs or all non-seqs")
+;  1                            (throws RuntimeException "expected seq of either all seqs or all non-seqs"))
 
-  ?item                        ?result
-  [[]]                         truthy
-  [[1 2 3] [1 2 3]]            truthy
-  [1 [1 2 3]]                  (throws RuntimeException "expected seq of either all seqs or all non-seqs")
-  (SampleRecord. "my receord") (throws RuntimeException "expected seq of either all seqs or all non-seqs")
-  (DateMidnight. 2000 1 1)     (throws RuntimeException "expected seq of either all seqs or all non-seqs")
-  [1 2 3]                      falsey
-  []                           falsey
-  ""                           (throws RuntimeException "expected seq of either all seqs or all non-seqs")
-  1                            (throws RuntimeException "expected seq of either all seqs or all non-seqs"))
+(fact "tells if something is a seq of seqs"
+  (seq-of-all-seqs? [[]]) => truthy
+  (seq-of-all-seqs? [[1 2 3] [1 2 3]]) => truthy
+  (seq-of-all-seqs? [1 [1 2 3]]) => falsey ;; don't really care about this case, but here for documentation
+  (seq-of-all-seqs? (SampleRecord. "my receord")) => falsey
+  (seq-of-all-seqs? (DateMidnight. 2000 1 1)) => falsey
+  (seq-of-all-seqs? [1 2 3]) => falsey
+  (seq-of-all-seqs? []) => falsey
+  (seq-of-all-seqs? "") => falsey
+  (seq-of-all-seqs? 1) => falsey)
 
 (fact "freezes time at given date then returns to normal afterward"
   (DateMidnight.) =not=> (DateMidnight. 2000 1 1)
