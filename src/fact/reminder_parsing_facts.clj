@@ -5,9 +5,11 @@
                                  ordinal-regex month+day-regex day-of-week-regex date-regex)]
         [clojure.contrib.seq-utils :only (find-first)]
         [utility :only (do-at re-match-seq re-captures)]
+        slingshot.core
         midje.sweet)
   (:require [reminder :as so-can-use-Reminder-record])
   (:import [slingshot Stone]
+           [reminder-parsing CannotParseRemindersStone]
            [org.joda.time DateMidnight]
            [reminder Reminder]))
 
@@ -81,13 +83,13 @@
     (first (second (parse-reminder-dates "Every 21st and 25th of the month")))) => (DateMidnight. 2011 6 25))
 
 (fact "parses date-based string with one date into a vector with one date"
-  (parse-reminder-dates " ON 12/25/2000") => [(DateMidnight. 2000 12 25)])
+  (parse-reminder-dates " ON 12/25/2000 ") => [(DateMidnight. 2000 12 25)])
 
 (fact "parses date-based string that have spaces"
   (parse-reminder-dates " on  12/25/2000  ") => [(DateMidnight. 2000 12 25)])
 
 (fact "parses '&' separated strings into two dates, sorted in ascending order"
-  (parse-reminder-dates "On 12/25/2000 & on 7/4/1999") => [(DateMidnight. 1999 7 4) (DateMidnight. 2000 12 25)])
+  (parse-reminder-dates "On 12/25/2000 & on 7/4/1999 ") => [(DateMidnight. 1999 7 4) (DateMidnight. 2000 12 25)])
 
 (tabular
   (fact "parses everyday-based reminder lines"
@@ -102,16 +104,19 @@
 (fact "parses every X days-based reminder lines"
   (take 3 (parse-reminder-dates "Every 4th day, starting 6/8/2011" ))
     => [(DateMidnight. 2011 6 8) (DateMidnight. 2011 6 12) (DateMidnight. 2011 6 16)])
+;
 
 (fact "parses every month/day of the year"
   (do-at (DateMidnight. 2011 6 1)
-    (take 2 (first (parse-reminder-dates "On 3/1 & on 9/1")))) => [(DateMidnight. 2012 3 1) (DateMidnight. 2013 3 1)]
+    (take 2 (first (parse-reminder-dates "On 3/1 & on 9/1 ")))) => [(DateMidnight. 2012 3 1) (DateMidnight. 2013 3 1)]
 
   (do-at (DateMidnight. 2011 6 1)
-    (take 2 (second (parse-reminder-dates "On 3/1 & on 9/1")))) => [(DateMidnight. 2011 9 1) (DateMidnight. 2012 9 1)])
+    (take 2 (second (parse-reminder-dates "On 3/1 & on 9/1 ")))) => [(DateMidnight. 2011 9 1) (DateMidnight. 2012 9 1)])
 
 (fact "un-parsable strings cause a exception to be thrown"
-  (parse-reminder-dates "@#$$%") => (throws slingshot.Stone))
+  (try+
+    (parse-reminder-dates "@#$$%")
+    (catch CannotParseRemindersStone s (:message s))) => "cannot parse: @#$$%")
 
 (fact "parses reminders from line"
   (parse-reminder "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
@@ -125,3 +130,8 @@
   (parse-reminder ...line...) => nil
   (provided
     (reminder-line? ...line...) => false))
+
+(fact "regression test Oct 18, 2011 - program hanging when trying to parse the below ill-formatted line in a reminders.txt"
+  (try+
+    (parse-reminder "On 11/6/11 \"msg\" notify 8 days in advance")
+    (catch CannotParseRemindersStone s (:message s))) => "cannot parse: On 11/6/11 ")

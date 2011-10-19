@@ -1,7 +1,7 @@
 (ns fact.core-facts
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
-        [core :only (run-reminders load-due-reminders email-reminders-to)]
-        [utility :only (valid-config?)]
+        [core :only (run-reminders reminder-file load-due-reminders email-reminders-to)]
+        [utility :only (valid-config? fact-resource)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
                       disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [fs :only (exists?)]
@@ -65,3 +65,11 @@
 ;    (email-reminders-to anything) => anything :times 0
 ;    (load-due-reminders anything) => (throws CannotParseRemindersStone)
 ;    (disperse-parse-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1))
+
+(fact "regression test Oct 18, 2011 - program hanging when trying to parse the below ill-formatted line in a reminders.txt -
+       should email out reminder emails in cases of badly formatted reminders.txt"
+  (run-reminders [...recipientA... ...recipientB...]) => nil
+  (provided
+    (reminder-file) => (fact-resource "bad-day-and-month-format-reminders.txt")
+    (disperse-parse-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1
+    (send-reminder-email anything anything) => nil :times 0))

@@ -13,8 +13,11 @@
 (defn load-due-reminders [file]
   (->> file read-lines (keep parse-reminder) (filter due?)))
 
+(defn reminder-file []
+  (resource "reminders.txt"))
+
 (defn email-reminders-to [recipients]
-  (let [due-reminders (load-due-reminders (resource "reminders.txt"))]
+  (let [due-reminders (load-due-reminders (reminder-file))]
     (when (> (count due-reminders) (num-reminders-sent-today))
       (do
         (doseq [r recipients]
