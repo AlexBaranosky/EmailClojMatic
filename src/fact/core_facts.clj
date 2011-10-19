@@ -1,6 +1,7 @@
 (ns fact.core-facts
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
-        [core :only (run-reminders reminder-file load-due-reminders email-reminders-to)]
+        [core :only (run-reminders email-reminders-to)]
+        [reminder :only (reminder-file load-due-reminders)]
         [utility :only (valid-config? fact-resource)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
                       disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]

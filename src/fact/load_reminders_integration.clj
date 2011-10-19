@@ -1,5 +1,5 @@
 (ns fact.load-reminders-integration
-  (:use [core :only (load-due-reminders)]
+  (:use [reminder :only (load-due-reminders)]
         [utility :only (resource only do-at)]
         midje.sweet)
   (:require [reminder :as so-can-use-Reminder-record])
