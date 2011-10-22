@@ -33,7 +33,7 @@
 
 (def days-in-advance-regex #"(?i)^\s*notify\s+(\d+)\s+days?\s+in\s+advance\s*$")
 
-(def ^{:private true} default-days-in-advance 3)
+(def ^{:private true} default-days-in-advance 1)
 
 (defn parse-days-in-advance [s]
   (cond

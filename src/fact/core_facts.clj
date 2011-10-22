@@ -2,13 +2,14 @@
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
         [core :only (run-reminders email-reminders-to)]
         [reminder :only (reminder-file load-due-reminders)]
-        [utility :only (valid-config? fact-resource)]
+        [utility :only (valid-config? fact-resource do-at)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
                       disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [fs :only (exists?)]
         midje.sweet)
   (:require [reminder :as so-can-use-Reminder-record])
-  (:import [reminder Reminder]))
+  (:import [reminder Reminder]
+           [org.joda.time DateMidnight]))
 
 (against-background [(valid-history?) => true]
 
@@ -74,3 +75,12 @@
     (reminder-file) => (fact-resource "bad-day-and-month-format-reminders.txt")
     (disperse-parse-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1
     (send-reminder-email anything anything) => nil :times 0))
+
+
+(fact "if today is wendesday, and reminders are sent every wednesday, emails should be sent out today"
+  (do-at (DateMidnight. 2011 10 19 ) ;; a Wednesday
+    (run-reminders [...recipient...])) => nil
+  (provided
+    (reminder-file) => (fact-resource "remind-every-wednesday.txt")
+    (num-reminders-sent-today) => 0
+    (send-reminder-email anything anything) => nil :times 1))

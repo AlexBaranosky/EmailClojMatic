@@ -39,8 +39,8 @@
 
      ?string                            ?days-in-advance
      "   notify 14 days in advance   "  14
-     ""                                 3
-     nil                                3
+     ""                                 1
+     nil                                1
      "abcdefg"                         (throws slingshot.Stone))
 
 (fact "day-of-week regex works"
@@ -122,9 +122,9 @@
   (parse-reminder "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
      => (Reminder. "message" [(DateMidnight. 2000 12 25)] 5))
 
-(fact "defaults to notifying 3 days in advance if not specified"
+(fact "defaults to notifying 1 days in advance if not specified"
   (parse-reminder "on 12/25/2000 \"message\"")
-     => (Reminder. "message" [(DateMidnight. 2000 12 25)] 3))
+     => (Reminder. "message" [(DateMidnight. 2000 12 25)] 1))
 
 (fact "if line isn't a reminder line, returns nil"
   (parse-reminder ...line...) => nil

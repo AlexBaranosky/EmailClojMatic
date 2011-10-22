@@ -16,7 +16,7 @@
 (defn due? [reminder]
   (if-let [next (first-not-in-past (:dates reminder))]
     (let [start-reminding-on (.minusDays next (:days-in-advance reminder))]
-      (.isBeforeNow start-reminding-on))))
+      (not (.isAfterNow start-reminding-on)))))
 
 (defn load-due-reminders [file]
   (->> file read-lines (keep parse-reminder) (filter due?)))
