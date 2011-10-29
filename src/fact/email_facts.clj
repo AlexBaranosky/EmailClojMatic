@@ -4,10 +4,10 @@
                       disperse-reminders-file-missing-emails)]
         [utility :only (config)]
         midje.sweet)
-  (:require [reminder :as so-can-use-Reminder-record])
+  (:require [reminder-parsing :as so-can-use-Reminder-record])
   (:import [org.joda.time DateMidnight]
            [email EmailRecipient]
-           [reminder Reminder]))
+           [reminder-parsing Reminder]))
 
 (fact "formats email - one section for each reminder"
   (let [reminders [(Reminder. "message" [(DateMidnight. 2022 1 1)] 3)]]

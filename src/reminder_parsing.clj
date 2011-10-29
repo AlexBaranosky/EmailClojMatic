@@ -1,16 +1,30 @@
 (ns reminder-parsing
-  (:use [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
+  (:use [date-time :only (first-not-in-past for-display)]
+        [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
         [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword
-                        trim re-captures ordinalize only)]
+                        trim re-captures ordinalize only resource)]
         [clojure.contrib.str-utils :only (re-split)]
+        [clojure.contrib.duck-streams :only (read-lines)]
         [clojure.contrib.string :only (join)]
         slingshot.core)
-  (:require [reminder :as so-can-use-Reminder-record])
-  (:import [org.joda.time DateMidnight]
-           [reminder Reminder]))
+  (:import [org.joda.time DateMidnight]))
 
+(defrecord Reminder [message dates days-in-advance])
 (defrecord CannotParseRemindersStone [message])
+
+(defn to-string [reminder]
+  (if-let [date (first-not-in-past (:dates reminder))]
+    (format "%s %s\n%s" (.. date dayOfWeek getAsText) (for-display date) (:message reminder))
+    (format "%s\n%s"    "this reminder is not scheduled"                 (:message reminder))))
+
+(defn due? [reminder]
+  (if-let [next (first-not-in-past (:dates reminder))]
+    (let [start-reminding-on (.minusDays next (:days-in-advance reminder))]
+      (not (.isAfterNow start-reminding-on)))))
+
+(defn reminder-file []
+  (resource "reminders.txt"))
 
 (def comment-line? (comp not not (partial re-matches #"^\s*#.*$")))
 (def blank-line? (comp not not (partial re-matches #"^\s*$")))
@@ -105,3 +119,6 @@
       (Reminder. message-part
                  (parse-reminder-dates schedule-part)
                  (parse-days-in-advance days-in-advance-part)))))
+
+(defn load-due-reminders [file]
+  (->> file read-lines (keep parse-reminder) (filter due?)))

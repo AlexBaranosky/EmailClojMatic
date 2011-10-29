@@ -2,16 +2,46 @@
   (:use [reminder-parsing :only (parse-reminder-dates parse-reminder
                                  comment-line? blank-line? reminder-line? parse-days-in-advance
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
-                                 ordinal-regex month+day-regex day-of-week-regex date-regex)]
+                                 ordinal-regex month+day-regex day-of-week-regex date-regex
+                                 to-string due?)]
         [clojure.contrib.seq-utils :only (find-first)]
         [utility :only (do-at re-match-seq re-captures)]
         slingshot.core
         midje.sweet)
-  (:require [reminder :as so-can-use-Reminder-record])
   (:import [slingshot Stone]
            [reminder-parsing CannotParseRemindersStone]
            [org.joda.time DateMidnight]
-           [reminder Reminder]))
+           [reminder-parsing Reminder]))
+
+(fact "reminders format in a specific way - first date after now that is in notification range then next line is the message"
+  (to-string (Reminder. "message" [[(DateMidnight. 2011 1 18) (DateMidnight. 2013 1 19)]] 3)) => "Saturday 2013/1/19\nmessage"
+  (to-string (Reminder. "message" [] 3)) => "this reminder is not scheduled\nmessage")
+
+(tabular
+  (fact "a reminder is due if the next date is within range to be notified"
+    (do-at (DateMidnight. 2011 6 24)
+      (due? (Reminder. "message" [(DateMidnight. 2011 6 ?day)] 3))) => ?is-due)
+
+  ?day ?is-due
+  23   falsey
+  24   truthy
+  25   truthy
+  26   truthy
+  27   truthy
+  28   falsey)
+
+(fact "a reminder is not due if it has no dates"
+  (due? (Reminder. "message" [] 3)) => falsey)
+
+(tabular
+  (fact "when: reminding 0 days in advance, then: a reminder is only due on its 'date'"
+    (do-at (DateMidnight. 2000 1 2)
+      (due? (Reminder. "msg" [?date] 0))) => ?due)
+
+  :where
+  ?date                        ?due
+  (DateMidnight. 2000 1 1)     falsey
+  (DateMidnight. 2000 1 2)     truthy      )
 
 (fact "lines with '#' as the first non-whitespace char are comment lines"
   (comment-line? "    # asdf") => truthy
