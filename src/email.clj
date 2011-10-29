@@ -6,6 +6,9 @@
 
 (defrecord EmailRecipient [name email-address])
 
+(defn ->EmailRecipient [name email-address]
+  (EmailRecipient. name email-address))
+
 (defn format-reminder-email [reminders {:keys [name email-address]}]
   (let [from "\"EmailOMatic Reminder Service\""
         header (format "From: %s\nTo: %s <%s>\nSubject: " from name email-address)

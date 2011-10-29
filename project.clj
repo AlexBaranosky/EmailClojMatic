@@ -1,5 +1,5 @@
-(defproject emailclojmatic "1.0.0-SNAPSHOT"
-  :description "Clojure implimentation of the EmailOMatic"
+(defproject emailclojmatic "0.9.0-alpha"
+  :description "Periodic email reminders"
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.clojure/clojure-contrib "1.2.0"]
                  [joda-time "2.0"]
