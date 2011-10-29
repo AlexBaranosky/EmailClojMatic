@@ -1,7 +1,8 @@
 (ns utility
-  (:use [clojure.contrib.string :only (replace-str)])
+  (:use [clojure.java.io :only (reader)])
+  (:require [clojure.string :as str])
   (:import [org.joda.time DateTimeUtils]
-           [java.io File IOException]))
+           [java.io File IOException BufferedReader]))
 
 (defn parse-int [s] (Integer/parseInt s))
 
@@ -28,7 +29,7 @@
 (def fact-resource resource)
 
 (defn lowercase-keyword [s]
-  (keyword (.toLowerCase (replace-str " " "-" s))))
+  (keyword (.toLowerCase (str/replace s " " "-"))))
 
 (def third (comp first rest rest))
 (def fourth (comp first rest rest rest))
@@ -88,3 +89,14 @@
   "like clojure.core.do except evalautes the expression at the given time"
   `(do-at* ~date-time
     (fn [] ~@body)))
+
+(defn read-lines
+  "Like clojure.core/line-seq but opens f with reader.  Automatically
+  closes the reader AFTER YOU CONSUME THE ENTIRE SEQUENCE."
+  [f]
+  (let [read-line (fn this [^BufferedReader rdr]
+                    (lazy-seq
+                     (if-let [line (.readLine rdr)]
+                       (cons line (this rdr))
+                       (.close rdr))))]
+    (read-line (reader f))))

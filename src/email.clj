@@ -1,7 +1,7 @@
 (ns email
   (:use [reminder-parsing :only (to-string)]
          [utility :only (config)]
-         [clojure.contrib.string :only (join)])
+         [clojure.string :only (join)])
   (:import [org.apache.commons.mail SimpleEmail]))
 
 (defrecord EmailRecipient [name email-address])

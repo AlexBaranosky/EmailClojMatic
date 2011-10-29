@@ -3,10 +3,8 @@
         [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
         [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword
-                        trim re-captures ordinalize only resource)]
-        [clojure.contrib.str-utils :only (re-split)]
-        [clojure.contrib.duck-streams :only (read-lines)]
-        [clojure.contrib.string :only (join)]
+                        trim re-captures ordinalize only resource read-lines)]
+        [clojure.string :only (join split)]
         slingshot.core)
   (:import [org.joda.time DateMidnight]))
 
@@ -115,7 +113,7 @@
 
 (defn parse-reminder [line]
   (when (reminder-line? line)
-    (let [[schedule-part message-part days-in-advance-part] (->> line trim (re-split #"\""))]
+    (let [[schedule-part message-part days-in-advance-part] (-> line trim (split #"\""))]
       (Reminder. message-part
                  (parse-reminder-dates schedule-part)
                  (parse-days-in-advance days-in-advance-part)))))
