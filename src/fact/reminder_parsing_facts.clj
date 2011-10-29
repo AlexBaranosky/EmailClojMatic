@@ -4,7 +4,6 @@
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
                                  ordinal-regex month+day-regex day-of-week-regex date-regex
                                  to-string due?)]
-        [clojure.contrib.seq-utils :only (find-first)]
         [utility :only (do-at re-match-seq re-captures)]
         slingshot.core
         midje.sweet)
