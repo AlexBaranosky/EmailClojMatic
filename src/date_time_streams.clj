@@ -5,7 +5,7 @@
    (iterate #(.plusDays % 1) (DateMidnight.)))
 
 (defn- next-day-of-week-in-future [day-num]
-  (first (filter  #(= day-num (.. % dayOfWeek get)) (today+all-future-dates))))
+  (first (filter #(= day-num (.. % dayOfWeek get)) (today+all-future-dates))))
 
 (defn day-of-week-stream [day-num]
   (iterate #(.plusDays % 7) (next-day-of-week-in-future day-num)))

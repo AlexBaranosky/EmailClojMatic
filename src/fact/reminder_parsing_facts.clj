@@ -13,7 +13,7 @@
            [reminder-parsing Reminder]))
 
 (fact "reminders format in a specific way - first date after now that is in notification range then next line is the message"
-  (to-string (Reminder. "message" [[(DateMidnight. 2011 1 18) (DateMidnight. 2013 1 19)]] 3)) => "Saturday 2013/1/19\nmessage"
+  (to-string (Reminder. "message" [(DateMidnight. 2011 1 18) (DateMidnight. 2013 1 19)] 3)) => "Saturday 2013/1/19\nmessage"
   (to-string (Reminder. "message" [] 3)) => "this reminder is not scheduled\nmessage")
 
 (tabular
