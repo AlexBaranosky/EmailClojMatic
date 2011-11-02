@@ -95,14 +95,11 @@
 
 (fact "parses day-of-week-based strings"
   (do-at (DateMidnight. 2011 6 11)
-    (first (first (parse-reminder-dates "Wednesdays ")))) => (DateMidnight. 2011 6 15))
+    (first (parse-reminder-dates "Wednesdays "))) => (DateMidnight. 2011 6 15))
 
 (fact "can have more than one day-of-week to remind on"
   (do-at (DateMidnight. 2011 6 11)
-    (first (first (parse-reminder-dates "Wednesdays & Fridays ")))) => (DateMidnight. 2011 6 15)
-
-  (do-at (DateMidnight. 2011 6 11)
-    (first (second (parse-reminder-dates "Wednesdays & Fridays ")))) => (DateMidnight. 2011 6 17))
+    (take 2 (parse-reminder-dates "Wednesdays & Fridays "))) => [(DateMidnight. 2011 6 15) (DateMidnight. 2011 6 17)] )
 
 (fact "parses day-of-month-based strings"
   (do-at (DateMidnight. 2011 6 11)

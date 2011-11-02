@@ -1,7 +1,7 @@
 (ns fact.utility_facts
   (:use [utility :only (parse-int trim but-last re-match-seq re-captures only lowercase-keyword
                         third fourth fifth ordinal-to-int ordinalize seq-of-all-seqs? do-at* do-at
-                        config-file-name config valid-config?)]
+                        config-file-name config valid-config? interleave++)]
          midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
@@ -194,3 +194,12 @@
   {:gmail-address "bob@corp.com" :password "abc123" :extra "field"} falsey
   {:gm41l-4ddr3ss "bob@corp.com" :pAssw0rd "abc123" }               falsey
    nil                                                              falsey)
+
+(tabular
+  (fact ""
+    (apply interleave++ ?collections) => ?interleaved)
+
+  ?collections         ?interleaved
+  []                   []
+  [[1 2 3]]            [1 2 3]
+  [[1 2 3] [44 55 66]] [1 44 2 55 3 66])

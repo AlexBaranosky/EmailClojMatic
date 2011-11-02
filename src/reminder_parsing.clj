@@ -3,7 +3,7 @@
         [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
         [utility :only (re-captures re-match-seq parse-int ordinal-to-int lowercase-keyword
-                        trim re-captures ordinalize only resource read-lines)]
+                        trim re-captures ordinalize only resource read-lines interleave++)]
         [clojure.string :only (join split)]
         slingshot.core)
   (:import [org.joda.time DateMidnight]))
@@ -97,7 +97,8 @@
 (defmethod parse-reminder-dates :day-of-week [s]
   (->> s
        (re-match-seq day-of-week-regex)
-       (map (comp day-of-week-stream day-nums lowercase-keyword))))
+       (map (comp day-of-week-stream day-nums lowercase-keyword))
+       (apply interleave++)))
 
 (defmethod parse-reminder-dates :month+day [s]
   (letfn [(parse-month+day-date [string]
