@@ -100,3 +100,14 @@
                        (cons line (this rdr))
                        (.close rdr))))]
     (read-line (reader f))))
+
+(defn interleave++ [& colls]
+  "like interleave from core, but does something sensible with 0 or 1 collection"
+  (cond (empty? colls)
+        []
+
+        (= 1 (count colls))
+        (first colls)
+
+        :else
+        (apply interleave colls)))

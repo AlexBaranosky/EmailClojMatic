@@ -95,21 +95,15 @@
 
 (fact "parses day-of-week-based strings"
   (do-at (DateMidnight. 2011 6 11)
-    (first (first (parse-reminder-dates "Wednesdays ")))) => (DateMidnight. 2011 6 15))
+    (take 2 (parse-reminder-dates "Wednesdays "))) => [(DateMidnight. 2011 6 15) (DateMidnight. 2011 6 22)])
 
 (fact "can have more than one day-of-week to remind on"
   (do-at (DateMidnight. 2011 6 11)
-    (first (first (parse-reminder-dates "Wednesdays & Fridays ")))) => (DateMidnight. 2011 6 15)
-
-  (do-at (DateMidnight. 2011 6 11)
-    (first (second (parse-reminder-dates "Wednesdays & Fridays ")))) => (DateMidnight. 2011 6 17))
+    (take 2 (parse-reminder-dates "Wednesdays & Fridays "))) => [(DateMidnight. 2011 6 15) (DateMidnight. 2011 6 17)] )
 
 (fact "parses day-of-month-based strings"
   (do-at (DateMidnight. 2011 6 11)
-    (first (first (parse-reminder-dates "Every 21st and 25th of the month")))) => (DateMidnight. 2011 6 21)
-
-  (do-at (DateMidnight. 2011 6 11)
-    (first (second (parse-reminder-dates "Every 21st and 25th of the month")))) => (DateMidnight. 2011 6 25))
+    (take 2 (parse-reminder-dates "Every 21st and 25th of the month"))) => [(DateMidnight. 2011 6 21) (DateMidnight. 2011 6 25)] )
 
 (fact "parses date-based string with one date into a vector with one date"
   (parse-reminder-dates " ON 12/25/2000 ") => [(DateMidnight. 2000 12 25)])
@@ -124,23 +118,20 @@
   (fact "parses everyday-based reminder lines"
     (do-at (DateMidnight. 2011 6 11)
       (take 4 (parse-reminder-dates "  every day   "))) => [(DateMidnight. 2011 6 11) (DateMidnight. 2011 6 12)
-                                                      (DateMidnight. 2011 6 13) (DateMidnight. 2011 6 14)]))
+                                                            (DateMidnight. 2011 6 13) (DateMidnight. 2011 6 14)]))
 
 (fact "parses every X weeks-based reminder lines"
-  (first (parse-reminder-dates "Every 2nd Sunday, starting 6/12/2011" )) => (DateMidnight. 2011 6 12)
-  (second (parse-reminder-dates "every   2nd   sunday, Starting   6/12/2011" )) => (DateMidnight. 2011 6 26))
+  (take 2 (parse-reminder-dates "Every 2nd Sunday, starting 6/12/2011" )) => [(DateMidnight. 2011 6 12) (DateMidnight. 2011 6 26)] )
 
 (fact "parses every X days-based reminder lines"
-  (take 3 (parse-reminder-dates "Every 4th day, starting 6/8/2011" ))
-    => [(DateMidnight. 2011 6 8) (DateMidnight. 2011 6 12) (DateMidnight. 2011 6 16)])
-;
+  (take 3 (parse-reminder-dates "Every 4th day, starting 6/8/2011" )) => [(DateMidnight. 2011 6 8)
+                                                                          (DateMidnight. 2011 6 12)
+                                                                          (DateMidnight. 2011 6 16)])
 
 (fact "parses every month/day of the year"
   (do-at (DateMidnight. 2011 6 1)
-    (take 2 (first (parse-reminder-dates "On 3/1 & on 9/1 ")))) => [(DateMidnight. 2012 3 1) (DateMidnight. 2013 3 1)]
-
-  (do-at (DateMidnight. 2011 6 1)
-    (take 2 (second (parse-reminder-dates "On 3/1 & on 9/1 ")))) => [(DateMidnight. 2011 9 1) (DateMidnight. 2012 9 1)])
+    (take 4 (parse-reminder-dates "On 3/1 & on 9/1 "))) => [(DateMidnight. 2012 3 1) (DateMidnight. 2011 9 1)
+                                                            (DateMidnight. 2013 3 1) (DateMidnight. 2012 9 1)] )
 
 (fact "un-parsable strings cause a exception to be thrown"
   (try+
