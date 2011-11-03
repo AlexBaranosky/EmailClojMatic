@@ -83,13 +83,13 @@
                        (.close rdr))))]
     (read-line (reader f))))
 
-(defn interleave++ [& colls]
+(defn interleave++
   "like interleave from core, but does something sensible with 0 or 1 collection"
-  (cond (empty? colls)
-        []
+  ([]
+    (lazy-seq []))
 
-        (empty? (next colls))
-        (first colls)
+  ([coll]
+    (lazy-seq coll))
 
-        :else
-        (apply interleave colls)))
+  ([coll1 coll2 & colls]
+    (apply (partial interleave coll1 coll2) colls)))
