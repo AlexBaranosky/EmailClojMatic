@@ -88,7 +88,7 @@
   (cond (empty? colls)
         []
 
-        (= 1 (count colls))
+        (empty? (next colls))
         (first colls)
 
         :else
