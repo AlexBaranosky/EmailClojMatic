@@ -11,16 +11,19 @@
 (defn email-reminders-to [recipients]
   (let [due-reminders (load-due-reminders (reminder-file))]
     (when (> (count due-reminders) (num-reminders-sent-today))
-      (do
-        (doseq [r recipients]
-          (send-reminder-email due-reminders r))
-        (record-num-reminders-sent-today (count due-reminders))))))
+      (doseq [r recipients]
+        (send-reminder-email due-reminders r))
+      (record-num-reminders-sent-today (count due-reminders)))))
 
 (defn run-reminders [recipients]
-  (when (valid-config?)
+  (if (valid-config?)
     (cond
-      (not (exists? (resource "reminders.txt"))) (disperse-reminders-file-missing-emails recipients)
-      (not (valid-history?))                     (disperse-history-file-missing-emails recipients)
+      (not (exists? (resource "reminders.txt")))
+      (disperse-reminders-file-missing-emails recipients)
+
+      (not (valid-history?))
+      (disperse-history-file-missing-emails recipients)
+
       :else (try+
               (email-reminders-to recipients)
               (catch CannotParseRemindersStone s
