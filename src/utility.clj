@@ -52,7 +52,7 @@
 
 (defn config []
   (try
-    (-> (config-file-name) resource slurp (with-in-str (read)))
+    (-> (config-file-name) resource slurp read-string)
     (catch IOException e nil)))
 
 (defn valid-config? []

@@ -8,7 +8,7 @@
 
 (defn history []
   (try
-    (with-in-str (slurp (history-file)) (read))
+    (-> (history-file) slurp read-string)
     (catch IOException e nil)))
 
 (defn valid-history? []
