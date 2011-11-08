@@ -24,6 +24,5 @@
       0)))
 
 (defn record-num-reminders-sent-today [num-reminders]
-  (let [history (pr-str {:weekday-last-saved-on (today-num)
-                         :num-reminders-already-sent-today num-reminders})]
-    (spit (history-file) history)))
+  (spit (history-file)  { :weekday-last-saved-on (today-num)
+                          :num-reminders-already-sent-today num-reminders}))
