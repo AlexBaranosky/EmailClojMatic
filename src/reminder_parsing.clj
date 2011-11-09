@@ -2,7 +2,7 @@
   (:use [date-time :only (first-not-in-past for-display)]
         [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
-        [utility :only (re-captures re-match-seq parse-int lowercase-keyword re-captures resource read-lines)]
+        [utility :only (re-captures re-match-seq lowercase-keyword re-captures resource read-lines)]
         [utilize.seq :only (interleave++ only)]
         [utilize.string :only (ordinal-to-int ordinalize)]
         [clojure.string :only (join split)]
@@ -57,7 +57,7 @@
     (throw+ (CannotParseRemindersStone. (str "could not parse 'days in advance': " s)))
 
     :else
-    (->> s (re-captures days-in-advance-regex) only parse-int)))
+    (->> s (re-captures days-in-advance-regex) only (#(Integer/parseInt %)))))
 
 (defn kind-of-schedule [s]
   (cond (re-find day-of-month-identifier-regex s) :day-of-month
@@ -91,7 +91,7 @@
 
 (defmethod parse-reminder-dates :date [s]
   (letfn [(parse-date [string]
-            (let [[month day year] (->> string (re-captures date-regex) (map parse-int))]
+            (let [[month day year] (->> string (re-captures date-regex) (map #(Integer/parseInt %)))]
                (DateMidnight. year month day)))]
           (->> (.split s "&") (map parse-date) sort)))
 
@@ -103,7 +103,7 @@
 
 (defmethod parse-reminder-dates :month+day [s]
   (letfn [(parse-month+day-date [string]
-            (let [[month day] (->> string (re-captures month+day-regex) (map parse-int))]
+            (let [[month day] (->> string (re-captures month+day-regex) (map #(Integer/parseInt %)))]
               (month+day-stream month day)))]
     (apply interleave++ (map parse-month+day-date (.split s "&")))))
 

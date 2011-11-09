@@ -1,11 +1,8 @@
 (ns fact.utility_facts
-  (:use [utility :only (parse-int re-match-seq re-captures lowercase-keyword
+  (:use [utility :only (re-match-seq re-captures lowercase-keyword
                         third fourth fifth config-file-name config valid-config? )]
          midje.sweet)
   (:import [org.joda.time DateMidnight]))
-
-(fact "parses an int"
-   (parse-int "17") => 17)
 
 (fact "can get a seq of only the matches - not the captures"
   (re-match-seq #"(\d+)" "abc 123 xyz 789 rad") => ["123" "789"])

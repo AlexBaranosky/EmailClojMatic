@@ -3,8 +3,6 @@
   (:require [clojure.string :as str])
   (:import [java.io File IOException BufferedReader]))
 
-(defn parse-int [s] (Integer/parseInt s))
-
 (def re-captures (comp rest re-matches))
 
 (defn re-match-seq [re s]
