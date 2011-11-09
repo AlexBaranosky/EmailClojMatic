@@ -1,8 +1,7 @@
 (ns utility
   (:use [clojure.java.io :only (reader)])
   (:require [clojure.string :as str])
-  (:import [org.joda.time DateTimeUtils]
-           [java.io File IOException BufferedReader]))
+  (:import [java.io File IOException BufferedReader]))
 
 (defn parse-int [s] (Integer/parseInt s))
 
@@ -12,16 +11,6 @@
   (map first (re-seq re s)))
 
 (defn trim [s] (.trim s))
-
-(defn only [coll]
-  (if (= 1 (count coll))
-    (first coll)
-    (throw (RuntimeException. (format "should have precisely one item, but had: %s" (count coll))))))
-
-(defn but-last [s n]
-   (if (> n (.length s))
-       ""
-      (.substring s 0 (- (.length s) n))))
 
 (defn resource [file]
   (str (File. (File. (System/getProperty "user.dir") "resources") file)))
@@ -34,19 +23,6 @@
 (def third (comp first rest rest))
 (def fourth (comp first rest rest rest))
 (def fifth (comp first rest rest rest rest))
-
-(defn ordinal-to-int [ord]
-  (let [digits (but-last ord 2)]
-    (Integer/parseInt digits)))
-
-(defn ordinalize [int]
-  (if (contains? #{11 12 13} (mod int 100))
-    (str int "th")
-    (case (mod int 10)
-      1 (str int "st")
-      2 (str int "nd")
-      3 (str int "rd")
-      (str int "th"))))
 
 (defn config-file-name [] "config.cljdata")
 
@@ -61,17 +37,6 @@
          (contains? cfg :gmail-address)
          (contains? cfg :password))))
 
-(defn do-at* [date-time f]
-  (DateTimeUtils/setCurrentMillisFixed (.getMillis date-time))
-  (try
-    (f)
-    (finally (DateTimeUtils/setCurrentMillisSystem))))
-
-(defmacro do-at [date-time & body]
-  "like clojure.core.do except evalautes the expression at the given time"
-  `(do-at* ~date-time
-    (fn [] ~@body)))
-
 (defn read-lines
   "Like clojure.core/line-seq but opens f with reader.  Automatically
   closes the reader AFTER YOU CONSUME THE ENTIRE SEQUENCE."
@@ -82,14 +47,3 @@
                        (cons line (this rdr))
                        (.close rdr))))]
     (read-line (reader f))))
-
-(defn interleave++
-  "like interleave from core, but does something sensible with 0 or 1 collection"
-  ([]
-    (lazy-seq []))
-
-  ([coll]
-    (lazy-seq coll))
-
-  ([coll1 coll2 & colls]
-    (apply (partial interleave coll1 coll2) colls)))

@@ -1,6 +1,8 @@
 (ns fact.load-reminders-integration
   (:use [reminder-parsing :only (load-due-reminders)]
-        [utility :only (resource only do-at)]
+        [utility :only (resource)]
+        [utilize.seq :only (only)]
+        [utilize.testutils :only (do-at)]
         midje.sweet)
   (:require [reminder-parsing :as so-can-use-Reminder-record])
   (:import [org.joda.time DateMidnight]

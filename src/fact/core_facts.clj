@@ -2,7 +2,8 @@
   (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
         [core :only (run-reminders email-reminders-to)]
         [reminder-parsing :only (reminder-file load-due-reminders)]
-        [utility :only (valid-config? fact-resource do-at)]
+        [utility :only (valid-config? fact-resource)]
+        [utilize.testutils :only (do-at)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
                       disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [fs :only (exists?)]

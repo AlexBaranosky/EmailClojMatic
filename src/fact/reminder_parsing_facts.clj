@@ -4,7 +4,8 @@
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
                                  ordinal-regex month+day-regex day-of-week-regex date-regex
                                  to-string due?)]
-        [utility :only (do-at re-match-seq re-captures)]
+        [utility :only (re-match-seq re-captures)]
+        [utilize.testutils :only (do-at)]
         slingshot.core
         midje.sweet)
   (:import [slingshot Stone]
