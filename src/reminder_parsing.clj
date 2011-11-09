@@ -2,9 +2,10 @@
   (:use [date-time :only (first-not-in-past for-display)]
         [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
-        [utility :only (re-captures re-match-seq lowercase-keyword re-captures resource read-lines)]
+        [utility :only (resource read-lines)]
         [utilize.seq :only (interleave++ only)]
-        [utilize.string :only (ordinal-to-int ordinalize)]
+        [utilize.regex :only (re-captures re-match-seq)]
+        [utilize.string :only (ordinal-to-int ordinalize lowercase-keyword)]
         [clojure.string :only (join split)]
         slingshot.core)
   (:import [org.joda.time DateMidnight]))

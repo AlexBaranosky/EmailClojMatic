@@ -1,28 +1,6 @@
 (ns fact.utility_facts
-  (:use [utility :only (re-match-seq re-captures lowercase-keyword
-                        third fourth fifth config-file-name config valid-config? )]
-         midje.sweet)
-  (:import [org.joda.time DateMidnight]))
-
-(fact "can get a seq of only the matches - not the captures"
-  (re-match-seq #"(\d+)" "abc 123 xyz 789 rad") => ["123" "789"])
-
-(fact "gives the captures from a given regex"
-   (re-captures #"(\d) (\d) (\d)" "1 2 4") => ["1" "2" "4"]
-   (re-captures #"(\d)" "a b c") => [])
-
-(fact "can generate lower-case keywords from a string"
-  (lowercase-keyword "BobCratchet") => :bobcratchet
-  (lowercase-keyword "Bob Cratchet") => :bob-cratchet)
-
-(tabular
-  (fact "extra english ways of getting nth element of a seq"
-    (?nth [1 2 3 4 5 6]) => ?element)
-
-  ?nth    ?element
-  third   3
-  fourth  4
-  fifth   5)
+  (:use [utility :only (config-file-name config valid-config?)]
+         midje.sweet))
 
 (fact "if config file cannot be opened returns nil"
   (config) => nil
