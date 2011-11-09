@@ -10,8 +10,6 @@
 (defn re-match-seq [re s]
   (map first (re-seq re s)))
 
-(defn trim [s] (.trim s))
-
 (defn resource [file]
   (str (File. (File. (System/getProperty "user.dir") "resources") file)))
 

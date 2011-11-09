@@ -2,7 +2,7 @@
   (:use [date-time :only (first-not-in-past for-display)]
         [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
-        [utility :only (re-captures re-match-seq parse-int lowercase-keyword trim re-captures resource read-lines)]
+        [utility :only (re-captures re-match-seq parse-int lowercase-keyword re-captures resource read-lines)]
         [utilize.seq :only (interleave++ only)]
         [utilize.string :only (ordinal-to-int ordinalize)]
         [clojure.string :only (join split)]
@@ -115,7 +115,8 @@
 
 (defn parse-reminder [line]
   (when (reminder-line? line)
-    (let [[schedule-part message-part days-in-advance-part] (-> line trim (split #"\""))]
+;    (let [[schedule-part message-part days-in-advance-part] (split (.trim line) #"\"")]
+    (let [[schedule-part message-part days-in-advance-part] (split line #"\"")]
       (Reminder. message-part
                  (parse-reminder-dates schedule-part)
                  (parse-days-in-advance days-in-advance-part)))))
