@@ -26,7 +26,4 @@
     (catch IOException e nil)))
 
 (defn valid-config? []
-  (let [cfg (config)]
-    (and (= 2  (count cfg))
-         (contains? cfg :gmail-address)
-         (contains? cfg :password))))
+  (= (-> (config) keys set) #{:gmail-address :password}))
