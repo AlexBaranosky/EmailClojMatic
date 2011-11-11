@@ -18,6 +18,12 @@
 
 (def fact-resource resource)
 
+(defn valid-email? [s]
+  (re-matches #"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" s))
+
+(defn valid-gmail? [s]
+  (and (valid-email? s) (.endsWith s "@gmail.com")))
+
 (defn config-file-name [] "config.cljdata")
 
 (defn config []
@@ -26,4 +32,6 @@
     (catch IOException e nil)))
 
 (defn valid-config? []
-  (= (-> (config) keys set) #{:gmail-address :password}))
+  (let [cfg (config)]
+    (and (= (-> cfg keys set) #{:gmail-address :password})
+         (valid-gmail? (:gmail-address cfg)))))
