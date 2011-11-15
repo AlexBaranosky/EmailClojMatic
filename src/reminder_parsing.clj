@@ -1,6 +1,5 @@
 (ns reminder-parsing
-  (:use [date-time :only (first-not-in-past for-display)]
-        [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
+  (:use [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
         [utility :only (resource read-lines)]
         [utilize.seq :only (interleave++ only first-truthy-fn)]
@@ -12,11 +11,6 @@
 
 (defrecord Reminder [message dates days-in-advance])
 (defrecord CannotParseRemindersStone [message])
-
-(defn to-string [reminder]
-  (if-let [date (first-not-in-past (:dates reminder))]
-    (format "%s %s\n%s" (.. date dayOfWeek getAsText) (for-display date) (:message reminder))
-    (format "%s\n%s"    "this reminder is not scheduled"                 (:message reminder))))
 
 (defn due? [reminder]
   (if-let [next (first-not-in-past (:dates reminder))]

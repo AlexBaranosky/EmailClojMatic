@@ -24,6 +24,8 @@
 (defn valid-gmail? [s]
   (and (valid-email? s) (.endsWith s "@gmail.com")))
 
+;; TODO: move this stuff to a config namespace
+
 (defn config-file-name [] "config.cljdata")
 
 (defn config []

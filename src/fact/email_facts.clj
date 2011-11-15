@@ -1,12 +1,16 @@
 (ns fact.email-facts
   (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails
                       disperse-unknown-error-emails disperse-history-file-missing-emails
-                      disperse-reminders-file-missing-emails ->EmailRecipient)]
+                      disperse-reminders-file-missing-emails ->EmailRecipient to-string)]
         [utility :only (config)]
         midje.sweet)
   (:require [reminder-parsing :as so-can-use-Reminder-record])
   (:import [org.joda.time DateMidnight]
            [reminder-parsing Reminder]))
+
+(fact "reminders format in a specific way - first date after now that is in notification range then next line is the message"
+  (to-string (Reminder. "message" [(DateMidnight. 2011 1 18) (DateMidnight. 2013 1 19)] 3)) => "Saturday 2013/1/19\nmessage"
+  (to-string (Reminder. "message" [] 3)) => "this reminder is not scheduled\nmessage")
 
 (fact "formats email - one section for each reminder"
   (let [reminders [(Reminder. "message" [(DateMidnight. 2022 1 1)] 3)]]

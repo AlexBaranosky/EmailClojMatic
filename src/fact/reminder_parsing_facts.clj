@@ -2,8 +2,7 @@
   (:use [reminder-parsing :only (parse-reminder-dates parse-reminder
                                  comment-line? blank-line? reminder-line? parse-days-in-advance
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
-                                 ordinal-regex month+day-regex day-of-week-regex date-regex
-                                 to-string due?)]
+                                 ordinal-regex month+day-regex day-of-week-regex date-regex due?)]
         [utilize.regex :only (re-match-seq re-captures)]
         [utilize.testutils :only (do-at)]
         slingshot.core
@@ -12,10 +11,6 @@
            [reminder-parsing CannotParseRemindersStone]
            [org.joda.time DateMidnight]
            [reminder-parsing Reminder]))
-
-(fact "reminders format in a specific way - first date after now that is in notification range then next line is the message"
-  (to-string (Reminder. "message" [(DateMidnight. 2011 1 18) (DateMidnight. 2013 1 19)] 3)) => "Saturday 2013/1/19\nmessage"
-  (to-string (Reminder. "message" [] 3)) => "this reminder is not scheduled\nmessage")
 
 (tabular
   (fact "a reminder is due if the next date is within range to be notified"
