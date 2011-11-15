@@ -3,7 +3,7 @@
         [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
         [utility :only (resource read-lines)]
-        [utilize.seq :only (interleave++ only)]
+        [utilize.seq :only (interleave++ only first-truthy-fn)]
         [utilize.regex :only (re-captures re-match-seq)]
         [utilize.string :only (ordinal-to-int ordinalize lowercase-keyword)]
         [clojure.string :only (join split)]
@@ -26,12 +26,11 @@
 (defn reminder-file []
   (resource "reminders.txt"))
 
-(def comment-line? (comp not not (partial re-matches #"^\s*#.*$")))
-(def blank-line? (comp not not (partial re-matches #"^\s*$")))
+(def comment-line? (partial re-matches #"^\s*#.*$"))
+(def blank-line? (partial re-matches #"^\s*$"))
 
 (defn reminder-line? [s]
-  (and (not (comment-line? s))
-  (not (blank-line? s))))
+  (not (first-truthy-fn [comment-line? blank-line?] s)))
 
 (let [day-names ["Sunday" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday"]
       ordinals (map ordinalize (range 1 32))]
