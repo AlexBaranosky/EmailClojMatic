@@ -9,10 +9,8 @@
     (-> (config-file-name) resource slurp read-string)
     (catch IOException e nil)))
 
-(letfn [(valid-email? [s]
-          (re-matches #"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" s))
-        (valid-gmail? [s]
-          (and (valid-email? s) (.endsWith s "@gmail.com")))]
+(letfn [(valid-gmail? [s]
+          (re-matches #"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@gmail.com" s))]
 
   (defn valid-config? []
     (let [cfg (config)]
