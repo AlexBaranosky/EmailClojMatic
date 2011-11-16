@@ -7,12 +7,12 @@
 
 (defn day-of-week-stream [day-num]
   (letfn [(next-day-of-week-in-future [day-num]
-           (find-first #(= day-num (.. % dayOfWeek get)) (today+all-future-dates)))]
+           (find-first #(= day-num (.getDayOfWeek %)) (today+all-future-dates)))]
     (iterate #(.plusDays % 7) (next-day-of-week-in-future day-num))))
 
 (defn day-of-month-stream [day-of-month-num]
   (letfn [(next-day-of-month-in-future [day-of-month]
-           (find-first #(= day-of-month (.. % dayOfMonth get)) (today+all-future-dates)))]
+           (find-first #(= day-of-month (.getDayOfMonth %)) (today+all-future-dates)))]
     (iterate #(.plusMonths % 1) (next-day-of-month-in-future day-of-month-num))))
 
 (defn every-x-days-stream [start-date x-days]
@@ -20,8 +20,8 @@
 
 (defn month+day-stream [month day-of-month]
   (letfn [(next-date-in-future [month day-of-month]
-            (find-first #(and (= month (.. % monthOfYear get))
-                              (= day-of-month (.. % dayOfMonth get)))
+            (find-first #(and (= month (.getMonthOfYear %))
+                              (= day-of-month (.getDayOfMonth %)))
                         (today+all-future-dates)))]
     (iterate #(.plusYears % 1) (next-date-in-future month day-of-month))))
 

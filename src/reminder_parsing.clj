@@ -1,5 +1,6 @@
 (ns reminder-parsing
-  (:use [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
+  (:use [date-time :only (first-not-in-past)]
+        [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
                                   day-of-week-stream today+all-future-dates day-nums)]
         [utility :only (resource read-lines)]
         [utilize.seq :only (interleave++ only first-truthy-fn)]
@@ -109,7 +110,6 @@
 
 (defn parse-reminder [line]
   (when (reminder-line? line)
-;    (let [[schedule-part message-part days-in-advance-part] (split (.trim line) #"\"")]
     (let [[schedule-part message-part days-in-advance-part] (split line #"\"")]
       (Reminder. message-part
                  (parse-reminder-dates schedule-part)
