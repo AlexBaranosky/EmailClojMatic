@@ -1,5 +1,5 @@
 (ns email
-  (:use [utility :only (config)]
+  (:use [config :only (config)]
         [clojure.string :only (join)]
         [date-time :only (first-not-in-past for-display)])
   (:import [org.apache.commons.mail SimpleEmail]))

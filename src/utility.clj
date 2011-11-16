@@ -1,6 +1,6 @@
 (ns utility
   (:use [clojure.java.io :only (reader)])
-  (:import [java.io File IOException BufferedReader]))
+  (:import [java.io File BufferedReader]))
 
 (defn read-lines
   "Like clojure.core/line-seq but opens f with reader.  Automatically
@@ -17,23 +17,3 @@
   (str (File. (File. (System/getProperty "user.dir") "resources") file)))
 
 (def fact-resource resource)
-
-(defn valid-email? [s]
-  (re-matches #"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" s))
-
-(defn valid-gmail? [s]
-  (and (valid-email? s) (.endsWith s "@gmail.com")))
-
-;; TODO: move this stuff to a config namespace
-
-(defn config-file-name [] "config.cljdata")
-
-(defn config []
-  (try
-    (-> (config-file-name) resource slurp read-string)
-    (catch IOException e nil)))
-
-(defn valid-config? []
-  (let [cfg (config)]
-    (and (= (-> cfg keys set) #{:gmail-address :password})
-         (valid-gmail? (:gmail-address cfg)))))

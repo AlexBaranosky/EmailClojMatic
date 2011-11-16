@@ -1,5 +1,5 @@
-(ns fact.utility_facts
-  (:use [utility :only (config-file-name config valid-config?)]
+(ns fact.config-facts
+  (:use [config :only (config-file-name config valid-config?)]
          midje.sweet))
 
 (fact "if config file cannot be opened returns nil"

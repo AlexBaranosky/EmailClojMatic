@@ -2,7 +2,7 @@
   (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails
                       disperse-unknown-error-emails disperse-history-file-missing-emails
                       disperse-reminders-file-missing-emails ->EmailRecipient to-string)]
-        [utility :only (config)]
+        [config :only (config)]
         midje.sweet)
   (:require [reminder-parsing :as so-can-use-Reminder-record])
   (:import [org.joda.time DateMidnight]

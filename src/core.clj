@@ -2,7 +2,8 @@
   (:use [reminder-parsing :only (load-due-reminders reminder-file)]
         [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
                       disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
-        [utility :only (resource config valid-config?)]
+        [utility :only (resource)]
+        [config :only ( config valid-config?)]
         [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
         [fs :only (exists?)]
         slingshot.core)
