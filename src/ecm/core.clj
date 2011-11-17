@@ -1,10 +1,10 @@
-(ns core
-  (:use [reminder-parsing :only (load-due-reminders reminder-file)]
-        [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
+(ns ecm.core
+  (:use [ecm.reminder-parsing :only (load-due-reminders reminder-file)]
+        [ecm.email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
                       disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
-        [utility :only (resource)]
-        [config :only ( config valid-config?)]
-        [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
+        [ecm.utility :only (resource)]
+        [ecm.config :only ( config valid-config?)]
+        [ecm.reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
         [fs :only (exists?)]
         [slingshot.slingshot :only (try+)]))
 
@@ -26,7 +26,7 @@
 
       :else (try+
               (email-reminders-to recipients)
-              (catch [:type :reminder-parsing/cannot-parse-reminder] {:keys [text]}
+              (catch [:type :ecm.reminder-parsing/cannot-parse-reminder] {:keys [text]}
                 (disperse-parse-error-emails recipients text))
               (catch Throwable e
                 (disperse-unknown-error-emails recipients (.getMessage e)))))))

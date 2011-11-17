@@ -1,6 +1,6 @@
-(ns fact.email-cloj-matic-facts
-  (:use [email-cloj-matic :only (-main)]
-        [core :only (run-reminders)]
+(ns ecm.fact.email-cloj-matic-facts
+  (:use [ecm.email-cloj-matic :only (-main)]
+        [ecm.core :only (run-reminders)]
         midje.sweet))
 
 (fact "recipient info is supplied via the command line"

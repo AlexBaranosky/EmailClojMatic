@@ -1,4 +1,4 @@
-(defproject emailclojmatic "0.9.0-alpha"
+(defproject ecm "0.9.0-alpha"
   :description "Periodic email reminders"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [joda-time "2.0"]

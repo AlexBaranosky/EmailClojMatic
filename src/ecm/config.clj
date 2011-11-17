@@ -1,5 +1,5 @@
-(ns config
-  (:use [utility :only (resource)])
+(ns ecm.config
+  (:use [ecm.utility :only (resource)])
   (:import [java.io IOException]))
 
 (defn config-file-name [] "config.cljdata")

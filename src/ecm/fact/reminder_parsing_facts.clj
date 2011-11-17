@@ -1,5 +1,5 @@
-(ns fact.reminder-parsing-facts
-  (:use [reminder-parsing :only (parse-reminder-dates parse-reminder
+(ns ecm.fact.reminder-parsing-facts
+  (:use [ecm.reminder-parsing :only (parse-reminder-dates parse-reminder
                                  comment-line? blank-line? reminder-line? parse-days-in-advance
                                  day-of-month-identifier-regex every-x-days-regex every-x-weeks-regex
                                  ordinal-regex month+day-regex day-of-week-regex date-regex due?)]
@@ -131,7 +131,7 @@
 (fact "un-parsable strings cause a exception to be thrown"
   (try+
     (parse-reminder-dates "@#$$%")
-    (catch [:type :reminder-parsing/cannot-parse-reminder] {:keys [text]} text)) => "cannot parse: @#$$%")
+    (catch [:type :ecm.reminder-parsing/cannot-parse-reminder] {:keys [text]} text)) => "cannot parse: @#$$%")
 
 (fact "parses reminders from line"
   (parse-reminder "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
@@ -149,4 +149,4 @@
 (fact "regression test Oct 18, 2011 - program hanging when trying to parse the below ill-formatted line in a reminders.txt"
   (try+
     (parse-reminder "On 11/6/11 \"msg\" notify 8 days in advance")
-    (catch [:type :reminder-parsing/cannot-parse-reminder] {:keys [text]} text)) => "cannot parse: On 11/6/11 ")
+    (catch [:type :ecm.reminder-parsing/cannot-parse-reminder] {:keys [text]} text)) => "cannot parse: On 11/6/11 ")

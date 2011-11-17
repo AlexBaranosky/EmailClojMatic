@@ -1,6 +1,6 @@
-(ns reminder-email-history
-  (:use [date-time :only (today-num)]
-        [utility :only (resource)])
+(ns ecm.reminder-email-history
+  (:use [ecm.date-time :only (today-num)]
+        [ecm.utility :only (resource)])
   (:import [org.joda.time DateMidnight]
            [java.io File IOException]))
 

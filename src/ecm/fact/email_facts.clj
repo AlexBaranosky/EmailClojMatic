@@ -1,8 +1,8 @@
-(ns fact.email-facts
-  (:use [email :only (format-reminder-email send-email send-email* disperse-parse-error-emails
+(ns ecm.fact.email-facts
+  (:use [ecm.email :only (format-reminder-email send-email send-email* disperse-parse-error-emails
                       disperse-unknown-error-emails disperse-history-file-missing-emails
                       disperse-reminders-file-missing-emails to-string)]
-        [config :only (config)]
+        [ecm.config :only (config)]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))
 

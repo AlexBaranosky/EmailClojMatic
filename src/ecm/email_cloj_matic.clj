@@ -1,6 +1,6 @@
-(ns email-cloj-matic
+(ns ecm.email-cloj-matic
   (:gen-class)
-  (:use [core :only (run-reminders)]))
+  (:use [ecm.core :only (run-reminders)]))
   
 (defn -main [& names+email-addresses]
   {:pre [(even? (count names+email-addresses))]}

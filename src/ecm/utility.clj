@@ -1,4 +1,4 @@
-(ns utility
+(ns ecm.utility
   (:use [clojure.java.io :only (reader)])
   (:import [java.io File BufferedReader]))
 

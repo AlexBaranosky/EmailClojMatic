@@ -1,4 +1,4 @@
-(ns fact.config-facts
+(ns ecm.fact.config-facts
   (:use [config :only (config-file-name config valid-config?)]
          midje.sweet))
 

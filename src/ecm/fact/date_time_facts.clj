@@ -1,5 +1,5 @@
-(ns fact.date-time-facts
-  (:use [date-time :only (for-display first-not-in-past today-num)]
+(ns ecm.fact.date-time-facts
+  (:use [ecm.date-time :only (for-display first-not-in-past today-num)]
         [utilize.testutils :only (do-at)]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))

@@ -1,7 +1,7 @@
-(ns email
-  (:use [config :only (config)]
-        [clojure.string :only (join)]
-        [date-time :only (first-not-in-past for-display)])
+(ns ecm.email
+  (:use [ecm.config :only (config)]
+        [ecm.date-time :only (first-not-in-past for-display)]
+        [clojure.string :only (join)])
   (:import [org.apache.commons.mail SimpleEmail]))
 
 (defn to-string [reminder]

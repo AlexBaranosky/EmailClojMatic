@@ -1,8 +1,7 @@
-(ns reminder-parsing
-  (:use [date-time :only (first-not-in-past)]
-        [date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream
-                                  day-of-week-stream today+all-future-dates day-nums)]
-        [utility :only (resource read-lines)]
+(ns ecm.reminder-parsing
+  (:use [ecm.date-time :only (first-not-in-past)]
+        [ecm.date-time-streams :only (month+day-stream every-x-days-stream day-of-month-stream day-of-week-stream today+all-future-dates day-nums)]
+        [ecm.utility :only (resource read-lines)]
         [utilize.seq :only (interleave++ only first-truthy-fn)]
         [utilize.regex :only (re-captures re-match-seq)]
         [utilize.string :only (ordinal-to-int ordinalize lowercase-keyword)]

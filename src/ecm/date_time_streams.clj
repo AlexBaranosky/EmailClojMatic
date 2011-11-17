@@ -1,4 +1,4 @@
-(ns date-time-streams
+(ns ecm.date-time-streams
   (:use [utilize.seq :only (find-first)])
   (:import [org.joda.time DateMidnight]))
 

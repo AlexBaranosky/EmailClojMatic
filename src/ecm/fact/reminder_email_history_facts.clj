@@ -1,6 +1,6 @@
-(ns fact.reminder-email-history-facts
-  (:use [reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today history valid-history?)]
-        [utility :only (fact-resource)]
+(ns ecm.fact.reminder-email-history-facts
+  (:use [ecm.reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today history valid-history?)]
+        [ecm.utility :only (fact-resource)]
         [utilize.testutils :only (do-at)]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))

@@ -1,12 +1,11 @@
-(ns fact.core-facts
-  (:use [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
-        [core :only (run-reminders email-reminders-to)]
-        [reminder-parsing :only (reminder-file load-due-reminders)]
-        [utility :only (fact-resource)]
-        [config :only (valid-config?)]
+(ns ecm.fact.core-facts
+  (:use [ecm.reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
+        [ecm.core :only (run-reminders email-reminders-to)]
+        [ecm.reminder-parsing :only (reminder-file load-due-reminders)]
+        [ecm.utility :only (fact-resource)]
+        [ecm.config :only (valid-config?)]
+        [ecm.email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [utilize.testutils :only (do-at)]
-        [email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails
-                      disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [fs :only (exists?)]
         midje.sweet)
   (:require [reminder-parsing :as so-can-use-Reminder-record])
