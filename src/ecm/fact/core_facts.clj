@@ -8,7 +8,6 @@
         [utilize.testutils :only (do-at)]
         [fs :only (exists?)]
         midje.sweet)
-  (:require [reminder-parsing :as so-can-use-Reminder-record])
   (:import [org.joda.time DateMidnight]))
 
 (against-background [(valid-history?) => true]

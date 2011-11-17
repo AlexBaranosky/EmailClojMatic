@@ -1,5 +1,5 @@
 (ns ecm.fact.config-facts
-  (:use [config :only (config-file-name config valid-config?)]
+  (:use [ecm.config :only (config-file-name config valid-config?)]
          midje.sweet))
 
 (fact "if config file cannot be opened returns nil"
