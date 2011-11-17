@@ -7,4 +7,4 @@
                  [org.apache.commons/commons-email "1.2"]
                  [fs "0.9.0"]]
   :dev-dependencies [[midje "1.3-alpha5"]]
-  :main email-cloj-matic)
+  :main runapp)

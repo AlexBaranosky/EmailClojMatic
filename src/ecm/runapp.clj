@@ -1,4 +1,4 @@
-(ns ecm.email-cloj-matic
+(ns ecm.runapp
   (:gen-class)
   (:use [ecm.core :only (run-reminders)]))
   

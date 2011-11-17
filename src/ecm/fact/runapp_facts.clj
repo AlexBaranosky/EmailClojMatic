@@ -1,5 +1,5 @@
-(ns ecm.fact.email-cloj-matic-facts
-  (:use [ecm.email-cloj-matic :only (-main)]
+(ns ecm.fact.runapp-facts
+  (:use [ecm.runapp :only (-main)]
         [ecm.core :only (run-reminders)]
         midje.sweet))
 
