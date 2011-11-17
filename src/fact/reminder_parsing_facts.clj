@@ -9,13 +9,14 @@
         midje.sweet)
   (:import [slingshot Stone]
            [reminder-parsing CannotParseRemindersStone]
-           [org.joda.time DateMidnight]
-           [reminder-parsing Reminder]))
+           [org.joda.time DateMidnight]))
 
 (tabular
   (fact "a reminder is due if the next date is within range to be notified"
     (do-at (DateMidnight. 2011 6 24)
-      (due? (Reminder. "message" [(DateMidnight. 2011 6 ?day)] 3))) => ?is-due)
+      (due? { :message "message"
+              :dates [(DateMidnight. 2011 6 ?day)]
+              :days-in-advance 3 } )) => ?is-due)
 
   ?day ?is-due
   23   falsey
@@ -26,12 +27,12 @@
   28   falsey)
 
 (fact "a reminder is not due if it has no dates"
-  (due? (Reminder. "message" [] 3)) => falsey)
+  (due? { :message "message" :dates [] :days-in-advance 3 }) => falsey)
 
 (tabular
   (fact "when: reminding 0 days in advance, then: a reminder is only due on its 'date'"
     (do-at (DateMidnight. 2000 1 2)
-      (due? (Reminder. "msg" [?date] 0))) => ?due)
+      (due? { :message "msg" :dates [?date] :days-in-advance 0 })) => ?due)
 
   :where
   ?date                        ?due
@@ -66,7 +67,8 @@
      "   notify 14 days in advance   "  14
      ""                                 1
      nil                                1
-     "abcdefg"                         (throws slingshot.Stone))
+     "abcdefg"                         (throws slingshot.Stone)  ;; TODO: make this be tested
+  )
 
 (fact "day-of-week regex works"
   (re-match-seq day-of-week-regex " Wednesdays ") => ["Wednesdays"])
@@ -110,11 +112,10 @@
 (fact "parses '&' separated strings into two dates, sorted in ascending order"
   (parse-reminder-dates "On 12/25/2000 & on 7/4/1999 ") => [(DateMidnight. 1999 7 4) (DateMidnight. 2000 12 25)])
 
-(tabular
-  (fact "parses everyday-based reminder lines"
-    (do-at (DateMidnight. 2011 6 11)
-      (take 4 (parse-reminder-dates "  every day   "))) => [(DateMidnight. 2011 6 11) (DateMidnight. 2011 6 12)
-                                                            (DateMidnight. 2011 6 13) (DateMidnight. 2011 6 14)]))
+(fact "parses everyday-based reminder lines"
+  (do-at (DateMidnight. 2011 6 11)
+    (take 4 (parse-reminder-dates "  every day   "))) => [(DateMidnight. 2011 6 11) (DateMidnight. 2011 6 12)
+                                                          (DateMidnight. 2011 6 13) (DateMidnight. 2011 6 14)])
 
 (fact "parses every X weeks-based reminder lines"
   (take 2 (parse-reminder-dates "Every 2nd Sunday, starting 6/12/2011" )) => [(DateMidnight. 2011 6 12) (DateMidnight. 2011 6 26)] )
@@ -136,11 +137,11 @@
 
 (fact "parses reminders from line"
   (parse-reminder "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
-     => (Reminder. "message" [(DateMidnight. 2000 12 25)] 5))
+     => { :message "message" :dates [(DateMidnight. 2000 12 25)] :days-in-advance 5 })
 
 (fact "defaults to notifying 1 days in advance if not specified"
   (parse-reminder "on 12/25/2000 \"message\"")
-     => (Reminder. "message" [(DateMidnight. 2000 12 25)] 1))
+     => { :message "message" :dates [(DateMidnight. 2000 12 25)] :days-in-advance 1 })
 
 (fact "if line isn't a reminder line, returns nil"
   (parse-reminder ...line...) => nil

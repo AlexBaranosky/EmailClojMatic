@@ -1,6 +1,5 @@
 (ns fact.reminder-email-history-facts
-  (:use [reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today
-                                       history valid-history?)]
+  (:use [reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today history valid-history?)]
         [utility :only (fact-resource)]
         [utilize.testutils :only (do-at)]
         midje.sweet)

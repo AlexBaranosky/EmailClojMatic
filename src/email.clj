@@ -4,11 +4,6 @@
         [date-time :only (first-not-in-past for-display)])
   (:import [org.apache.commons.mail SimpleEmail]))
 
-(defrecord EmailRecipient [name email-address])
-
-(defn ->EmailRecipient [name email-address]
-  (EmailRecipient. name email-address))
-
 (defn to-string [reminder]
   (if-let [date (first-not-in-past (:dates reminder))]
     (format "%s %s\n%s" (.. date dayOfWeek getAsText) (for-display date) (:message reminder))

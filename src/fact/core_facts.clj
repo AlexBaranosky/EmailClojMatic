@@ -10,8 +10,7 @@
         [fs :only (exists?)]
         midje.sweet)
   (:require [reminder-parsing :as so-can-use-Reminder-record])
-  (:import [reminder-parsing Reminder]
-           [org.joda.time DateMidnight]))
+  (:import [org.joda.time DateMidnight]))
 
 (against-background [(valid-history?) => true]
 
@@ -19,12 +18,12 @@
     (run-reminders [...recipients...]) => nil
     (provided
       (send-reminder-email anything anything) => anything :times 0
-      (load-due-reminders anything)      => [(Reminder. nil nil nil)] :times 1
+      (load-due-reminders anything)      => [{}] :times 1
       (num-reminders-sent-today) => 1 :times 1) )
 
   (fact "records the number of reminders sent -  when any were sent"
     (run-reminders [...recipients...]) => nil
-    (provided (load-due-reminders anything) => [(Reminder. nil nil nil)]
+    (provided (load-due-reminders anything) => [{}]
               (send-reminder-email anything anything) => nil :times 1
         (num-reminders-sent-today) => 0 :times 1)
         (record-num-reminders-sent-today 1) => nil :times 1)

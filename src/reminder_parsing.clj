@@ -10,7 +10,6 @@
         slingshot.core)
   (:import [org.joda.time DateMidnight]))
 
-(defrecord Reminder [message dates days-in-advance])
 (defrecord CannotParseRemindersStone [message])
 
 (defn due? [reminder]
@@ -111,9 +110,9 @@
 (defn parse-reminder [line]
   (when (reminder-line? line)
     (let [[schedule-part message-part days-in-advance-part] (split line #"\"")]
-      (Reminder. message-part
-                 (parse-reminder-dates schedule-part)
-                 (parse-days-in-advance days-in-advance-part)))))
+      { :message message-part
+        :dates (parse-reminder-dates schedule-part)
+        :days-in-advance (parse-days-in-advance days-in-advance-part) } )))
 
 (defn load-due-reminders [file]
   (->> file read-lines (keep parse-reminder) (filter due?)))
