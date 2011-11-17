@@ -6,8 +6,7 @@
         [config :only ( config valid-config?)]
         [reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
         [fs :only (exists?)]
-        slingshot.core)
-  (:import (reminder-parsing CannotParseRemindersStone)))
+        [slingshot.slingshot :only (try+)]))
 
 (defn email-reminders-to [recipients]
   (let [due-reminders (load-due-reminders (reminder-file))]
@@ -27,7 +26,7 @@
 
       :else (try+
               (email-reminders-to recipients)
-              (catch CannotParseRemindersStone s
-                (disperse-parse-error-emails recipients (:message s)))
+              (catch [:type :reminder-parsing/cannot-parse-reminder] {:keys [text]}
+                (disperse-parse-error-emails recipients text))
               (catch Throwable e
                 (disperse-unknown-error-emails recipients (.getMessage e)))))))

@@ -7,10 +7,8 @@
         [utilize.regex :only (re-captures re-match-seq)]
         [utilize.string :only (ordinal-to-int ordinalize lowercase-keyword)]
         [clojure.string :only (join split)]
-        slingshot.core)
+        [slingshot.slingshot :only (throw+)])
   (:import [org.joda.time DateMidnight]))
-
-(defrecord CannotParseRemindersStone [message])
 
 (defn due? [reminder]
   (if-let [next (first-not-in-past (:dates reminder))]
@@ -48,7 +46,7 @@
     default-days-in-advance
 
     (not (re-matches days-in-advance-regex s))
-    (throw+ (CannotParseRemindersStone. (str "could not parse 'days in advance': " s)))
+    (throw+ {:type ::cannot-parse-reminder :text (str "could not parse 'days in advance': " s) } )
 
     :else
     (->> s (re-captures days-in-advance-regex) only (#(Integer/parseInt %)))))
@@ -105,7 +103,7 @@
   (today+all-future-dates))
 
 (defmethod parse-reminder-dates :unrecognized-format [s]
-  (throw+ (CannotParseRemindersStone. (str "cannot parse: " s))))
+  (throw+ {:type ::cannot-parse-reminder :text (str "cannot parse: " s) } ))
 
 (defn parse-reminder [line]
   (when (reminder-line? line)

@@ -5,11 +5,9 @@
                                  ordinal-regex month+day-regex day-of-week-regex date-regex due?)]
         [utilize.regex :only (re-match-seq re-captures)]
         [utilize.testutils :only (do-at)]
-        slingshot.core
+        [slingshot.slingshot :only (try+)]
         midje.sweet)
-  (:import [slingshot Stone]
-           [reminder-parsing CannotParseRemindersStone]
-           [org.joda.time DateMidnight]))
+  (:import [org.joda.time DateMidnight]))
 
 (tabular
   (fact "a reminder is due if the next date is within range to be notified"
@@ -133,7 +131,7 @@
 (fact "un-parsable strings cause a exception to be thrown"
   (try+
     (parse-reminder-dates "@#$$%")
-    (catch CannotParseRemindersStone s (:message s))) => "cannot parse: @#$$%")
+    (catch [:type :reminder-parsing/cannot-parse-reminder] {:keys [text]} text)) => "cannot parse: @#$$%")
 
 (fact "parses reminders from line"
   (parse-reminder "   On    12/25/2000      \"message\"      nOtIfY   5 dAYS in advance     ")
@@ -151,4 +149,4 @@
 (fact "regression test Oct 18, 2011 - program hanging when trying to parse the below ill-formatted line in a reminders.txt"
   (try+
     (parse-reminder "On 11/6/11 \"msg\" notify 8 days in advance")
-    (catch CannotParseRemindersStone s (:message s))) => "cannot parse: On 11/6/11 ")
+    (catch [:type :reminder-parsing/cannot-parse-reminder] {:keys [text]} text)) => "cannot parse: On 11/6/11 ")
