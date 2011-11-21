@@ -12,8 +12,8 @@
     (catch IOException e nil)))
 
 (defn valid-history? []
-  (= (-> (history) keys set) 
-      #{:weekday-last-saved-on :num-reminders-already-sent-today}))
+  (= (keys (history)) 
+    [:weekday-last-saved-on :num-reminders-already-sent-today]))
 
 (defn num-reminders-sent-today []
   (let [hist (history)]

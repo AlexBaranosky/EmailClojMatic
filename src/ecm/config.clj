@@ -14,5 +14,5 @@
 
   (defn valid-config? []
     (let [cfg (config)]
-      (and (= (-> cfg keys set) #{:gmail-address :password })
+      (and (= (keys cfg) [:gmail-address :password])
         (valid-gmail? (:gmail-address cfg))))))
