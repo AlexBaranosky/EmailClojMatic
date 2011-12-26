@@ -1,6 +1,7 @@
 (ns ecm.utility
-  (:use [clojure.java.io :only (reader)])
-  (:import [java.io File BufferedReader]))
+  (:use [clojure.java.io :only (reader)]
+        [fs.core :only [file]])
+  (:import [java.io BufferedReader]))
 
 (defn read-lines
   "Like clojure.core/line-seq but opens f with reader.  Automatically
@@ -13,7 +14,7 @@
                        (.close rdr))))]
     (read-line (reader f))))
 
-(defn resource [file]
-  (str (File. (File. (System/getProperty "user.dir") "resources") file)))
+(defn resource [the-file]
+  (file "resources" the-file))
 
 (def fact-resource resource)
