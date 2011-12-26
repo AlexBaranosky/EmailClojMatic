@@ -5,7 +5,7 @@
         [ecm.utility :only (resource)]
         [ecm.config :only ( config valid-config?)]
         [ecm.reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
-        [fs :only (exists?)]
+        [fs.core :only (exists?)]
         [slingshot.slingshot :only (try+)]))
 
 (defn email-reminders-to [recipients]

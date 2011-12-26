@@ -6,7 +6,7 @@
         [ecm.config :only (valid-config?)]
         [ecm.email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [utilize.testutils :only (do-at)]
-        [fs :only (exists?)]
+        [fs.core :only (exists?)]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
