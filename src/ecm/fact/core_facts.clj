@@ -3,14 +3,15 @@
         [ecm.core :only (run-reminders email-reminders-to)]
         [ecm.reminder-parsing :only (reminder-file load-due-reminders)]
         [ecm.utility :only (fact-resource)]
-        [ecm.config :only (valid-config?)]
+        [ecm.validation :only (validate-resources)]
         [ecm.email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [utilize.testutils :only (do-at)]
-        [fs.core :only (exists?)]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
-(against-background [(valid-history?) => true]
+
+
+(against-background [(validate-resources) => true]
 
   (fact "won't email out any reminders if the history says N reminders were sent out, and we have <= N due"
     (run-reminders [...recipients...]) => nil
@@ -32,12 +33,6 @@
       (send-reminder-email anything anything) => anything :times 0
       (load-due-reminders anything)  => [] :times 1))
 
-  (fact "if config is not in valid state don't process reminders"
-    (run-reminders [...recipient...]) => nil
-    (provided
-      (email-reminders-to anything) => anything :times 0
-      (valid-config?) => false))
-
   (fact "if there is an unknown throwable, send an email out"
     (run-reminders [...recipientA... ...recipientB...]) => nil
     (provided
@@ -45,19 +40,13 @@
       (load-due-reminders anything) => (throws Error "boom")
       (disperse-unknown-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1)))
 
-(fact "if reminders.txt does not exist, send out an email"
-  (run-reminders [...recipientA... ...recipientB...]) => nil
-  (provided
-    (email-reminders-to anything) => anything :times 0
-    (exists? anything) => false
-    (disperse-reminders-file-missing-emails [...recipientA... ...recipientB...]) => nil :times 1))
 
-(fact "if history file missing, don't send reminders, but disperse email notifying of that fact"
+
+(fact "if resources do not validate, no reminder emails sent"
   (run-reminders [...recipientA... ...recipientB...]) => nil
   (provided
     (email-reminders-to anything) => anything :times 0
-    (valid-history?) => false
-    (disperse-history-file-missing-emails [...recipientA... ...recipientB...]) => nil :times 1))
+    (validate-resources [...recipientA... ...recipientB...]) => false))
 
 ;; TODO- Alex Oct8, 2011 - figure out how to test this slingshot stuff.
 ;(fact "if there's a problem parsing the reminders.txt, send an email out"
@@ -76,7 +65,7 @@
     (send-reminder-email anything anything) => nil :times 0))
 
 
-(fact "if today is wendesday, and reminders are sent every wednesday, emails should be sent out today"
+(fact "if today is wednesday, and reminders are sent every wednesday, emails should be sent out today"
   (do-at (DateMidnight. 2011 10 19 ) ;; a Wednesday
     (run-reminders [...recipient...])) => nil
   (provided
