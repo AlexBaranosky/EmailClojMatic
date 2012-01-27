@@ -14,19 +14,19 @@
   (let [history-data (str "{ :num-reminders-already-sent-today 3, :weekday-last-saved-on " (.. date-time dayOfWeek get) " }")]
     (spit fake-history-file history-data)))
 
-(fact "knows the number of reminders already sent today"
-  (do-at today
-    (given-three-reminders-sent-on today)
-    (num-reminders-sent-today)) => 3
-  (provided
-    (history-file) => fake-history-file))
+(do-at today
+  (facts "about number of reminders already sent today"
+    (fact "can tell you them"
+      (num-reminders-sent-today) => 3
+      (provided
+        (history) => {:num-reminders-already-sent-today 3
+                      :weekday-last-saved-on (.getDayOfWeek today)}))
 
-(fact "resets the number of reminders already sent to 0 on each new day"
-  (do-at today
-    (given-three-reminders-sent-on yesterday)
-    (num-reminders-sent-today)) => 0
-  (provided
-    (history-file) => fake-history-file))
+    (fact "resets them to 0 on each new day"
+      (num-reminders-sent-today) => 0
+      (provided
+        (history) => {:num-reminders-already-sent-today 3
+                      :weekday-last-saved-on (.getDayOfWeek yesterday)}))))
 
 (fact "stores and retrieves a reminder's count and day of persisting"
   (do-at today
