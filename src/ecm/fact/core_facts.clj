@@ -45,7 +45,7 @@
 (fact "if resources do not validate, no reminder emails sent"
   (run-reminders [...recipientA... ...recipientB...]) => nil
   (provided
-    (email-reminders-to anything) => anything :times 0
+    (send-reminder-email anything anything) => anything :times 0
     (validate-resources [...recipientA... ...recipientB...]) => false))
 
 ;; TODO- Alex Oct8, 2011 - figure out how to test this slingshot stuff.
