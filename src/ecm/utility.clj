@@ -13,14 +13,3 @@
                 (cons line (read-line rdr))
                 (.close rdr))))]
     (read-line (reader f))))
-
-(defn resource-path []
-  (-> (.getResourceAsStream (ClassLoader/getSystemClassLoader) "resource-info.cljdata")
-      slurp
-      read-string
-      :resource-path ))
-
-(defn resource [the-file]
-  (file (resource-path) the-file))
-
-(def fact-resource resource)

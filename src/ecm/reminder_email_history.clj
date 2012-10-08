@@ -1,10 +1,11 @@
 (ns ecm.reminder-email-history
   (:use [ecm.date-time :only (today-num)]
-        [ecm.utility :only (resource)])
+        [clojure.java.io :only (resource)])
   (:import [org.joda.time DateMidnight]
            [java.io File IOException]))
 
-(defn history-file [] (resource "reminder_email_history.cljdata"))
+(defn history-file []
+  (resource "reminder_email_history.cljdata"))
 
 (defn history []
   (try

@@ -1,6 +1,6 @@
 (ns ecm.fact.load-reminders-integration
   (:use [ecm.reminder-parsing :only (load-due-reminders)]
-        [ecm.utility :only (resource)]
+        [clojure.java.io :only (resource)]
         [utilize.seq :only (only)]
         [utilize.testutils :only (do-at)]
         midje.sweet)

@@ -1,11 +1,11 @@
 (ns ecm.fact.reminder-email-history-facts
   (:use [ecm.reminder-email-history :only (num-reminders-sent-today history-file record-num-reminders-sent-today history valid-history?)]
-        [ecm.utility :only (fact-resource)]
+        [clojure.java.io :only (resource)]
         [utilize.testutils :only (do-at)]
         midje.sweet)
   (:import [org.joda.time DateMidnight]))
 
-(def fake-history-file (fact-resource "fake_email_history.cljdata"))
+(def fake-history-file (resource "fake_email_history.cljdata"))
 
 (def today (DateMidnight.))
 (def yesterday (.minusDays today 1))

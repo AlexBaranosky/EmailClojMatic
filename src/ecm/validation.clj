@@ -2,7 +2,7 @@
   (:use [ecm.email :only (disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [ecm.config :only (valid-config?)]
         [fs.core :only (exists?)]
-        [ecm.utility :only (resource)]
+        [clojure.java.io :only (resource)]
         [ecm.reminder-email-history :only (valid-history?)]))
 
 (defn validate-resources [recipients]

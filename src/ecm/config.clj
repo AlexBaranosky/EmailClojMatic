@@ -1,12 +1,13 @@
 (ns ecm.config
-  (:use [ecm.utility :only (resource)])
+  (:use [clojure.java.io :only (resource)]
+        [clojure.core.incubator :only [-?>]])
   (:import [java.io IOException]))
 
 (defn config-file-name [] "config.cljdata")
 
 (defn config []
   (try
-    (-> (config-file-name) resource slurp read-string)
+    (-?> (config-file-name) resource slurp read-string)
     (catch IOException e nil)))
 
 (letfn [(valid-gmail? [s]
@@ -15,4 +16,4 @@
   (defn valid-config? []
     (let [cfg (config)]
       (and (= (keys cfg) [:gmail-address :password])
-        (valid-gmail? (:gmail-address cfg))))))
+           (valid-gmail? (:gmail-address cfg))))))

@@ -2,7 +2,7 @@
   (:use [ecm.reminder-email-history :only (num-reminders-sent-today record-num-reminders-sent-today valid-history?)]
         [ecm.core :only (run-reminders email-reminders-to)]
         [ecm.reminder-parsing :only (reminder-file load-due-reminders)]
-        [ecm.utility :only (fact-resource)]
+        [clojure.java.io :only (resource)]
         [ecm.validation :only (validate-resources)]
         [ecm.email :only (send-reminder-email disperse-parse-error-emails disperse-unknown-error-emails disperse-history-file-missing-emails disperse-reminders-file-missing-emails)]
         [utilize.testutils :only (do-at)]
@@ -60,7 +60,7 @@
        should email out reminder emails in cases of badly formatted reminders.txt"
   (run-reminders [...recipientA... ...recipientB...]) => nil
   (provided
-    (reminder-file) => (fact-resource "bad-day-and-month-format-reminders.txt")
+    (reminder-file) => (resource "bad-day-and-month-format-reminders.txt")
     (disperse-parse-error-emails [...recipientA... ...recipientB...] anything) => nil :times 1
     (send-reminder-email anything anything) => nil :times 0))
 
@@ -69,6 +69,6 @@
   (do-at (DateMidnight. 2011 10 19 ) ;; a Wednesday
     (run-reminders [...recipient...])) => nil
   (provided
-    (reminder-file) => (fact-resource "remind-every-wednesday.txt")
+    (reminder-file) => (resource "remind-every-wednesday.txt")
     (num-reminders-sent-today) => 0
     (send-reminder-email anything anything) => nil :times 1))

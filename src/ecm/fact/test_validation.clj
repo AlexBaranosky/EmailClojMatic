@@ -4,7 +4,7 @@
         [ecm.email :only (disperse-reminders-file-missing-emails disperse-history-file-missing-emails)]
         [ecm.reminder-email-history :only (valid-history?)]
         [fs.core :only (exists?)]
-        [ecm.utility :only (resource)]
+        [clojure.java.io :only (resource)]
         midje.sweet))
 
 (fact "if reminders.txt does not exist, send out an email"
