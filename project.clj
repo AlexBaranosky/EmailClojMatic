@@ -7,5 +7,5 @@
                  [org.apache.commons/commons-email "1.2"]
                  [fs "1.0.0"]
                  [org.clojure/core.incubator "0.1.0"]]
-  :dev-dependencies [[midje "1.3.2-SNAPSHOT"]]
+  :dev-dependencies [[midje "1.4.0"]]
   :main ecm.runapp)

@@ -11,7 +11,7 @@
 
 
 
-(against-background [(validate-resources) => true]
+(against-background [(validate-resources anything) => true]
 
   (fact "won't email out any reminders if the history says N reminders were sent out, and we have <= N due"
     (run-reminders [...recipients...]) => nil

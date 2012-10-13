@@ -7,9 +7,12 @@
         [clojure.java.io :only (resource)]
         midje.sweet))
 
+
+
 (fact "if reminders.txt does not exist, send out an email"
   (validate-resources [...recipientA... ...recipientB...]) => falsey
   (provided
+    (valid-config?) => true
     (exists? (resource "reminders.txt")) => false
     (disperse-reminders-file-missing-emails [...recipientA... ...recipientB...]) => nil :times 1))
 
