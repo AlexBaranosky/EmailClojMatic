@@ -1,6 +1,5 @@
 (ns ecm.utility
-  (:use [clojure.java.io :only (reader)]
-        [fs.core :only [file]])
+  (:use [clojure.java.io :only (reader)])
   (:import [java.io BufferedReader]))
 
 (defn read-lines
